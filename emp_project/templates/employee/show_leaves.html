@@ -1,0 +1,87 @@
+{% extends 'employee/base.html' %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Employee Leaves</title>
+</head>
+{% block body_block %}
+
+<body>
+
+    {% if request.session.user %}
+
+    <section class="courses_area p_120">
+        <div class="container">
+            <div class="row courses_inner" style="margin-top:-2%;">
+                <div class="col-lg-12">
+                    <div class="topnav" style="color:brown;">
+                        <h2 style="color:gray;">Employee Leaves </h2>
+                        <div class="search-container">
+                            <form action="{% url 'show_leaves' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="text" placeholder="Search Department" name="search" RE>
+                                <button type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+
+                    </br>
+                    <div class="table-wrapper-scroll-y">
+                        <table class="table table-striped" style="margin-top:2%;">
+
+                            <thead>
+                                <tr>
+                                    <th>Department</th>
+                                    <th>Employee</th>
+                                    <th>Leave Reason</th>
+                                    <th>Leave Date</th>
+                                    <th>Leave Time</th>
+                                    <th>Action</th>
+                                  
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if leaves %}
+                                {% for leave in leaves %}
+                               
+                                <tr>
+                                    <td>{{ leave.dept }}</td>
+                                    <td>{{ leave.emp }}</td>
+                                    <td>{{ leave.leave_reason }}</td>
+                                    <td>{{ leave.leave_date }}</td>
+                                    <td>{{ leave.leave_time }}</td>
+                                    {% comment %} {% if leave.leave_status == 'Approve' or leave.leave_status == 'Deny' %}
+                                    <td>{{ leave.leave_status }}</td>
+                                    {% else %}
+                                    <form action="{% url 'approve' leave.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <td><input type="submit" value="Approve" class="btn btn-success"
+                                                style="width: 63px; font-size: 10px;border-radius: 10px;margin-left: -5%;"
+                                                name="approve"></a></td>
+                                    </form>
+
+                                    <form action="{% url 'deny' leave.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <td><input type="submit" value="Deny" class="btn btn-danger"
+                                                style="width: 63px; font-size: 10px;border-radius: 10px;margin-left: -60%;"
+                                                name="deny"></td>
+                                    </form> {% endcomment %}
+                                    
+                                </tr>
+                                
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+</body>
+
+</html>
+{% endblock %}

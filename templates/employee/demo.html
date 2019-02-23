@@ -1,0 +1,301 @@
+{% extends 'employee/base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+
+{% if request.session.uname %}
+<style>
+    .error {
+        color: red;
+        font-size: 14px;
+        font-weight: 400;
+    }
+</style>
+<div style="margin-top:2%;">
+    <section class="courses_area p_120">
+        <div class="row courses_inner">
+
+
+            <div class="container">
+                {% if msg %}
+                <div class="alert alert-success">
+
+                    <strong>{{ msg }}</strong>
+                </div>
+                {% endif %}
+                <h2 style="margin-left: 1.5%;">Add Employee</h2>
+
+                <!-- <form action="" method="POST" enctype="multipart/form-data" autocomplete="off"
+                    class="border border-success rounded" name="form">
+                    {% csrf_token %}
+                    <div class="form-group" style="display: inline-block;margin-left: 1.5%;">
+
+                        <label>Department</label>
+
+                        {% for d in dept %}
+                        {% if request.session.dept == d.id %}
+                     
+                        <input type="text" class="form-control" value="{{ d.dept_name }}" name="dept" readonly>
+                        {% endif %}
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label>First Name:</label><small class="error">*</small>
+                            <input type="text" id="fname" class="form-control" value="" name="fname" pattern='^[A-Za-z]{3}[a-z]{1,30}' autofocus title="First Name should only contain letters not special characters and exceed to 30 characters,must contain atleast 3 characters." required>
+                        </div>
+                    </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label>Last Name:</label><small class="error">*</small>
+                                <input type="text" class="form-control" value="" name="lname" autofocus  pattern='^[A-Za-z]{3}[a-z]{1,30}' title="Last Name should only contain letters not special characters and exceed to 30 characters,must contain atleast 3 characters." required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label>DOB:</label>
+                                <p><input type="text" id="datepicker" class="form-control" placeholder="Select Date" name="dob" required></p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label for="pwd">Gender:</label><small class="error">*</small>
+                                <input type="radio" value="M" name="gender" style="margin-left:15px;"
+                                    checked>&nbsp;&nbsp;Male
+                                <input type="radio" value="F" name="gender" style="margin-left:15px;">&nbsp;&nbsp;Female
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label for="pwd">Phone No:</label><small class="error">*</small>
+                                <input type="text" class="form-control" value="" name="phone_no" pattern='^[6|7|8|9]*[0-9]{10}'>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label for="pwd">Email:</label><small class="error">*</small>
+                                <input type="email" class="form-control" value="" name="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label for="pwd">Password:</label><small class="error">*</small>
+                                <input type="password" class="form-control" value="" name="password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label for="pwd">Address:</label><small class="error">*</small>
+                                <input type="text" class="form-control" value="" name="address">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label for="pwd">City:</label><small class="error">*</small>
+                                <input type="text" class="form-control" value="" name="city">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label for="pwd">Qualification:</label><small class="error">*</small>
+                                <input type="text" class="form-control" value="" name="qualification">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label>DOJ:</label>
+                                <p><input type="text" id="datepicker1" class="form-control" placeholder="Select Date"
+                                        name="doj"></p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label for="pwd">Designation:</label><small class="error">*</small>
+                                <input type="text" class="form-control" value="" name="designation">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label for="pwd">Skills:</label><small class="error">*</small>
+                                <input type="text" class="form-control" value="" name="skills">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label for="pwd">Experience:</label><small class="error">*</small>
+                                <input type="text" class="form-control" value="" name="experience">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label for="pwd">Profile Image:</label><small class="error">*</small>
+                                <input type="file" class="form-control" value="" name="profile_image">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+                                <label for="pwd">Salary:</label><small class="error">*</small>  
+                                <input type="text" class="form-control" value="" name="salary">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4">
+
+                                <input type="hidden" class="form-control" value="" name="role">
+                            </div>
+                        </div>
+
+                    <input type="submit" class="btn btn-default" value="Submit" style="margin-left:1.5%;">
+                </form> -->
+                <form action="{% url 'employee_register' %}" method="POST" enctype="multipart/form-data" autocomplete="off" name="form">
+                    {% csrf_token %}
+
+                    <div class="container">
+                        <!-- 1 -->
+                        <div class="row">
+                            <div class="col-sm-4">
+                            <label>Department</label>
+
+                            {% for d in dept %}
+                            {% if request.session.dept == d.id %}
+
+                            <input type="text" class="form-control" value="{{ d.dept_name }}" name="dept" readonly
+                                size="60px;">
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                            <div class="col-sm-4">
+                                <label>First Name:</label><small class="error">*</small>
+
+                                <input type="text" id="fname" class="form-control" value="" name="fname"
+                                    pattern='^[A-Za-z]{2}[a-z]{1,30}' autofocus
+                                    title="First Name should only contain letters not special characters and exceed to 30 characters,must contain atleast 3 characters."
+                                    required>
+
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Last Name:</label><small class="error">*</small>
+                                <input type="text" class="form-control" value="" name="lname" autofocus
+                                    pattern='^[A-Za-z]{2}[a-z]{1,30}'
+                                    title="Last Name should only contain letters not special characters and exceed to 30 characters,must contain atleast 3 characters."
+                                    required>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label style="margin-top:2%;">DOB:</label>
+                                <p><input type="text" id="datepicker" class="form-control" placeholder="Select Date"
+                                        name="dob" required></p>
+
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="pwd" style="margin-top:5%;">Gender:</label><small
+                                    class="error">*</small><br />
+                                <input type="radio" value="M" name="gender" style="margin-left:15px;"
+                                    checked>&nbsp;&nbsp;Male
+                                <input type="radio" value="F" name="gender" style="margin-left:15px;">&nbsp;&nbsp;Female
+
+                            </div>
+                            <div class="col-sm-4"  style="margin-top:1%;">
+                                <label for="pwd" style="margin-top:2%;">Phone No:</label><small class="error">*</small>
+                                <input type="text" class="form-control" value="" name="phone_no"
+                                    pattern='^[6|7|8|9]+[0-9]{9}'>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                                <div class="col-sm-4">
+                                        <label for="pwd" style="margin-top:2%;">Email:</label><small class="error">*</small>
+                                        <input type="email" class="form-control" value="" name="email">
+                                    </div>
+                            <div class="col-sm-4">
+                                <label for="pwd" style="margin-top:2%;">Password:</label><small class="error">*</small>
+                                <input type="password" class="form-control" value="" name="password" pattern='.{6,10}' required title="Password must be between 6 to 10 characters long">
+
+                            </div>
+                            
+                            <div class="col-sm-4">
+                                <label for="pwd" style="margin-top:2%;">Address:</label><small class="error">*</small>
+                                <input type="text" class="form-control" value="" name="address" required>
+                            </div>
+
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="pwd" style="margin-top:2%;">City:</label><small class="error">*</small>
+                                <input type="text" class="form-control" value="" name="city" pattern='^[A-Za-z]+'>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="pwd" style="margin-top:2%;">Qualification:</label><small
+                                    class="error">*</small>
+                                <input type="text" class="form-control" value="" name="qualification" required pattern='(^[A-Za-z]+|,| |[A-Za-z]+)+[A-Za-z]$'>
+                            </div>
+                            <div class="col-sm-4">
+                                <label style="margin-top:2%;">DOJ:</label>
+                                <p><input type="text" id="datepicker1" class="form-control" placeholder="Select Date"
+                                        name="doj"></p>
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="pwd" style="margin-top:2%;">Designation:</label><small
+                                    class="error">*</small>
+                                <input type="text" class="form-control" value="" name="designation" required  pattern='(^[A-Za-z]+| |\+|[A-Za-z]+)+[A-Za-z\+]$'>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="pwd" style="margin-top:2%;">Skills:</label><small class="error">*</small>
+                                <input type="text" class="form-control" value="" name="skills" required pattern='(^[A-Za-z]+|,| |\+|[A-Za-z]+)+[A-Za-z\+]$'>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="pwd" style="margin-top:2%;">Experience:</label><small
+                                    class="error">*</small>
+                                <input type="text" class="form-control" value="" name="experience" required pattern='^[0-9]{1,2}' title="Must be Integer">
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label for="pwd" style="margin-top:2%;">Profile Image:</label><small
+                                    class="error">*</small>
+                                <input type="file" value="" name="profile_image" required>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="pwd" style="margin-top:2%;">Salary:</label><small class="error">*</small>
+                                <input type="text" class="form-control" value="" name="salary" required pattern="^[0-9]{1,15}" title="Must be Integer">
+							</div>
+							<input type="submit" class="btn btn-default" value="Submit" style="margin-left:1.5%;margin-top: 3%;">
+                        </div>
+                </form>
+
+            </div>
+
+        </div>
+    </section>
+</div>
+<script>
+
+
+
+
+</script>
+
+<script>
+
+</script>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'employee/base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+
+{% if request.session.uname %}
+
+<head>
+
+</head>
+<div style="margin-top:2%;">
+    <section class="courses_area p_120">
+    
+                <h2>Edit Profile</h2>
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+
+                        <div class="col-sm-4">
+                            <label>Department:</label>
+                            <select name="dept" id="dept1">
+                                {% for d in dept %}
+                                <option  value="{{ d.id }}">{{ d.dept_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <label>Employee:</label>
+                            <select name="dept" id="emp1">
+                               
+                            </select>
+                        </div>
+
+                   
+                        
+                    </div>
+                    <input type="submit" class="btn btn-default" value="Submit" style="margin-left:1.5%;">
+                </form>
+           
+    </section>
+</div>
+
+{% endif %}
+<script>
+    function mydate() {
+        d = new Date(document.getElementById("ndt").value);
+        dt = d.getDate();
+        mn = d.getMonth();
+
+        yy = d.getFullYear();
+        document.getElementById("ndt").value = yy + "/" + mn + "/" + dt
+
+    }
+    $(document).ready(function () {
+        var today = new Date();
+        console.log('hiiiiiiii...')
+        $("#datepicker").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            minDate: today,
+            numberOfMonths: 2,
+            dateFormat: 'yy-mm-dd',
+            // set the minDate to the today's date
+            // you can add other options here
+        });
+
+        $(function () {
+            $("#datepicker").datepicker();
+        });
+
+        $('#dept1').change(function () {
+
+            console.log("hiifjkdsfdksbdsf")
+            var did = $(this).val();
+            console.log(did);
+            $.get('/fill_by_dept/', { dept_id: did }, function (data) {
+                
+                // document.getElementById("emp1") = $('#emp1').html(data);
+                // console.log(html(data).getElementById("emp1"))
+               
+                console.log(
+                    helpers.buildDropdown(
+                    jQuery.parseJSON(data),
+                    $('#dropdown'),
+                    'Select an option'
+                )
+
+                );
+
+            });
+
+          
+
+        });
+       
+    });
+    
+
+
+
+</script>
+
+{% endblock %}

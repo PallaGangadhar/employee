@@ -1,0 +1,162 @@
+{% extends 'employee/base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+
+{% if request.session.uname %}
+
+<head>
+    <script>
+        function mydate() {
+            d = new Date(document.getElementById("ndt").value);
+            dt = d.getDate();
+            mn = d.getMonth();
+            
+            yy = d.getFullYear();
+            document.getElementById("ndt").value = yy + "/" + mn + "/" + dt
+            
+        }
+    </script>
+</head>
+<div style="margin-top:2%;">
+    <section class="courses_area p_120">
+        <div class="row courses_inner">
+
+
+            <div class="container">
+                <h2 style="margin-left: 1.5%;">Edit Profile</h2>
+                {% for e in emp %}
+                <form action="" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+
+                        <div class="col-sm-4">
+                            <label for="email">First Name:</label>
+                            <input type="text" class="form-control" value="{{ e.first_name }}" name="fname">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="pwd">Last Name:</label>
+                            <input type="text" class="form-control" value="{{ e.last_name }}" name="lname">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="pwd">Phone No:</label>
+                            <input type="text" class="form-control" id="pwd" value="{{ e.phone_no }}" name="phone_no">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="pwd">Address:</label>
+                            <input type="text" class="form-control" id="pwd" value="{{ e.address }}" name="address">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="pwd">City:</label>
+                            <input type="text" class="form-control" value="{{ e.city }}" name="city">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="pwd">Designation:</label>
+                            <input type="text" class="form-control" value="{{ e.designation }}" name="designation">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="pwd">Skills:</label>
+                            <input type="text" class="form-control" value="{{ e.skills }}" name="skills">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="pwd">Experience:</label>
+                            <input type="text" class="form-control" value="{{ e.experience }}" name="experience">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="pwd">Profile Image:</label>
+                            <input type="file" class="form-control" value="{{ e.profile_image }}" name="profile_image"><img
+                                src="{{MEDIA_URL}}/{{ e.profile_image }}" height="150px" width="150px" style="margin-top: 2%;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="pwd">Salary:</label>
+                            <input type="text" class="form-control" value="{{ e.salary }}" name="salary">
+                        </div>
+                    </div>
+                    <!-- <div class="form-group">
+                        <div class="col-sm-4">
+
+                            <input type="text" id="datepicker ndt" onclick="mydate()" class="form-control" value="{{ e.date_of_birth }}"
+                                name="dob" readonly="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="pwd">Email:</label>
+                            <input type="text" class="form-control" value="{{ e.email }}" name="email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="pwd">Password:</label>
+                            <input type="text" class="form-control" value="{{ e.password }}" name="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="pwd">Gender:</label>
+                            <input type="text" class="form-control" value="{{ e.gender }}" name="gender">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="pwd">Qualification:</label>
+                            <input type="text" class="form-control" value="{{ e.qualification }}" name="qualification"
+                                readonly="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label for="pwd">Role:</label>
+                            <input type="text" class="form-control" value="{{ e.role }}" name="role">
+                        </div>
+                    </div> -->
+                    
+                    <input type="submit" class="btn btn-default" value="Submit" style="margin-left:1.5%;">
+                </form>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
+</div>
+<script>
+    var today = new Date();
+
+    $("#datepicker").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        minDate: today,
+        numberOfMonths: 2,
+        dateFormat: 'yy-mm-dd',
+        // set the minDate to the today's date
+        // you can add other options here
+    });
+
+</script>
+
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
+{% endif %}
+
+{% endblock %}

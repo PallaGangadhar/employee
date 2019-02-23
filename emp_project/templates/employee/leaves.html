@@ -1,0 +1,164 @@
+{% extends 'employee/base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Departments</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+    <script>
+        /* create an array of days which need to be disabled */
+        var disabledDays = ["2-21-2010", "2-24-2010", "2-27-2010", "2-28-2010", "3-3-2010", "3-17-2010", "4-2-2010", "4-3-2010", "4-4-2010", "4-5-2010"];
+
+        /* utility functions */
+        function nationalDays(date) {
+            var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+            //console.log('Checking (raw): ' + m + '-' + d + '-' + y);
+            for (i = 0; i < disabledDays.length; i++) {
+                if ($.inArray((m + 1) + '-' + d + '-' + y, disabledDays) != -1 || new Date() > date) {
+                    //console.log('bad:  ' + (m+1) + '-' + d + '-' + y + ' / ' + disabledDays[i]);
+                    return [false];
+                }
+            }
+            //console.log('good:  ' + (m+1) + '-' + d + '-' + y);
+            return [true];
+        }
+        function noWeekendsOrHolidays(date) {
+            var noWeekend = jQuery.datepicker.noWeekends(date);
+            return noWeekend[0] ? nationalDays(date) : noWeekend;
+        }
+
+        /* create datepicker */
+        jQuery(document).ready(function () {
+            jQuery('#date').datepicker({
+                minDate: new Date(2010, 0, 1),
+                maxDate: new Date(2010, 5, 31),
+                dateFormat: 'DD, MM, d, yy',
+                constrainInput: true,
+                beforeShowDay: noWeekendsOrHolidays
+            });
+        });
+    </script>
+    <style>
+        ul {
+              list-style-type: none;
+              margin: 0;
+              padding: 0;
+              overflow: hidden;
+              background-color: #333;
+            }
+            
+            li {
+              float: left;
+            }
+            
+            li a, .dropbtn {
+              display: inline-block;
+              color: white;
+              text-align: center;
+              padding: 14px 16px;
+              text-decoration: none;
+            }
+            
+            li a:hover, .dropdown:hover .dropbtn {
+              background-color: red;
+            }
+            
+            li.dropdown {
+              display: inline-block;
+            }
+            
+            .dropdown-content {
+              display: none;
+              position: absolute;
+              background-color: #f9f9f9;
+              min-width: 160px;
+              box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+              z-index: 1;
+            }
+            
+            .dropdown-content a {
+              color: black;
+              padding: 12px 16px;
+              text-decoration: none;
+              display: block;
+              text-align: left;
+            }
+            
+            .dropdown-content a:hover {background-color: #f1f1f1}
+            
+            .dropdown:hover .dropdown-content {
+              display: block;
+            }
+            </style>
+</head>
+{% block body_block %}
+{% if request.session.uname %}
+<body>
+    <div style="margin-top:10%;">
+        <!-- <section class="courses_area p_120"> -->
+        <!-- <div class="row courses_inner"> -->
+        <div class="col-lg-9">
+            <h2 style="color:grey;padding-left:15%;"><strong>Leave Request</strong></h2><br />
+            <div class="form-group">
+                <form method="POST" action="{% url 'leaves' %}">
+                    {% csrf_token %}
+                    <table class="" style="margin-left:15%;">
+
+                        <tr>
+
+                            <th style="padding-left:3px;"><strong>Date</strong></th>
+                            <!-- <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th> -->
+                            <th style="padding-left: 54px;"><strong>Leave Time</strong></th>
+                            <th style="padding-left: 54px;"><strong style="align-self:center;">Leave Reason</strong></th>
+                            <th style="padding-left: 40px;"><strong style="align-self:center;">Name</strong></th>
+                            <th style="padding-left: 40px;"><strong style="align-self:center;">Department</strong></th>
+                            <th><br /><br /><br /></th>
+                        </tr>
+                        <tr>
+
+                        </tr>
+                        <tr>
+                            <td><input placeholder="Select Date" type="date" id="date" name="leave_date" style="height: 39px;width: 135px;"></td>
+                    
+                            <td >
+                                <div style="padding-left: 50px;">
+                                <select name="leave_time" class="dropdown-content" id="leave_time_1">
+                                    <option value="Full Day">Full Day</option>
+                                    <option value="Pre Lunch Half Day">Pre Lunch Half Day</option>
+                                    <option value="Post Lunch Half Day">Post Lunch Half Day</option>
+                                </select></div>
+                            </td>
+                            <td>
+                                <div class="col-sm-2" style="padding-left: 50px;">
+                                    <select name="leave_reason" class="dropdown-content" id="leave_reason_1">
+                                        <option value="Sick Leave">Sick Leave</option>
+                                        <option value="Out of Station">Out of Station</option>
+                                        <option value="Family Function">Family Function</option>
+                                        <option value="Urgent Leave">Urgent Leave</option>
+                                    </select> </div>
+                            </td>
+                            
+                            <td style="padding-left: 40px;"><input type="text" name="ename" value="{{ ename }}" style="height: 39px;width: 115px;"></td>
+                            <td style="padding-left: 40px;"><input type="text" name="dname" value="{{ dname }}" style="height: 39px;width: 115px;"></td>
+                            <td><input type="hidden" name="dept_id" value="{{ dept_id }}"></td>
+                            <td><input type="hidden" name="emp_id" value="{{ emp_id }}"></td>
+                            
+                            <td style="padding-left: 40px;"><input type="submit" class="btn btn-info" value="Submit"></button></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+    </section>
+    </div>
+</body>
+{% endif %}
+{% endblock %}
+</html>
