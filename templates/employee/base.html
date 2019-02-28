@@ -19,7 +19,6 @@
 	<link rel="stylesheet" href="{% static 'css/count.css' %}">
 
 
-
 	<!-- main css -->
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
@@ -67,17 +66,38 @@
 						<!-- <li><a href="{% url 'index' %}">Employee Management System</a></li> -->
 					</ul>
 				</div>
+				{% if request.session.user %}
+				<div class="top-nav ">
+					<!--search & user info start-->
+					<ul class="nav pull-right top-menu">
+						<!-- user login dropdown start-->
+						<li>
 
+							<a href="{% url 'profile' %}"><img alt="" src="{{ MEDIA_URL }}/{{ request.session.image }}"
+									height="30" width="30" style="border-radius:50px;"></a>
+							<span class="username"
+								style="padding-left:5px;padding-top: 5px;">{{ request.session.fname }}
+								{{ request.session.lname }}</span>
+
+
+						</li>
+
+						</a>
+					</ul>
+					<!--search & user info end-->
+				</div>
+				{% endif %}
 				<div class="float-right">
 
 				</div>
 			</div>
 		</div>
-		<div class="main_menu">
+		<div class="main_menu" style="margin-top: -1%;">
 			<nav class="navbar navbar-expand-lg navbar-light">
 				<div class="container">
 					<!-- Brand and toggle get grouped for better mobile display -->
-					<a class="navbar-brand logo_h" href="{% url 'index'  %}"> Ems</a>
+					<a class="navbar-brand logo_h" href="{% url 'index'  %}"><img src="{% static 'img/icon/ems.jpg' %}"
+							style="width:240px;height:65px;margin-top:4%;"></a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
 						aria-expanded="false" aria-label="Toggle navigation">
@@ -103,26 +123,39 @@
 									</li>
 
 									{% if request.session.type == 'manager' %}
-									{% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'all_projects' %}">All
-											Projects</a></li> {% endcomment %}
-									<li class="nav-item"><a class="nav-link" href="{% url 'show_leaves' %}">Show Leaves</a>
+
+									<li class="nav-item"><a class="nav-link" href="{% url 'show_leaves' %}">Show
+											Leaves</a>
 									</li>
 									<li class="nav-item"><a class="nav-link" href="{% url 'employee_register' %}">Add
 											Employees</a></li>
 									{% else %}
-									{% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'projects' %}">Projects</a>
-									</li> {% endcomment %}
+									<li class="nav-item"><a class="nav-link" href="{% url 'projects' %}">Projects</a>
+									</li>
 									{% endif %}
-									 <li class="nav-item"><a class="nav-link" href="{% url 'leave_request' %}">Leave
-											Request</a></li> 
+									<li class="nav-item"><a class="nav-link" href="{% url 'leave_request' %}">Leave
+											Request</a></li>
+									<li class="nav-item"><a class="nav-link" href="{% url 'time_sheet' %}">Time Sheet
+										</a></li>
 								</ul>
 							</li>
-							<li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+							{% if request.session.type == 'manager' %}
+							<li class="nav-item submenu dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
+									aria-haspopup="true" aria-expanded="false">Project</a>
+								<ul class="dropdown-menu">
+									<li class="nav-item"><a class="nav-link" href="{% url 'all_projects' %}">All
+											Projects</a></li>
+									<li class="nav-item"><a class="nav-link" href="{% url 'assign_project' %}">Assign 
+											Project</a></li>
+								</ul>
+							</li>
+							{% endif %}
 							{% else %}
 							<li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Log In</a></li>
 							{% endif %}
-							<li class="nav-item "><a class="nav-link" href="">About</a></li>
-							<li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+							<li class="nav-item "><a class="nav-link" href="">Help Desk</a></li>
+
 						</ul>
 					</div>
 				</div>
@@ -157,11 +190,11 @@
 	<script src="{% static 'js/ajax.js' %}"></script>
 
 
-	<script class="include" type="text/javascript" src="{% static "js/jquery.dcjqaccordion.2.7.js" %}"></script>
-	<script src="{% static "js/jquery.scrollTo.min.js" %}"></script>
-	<script src="{% static "js/respond.min.js" %}"></script>
-	<script src="{% static "js/slidebars.min.js" %}"></script>
-	<script src="{% static "js/common-scripts.js" %}"></script>
+	<script class="include" type="text/javascript" src="{% static 'js/jquery.dcjqaccordion.2.7.js' %}"></script>
+	<script src="{% static 'js/jquery.scrollTo.min.js' %}"></script>
+	<script src="{% static 'js/respond.min.js' %}"></script>
+	<script src="{% static 'js/slidebars.min.js' %}"></script>
+	<script src="{% static 'js/common-scripts.js' %}"></script>
 	<script src="{% static 'js/owl.js' %}"></script>
 	<script src="{% static 'js/jquery-ui.js' %}"></script>
 	<script src="{% static 'js/appear.js' %}"></script>

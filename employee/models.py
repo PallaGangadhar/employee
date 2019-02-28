@@ -84,16 +84,14 @@ class leave(models.Model):
 
 
 class project(models.Model):
-    status = (('Complete', 'Complete'),
-              ('Incomplete', 'Incomplete'))
-    dept = models.ForeignKey(department, on_delete=models.CASCADE)
-    staff = models.ForeignKey(staff, on_delete=models.CASCADE)
-
+    status = (('complete', 'Complete'),
+              ('incomplete', 'Incomplete'))
+    dept = models.ForeignKey(department, on_delete=models.CASCADE,default='')
     project_name = models.CharField(max_length=128, blank=False)
     project_start_date = models.DateField(blank=False)
     project_end_date = models.DateField(blank=False)
     project_technology = models.CharField(max_length=128, blank=False)
-    project_status = models.CharField(max_length=128, blank=False, choices=status, default="Incomplete")
+    project_status = models.CharField(max_length=128, blank=False, choices=status, default="incomplete")
 
     class Meta:
         verbose_name_plural = 'Project'
@@ -101,10 +99,35 @@ class project(models.Model):
     def __str__(self):
         return self.project_name
 
-    def clean(self):
-        """ warn if selected city is not in selected country """
-        if (self.dept and self.emp and self.emp.dept.id != self.dept.id):
-            raise ValidationError(message='%(emp_name)s is not in %(dept_name)s',
-                                  code='wrong_country',
-                                  params=dict(emp_name=self.emp.first_name,
-                                              dept_name=self.dept.dept_name))
+    # def clean(self):
+    #     """ warn if selected city is not in selected country """
+    #     if (self.dept and self.staff and self.staff.dept.id != self.dept.id):
+    #         raise ValidationError(message='%(emp_name)s is not in %(dept_name)s',
+    #                               code='wrong_country',
+    #                               params=dict(emp_name=self.staff.first_name,
+    #                                           dept_name=self.dept.dept_name))
+
+class time_sheet(models.Model):
+    pid = models.ForeignKey(project, on_delete=models.Model)
+    staff = models.ForeignKey(staff, on_delete=models.Model)
+    date = models.DateField(blank=False)
+    time = models.IntegerField(blank=False)
+    description = models.CharField(max_length=128, blank=False)
+
+    class Meta:
+        verbose_name_plural = 'Time Sheet'
+
+    def __str__(self):
+        return self.pid.project_name
+
+class project_assingment(models.Model):
+    emp = models.ForeignKey(employee, on_delete=models.CASCADE,default='')
+    project = models.ForeignKey(project, on_delete=models.CASCADE, default='')
+
+    class Meta:
+        verbose_name_plural = 'Assigned Projects'
+
+    def __str__(self):
+        return self.project.project_name
+
+

@@ -1,0 +1,30 @@
+<table class="table table-striped employee-edit">
+    <tbody id="myTable">
+        {% if projects %}
+       
+            {% for project in projects %}
+           
+                {% if request.session.dept == project.dept_id %}
+                    <tr>
+                        <td>
+                            <a href="">{{ project.project_name }}</a>
+                        </td>
+                        <td>{{ project.project_start_date }}</td>
+                        <td>{{ project.project_end_date }}</td>
+                        <td>{{ project.project_technology }}</td>
+                        {% if project.project_status == 'complete' %}
+                            <td>{{ project.project_status }}</td>
+                        {% else %}
+                            <form method="POST" action="{% url 'complete' project.id %}">
+                                {% csrf_token %}
+                                <td><input type="submit" value="Complete" class="btn btn-success"
+                                        style="width: 69px; font-size: 10px;border-radius: 10px;margin-left: -1%;" name="complete"></a>
+                                </td>
+                            </form>
+                        {% endif %}
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </tbody>
+</table>

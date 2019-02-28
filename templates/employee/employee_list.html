@@ -31,7 +31,7 @@
                         <div class="search-container">
                             <form action="{% url 'employees_list' %}" method="POST">
                                 {% csrf_token %}
-                                <input type="text" placeholder="Search Employee" name="search">
+                                <input type="text" placeholder="Search Employee" name="search" id="myInput">
                                 <button type="submit"><i class="fa fa-search"></i></button>
                             </form>
                         </div>
@@ -53,16 +53,15 @@
                                     <th colspan="2">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="myTable">
                                 {% if employees %}
                                 {% for emp in employees %}
 
 
                                 <tr>
-                                    
-                                    {% if request.session.type == 'manager' and request.session.dept == emp.staff.dept_id %}
-                                    <td><img src="{{ MEDIA_URL }}/{{ emp.staff.profile_image }}" width="50px" height="50px"
-                                            style="border-radius:50%;"></td>
+
+                                    <td><img src="{{ MEDIA_URL }}/{{ emp.staff.profile_image }}" width="50px"
+                                            height="50px" style="border-radius:50%;"></td>
                                     <td>{{ emp.staff.first_name }}</td>
                                     <td>{{ emp.staff.last_name }}</td>
                                     <td>{{ emp.staff.date_of_birth }}</td>
@@ -72,15 +71,23 @@
                                     <td>{{ emp.staff.city }}</td>
                                     <td>{{ emp.staff.qualification }}</td>
                                     <td>{{emp.staff.dept}}</td>
-                                    <td><a href="{% url 'edit' emp.id %}"><i class="fa fa-edit"></i></a></td>
-                                <td> <a href=""><i class="fa fa-trash"></i></a></td>
-                                {{ emp.id }}
-                                   {% endif %}
-                                    
-                                    
-                            </tr>
-                           
-                         
+                                    <td>
+                                        {% if request.session.type == 'manager' and request.session.dept == emp.staff.dept_id %}
+                                        <a style="margin-right: 15px;" href="{% url 'edit_employee' emp.staff.id %}">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+
+                                        <a href="{% url 'delete_employee'  emp.staff.id %}">
+                                            <i class="fa fa-trash"></i>
+                                        </a>
+                                        
+                                        {% endif %}
+                                    </td>
+
+
+                                </tr>
+
+
                                 </tr>
                                 {% endfor %}
                                 {% endif %}
@@ -94,6 +101,19 @@
     </section>
 
     {% endif %}
+    <script>
+        $(document).ready(function () {
+            console.log('hi');
+            $('#myInput').on("keyup",function(){
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function(){
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value)>-1)
+                });
+            });
+
+        });
+    </script>
+
 </body>
 
 </html>

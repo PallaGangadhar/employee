@@ -19,7 +19,7 @@
                         <div class="search-container">
                             <form action="{% url 'department_list' %}" method="POST">
                                 {% csrf_token %}
-                                <input type="text" placeholder="Search Department" name="search" RE>
+                                <input type="text" placeholder="Search Department" name="search" id="myInput">
                                 <button type="submit"><i class="fa fa-search"></i></button>
                             </form>
                         </div>
@@ -33,7 +33,7 @@
 
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="myTable">
                                 {% if dict1 %}
                                 {% for key,value in dict1.items %}
                                 <tr>
@@ -50,6 +50,18 @@
 
             </div>
     </section>
+    <script>
+        $(document).ready(function () {
+            console.log('hi');
+            $('#myInput').on("keyup",function(){
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function(){
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value)>-1)
+                });
+            });
+
+        });
+    </script>
 </body>
 
 </html>

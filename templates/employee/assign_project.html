@@ -1,0 +1,145 @@
+{% extends 'employee/base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+
+{% if request.session.user %}
+
+<head>
+    <script type="text/javascript">
+        $(function () {
+            $('#emp').multiselect({
+                includeSelectAllOption: true
+            });
+        });
+    </script>
+    <style>
+        .error {
+            color: red;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .scrollable {
+            overflow: auto;
+
+        }
+
+        .scrollable select {
+            border: none;
+        }
+    </style>
+</head>
+<div style="margin-top:15%;">
+
+            <div class="container">
+                <h2>Assign Project</h2>
+                {% if msg %}
+                <div class="alert alert-success">
+
+                    <strong>{{ msg }}</strong>
+                </div>
+                {% else %}
+                <form action="{% url 'assign_project' %}" method="POST" enctype="multipart/form-data"
+                    autocomplete="off">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label style="margin-left: 1.5%;">Employee: <small class="error">*</small></label>
+                            <select name="emp" class="form-control">
+                                {% for e in staff %}
+
+                                {% if request.session.dept == e.staff.dept_id %}
+
+                                <option value="{{ e.staff.id }}">{{ e.staff.first_name }} {{ e.staff.last_name }}
+                                </option>
+
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label>Project Name: <small class="error">*</small></label>
+                            <select name="pid" class="form-control">
+                                {% for p in project %}
+                                {% if request.session.dept == p.dept_id %}
+                                <option value="{{ p.id }}">{{ p.project_name}}</option>
+                                {% endif %}
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 3%;">
+                        <div class="col-sm-1 col-sm-offset-3">
+                            <input type="submit" class="btn btn-default" value="Submit" style="margin-left:1.5%;">
+                        </div>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+   
+</div>
+
+{% endif %}
+<script>
+    function mydate() {
+        d = new Date(document.getElementById("ndt").value);
+        dt = d.getDate();
+        mn = d.getMonth();
+
+        yy = d.getFullYear();
+        document.getElementById("ndt").value = yy + "/" + mn + "/" + dt
+
+    }
+    $(document).ready(function () {
+        var today = new Date();
+        console.log('hiiiiiiii...')
+        $("#datepicker").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            minDate: today,
+            numberOfMonths: 2,
+            dateFormat: 'yy-mm-dd',
+            // set the minDate to the today's date
+            // you can add other options here
+        });
+
+        $(function () {
+            $("#datepicker").datepicker();
+        });
+
+        $('#dept1').change(function () {
+
+            console.log("hiifjkdsfdksbdsf")
+            var did = $(this).val();
+            console.log(did);
+            $.get('/fill_by_dept/', { dept_id: did }, function (data) {
+
+                // document.getElementById("emp1") = $('#emp1').html(data);
+                // console.log(html(data).getElementById("emp1"))
+
+                console.log(
+                    helpers.buildDropdown(
+                        jQuery.parseJSON(data),
+                        $('#dropdown'),
+                        'Select an option'
+                    )
+
+                );
+
+            });
+
+
+
+        });
+
+    });
+
+
+
+
+</script>
+
+{% endblock %}
