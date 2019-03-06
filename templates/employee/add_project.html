@@ -19,16 +19,24 @@
             font-size: 14px;
             font-weight: 400;
         }
+
+    .filltext {
+        font-size: 22px;
+        font-family: Playfair Display, serif;
+        font: outline;
+        font-display: bold;
+    }
     </style>
 </head>
-<div style="margin-top:2%;">
-    <section class="courses_area p_120">
-        <div class="row courses_inner">
 
 
-            <div class="container">
-                <h2 style="margin-left: 1.5%;">Add Project</h2>
 
+            <div class="container" style="margin-top:5%;">
+                    <div class="panel panel-info">
+                            <div class="panel-heading filltext">Add Project</div>
+                            <div class="panel-body">
+                    
+            
                 <form action="{% url 'add_project' %}" method="POST" enctype="multipart/form-data" autocomplete="off">
                     {% csrf_token %}
                     <div class="form-group">
@@ -37,7 +45,7 @@
 
                             {% for d in dept %}
                             {% if request.session.dept == d.id %}
-                    
+
                             <input type="text" class="form-control" value="{{ d.dept_name }}" name="dept" readonly
                                 size="60px;">
                             {% endif %}
@@ -54,7 +62,7 @@
                     <div class="form-group">
                         <div class="col-sm-4">
                             <label>Project Start Date: <small class="error">*</small></label>
-                            <p><input type="text" id="datepicker" class="form-control" placeholder="Select Date"
+                            <p><input type="text" id="datepicker2" class="form-control" placeholder="Select Date"
                                     name="psdate" required></p>
                         </div>
                     </div>
@@ -62,7 +70,7 @@
                     <div class="form-group">
                         <div class="col-sm-4">
                             <label>Project End Date: <small class="error">*</small></label>
-                            <p><input type="text" id="datepicker1" class="form-control" placeholder="Select Date"
+                            <p><input type="text" id="datepicker3" class="form-control" placeholder="Select Date"
                                     name="pedate" required></p>
                         </div>
                     </div>
@@ -79,15 +87,13 @@
                         </div>
                     </div>
 
-                    <input type="submit" class="btn btn-default" value="Submit" style="margin-left:1.5%;">
+                    <input type="submit" class="btn btn-info" value="Submit" style="margin-left:1.5%;margin-top: 2.5%;">
                 </form>
 
             </div>
-
-        </div>
-    </section>
 </div>
-
+</div>
+</div>
 {% endif %}
 <script>
     function mydate() {
@@ -102,18 +108,37 @@
     $(document).ready(function () {
         var today = new Date();
         console.log('hiiiiiiii...')
-        $("#datepicker").datepicker({
+        $("#datepicker2").datepicker({
             changeMonth: true,
             changeYear: true,
             minDate: today,
-            numberOfMonths: 2,
             dateFormat: 'yy-mm-dd',
+
+
             // set the minDate to the today's date
             // you can add other options here
         });
 
         $(function () {
-            $("#datepicker").datepicker();
+            $("#datepicker2").datepicker();
+        });
+
+
+        var today = new Date();
+        console.log('hiiiiiiii...')
+        $("#datepicker3").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            minDate: today,
+            dateFormat: 'yy-mm-dd',
+
+
+            // set the minDate to the today's date
+            // you can add other options here
+        });
+
+        $(function () {
+            $("#datepicker3").datepicker();
         });
 
         $('#dept1').change(function () {

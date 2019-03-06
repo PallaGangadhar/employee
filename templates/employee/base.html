@@ -6,173 +6,171 @@
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
 	<title>Employee Management System</title>
-	<!-- Bootstrap CSS -->
-	<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+	<link rel="shortcut icon" href="{% static 'img/icon/headericon.ico' %}">
+
+	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
 	<link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}">
 	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
 	<link rel="stylesheet" href="{% static 'vendors/lightbox/simpleLightbox.css' %}">
 	<link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}">
 	<link rel="stylesheet" href="{% static 'vendors/animate-css/animate.css' %}">
 	<link rel="stylesheet" href="{% static 'css/count.css' %}">
-
-
-	<!-- main css -->
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
 	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
-	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-	<link href="{% static "css/bootstrap-reset.css" %}" rel="stylesheet">
-	<!--external css-->
+
+
 	<link href="{% static "css/font-awesome.css" %}" rel="stylesheet" />
-	<!--right slidebar-->
-	<link href="{% static "css/slidebars.css" %}" rel="stylesheet">
-	<!-- Custom styles for this template -->
 	<link href="{% static 'css/style2.css' %}" rel="stylesheet">
 	<link href="{% static "css/style-responsive.css" %}" rel="stylesheet" />
-
-
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 	<script src="{% static 'js/jquery.js' %}"></script>
 	<script src="{% static 'js/jquery-ui.js' %}"></script>
 
 
-	<link href="{% static 'css/settings.css' %}" rel="stylesheet" type="text/css"><!-- REVOLUTION SETTINGS STYLES -->
-	<link href="{% static 'css/layers.css' %}" rel="stylesheet" type="text/css"><!-- REVOLUTION LAYERS STYLES -->
-	<link href="{% static 'css/navigation.css' %}" rel="stylesheet" type="text/css">
-	<!-- REVOLUTION NAVIGATION STYLES -->
 
 	<style>
+		.navbar {
+			border-radius: 0px;
+		}
+
 		.table-wrapper-scroll-y {
 			display: block;
-			max-height: 200px;
+			max-height: 500px;
 			overflow-y: auto;
 			-ms-overflow-style: -ms-autohiding-scrollbar;
 		}
+
+		.f {
+			font-size: 16px;
+			font-family: fantasy;
+		}
+
+
+		.dropdown .dropdown-menu li a:hover {
+			background-color: greenyellow;
+			margin-left: 2%;
+			margin-right: 2%;
+			box-shadow: 2px 1px 8px 1px rgba(0, 0, 0, 0.2);
+		}
+
+		.dropdown .dropdown-menu li a {
+			margin-top: 5%;
+			font-weight: 500;
+			font-size: 16px;
+		}
+
+		/*  */
+		.dropdown-submenu {
+			position: relative;
+		}
+
+		.dropdown-submenu .dropdown-menu {
+			top: 0;
+			left: 100%;
+			margin-top: -1px;
+		}
+
+		/*  */
 	</style>
 </head>
 
 <body>
 
 	<!--================Header Menu Area =================-->
-	<header class="header_area">
-		<div class="top_menu row m0">
-			<div class="container">
-				<div class="float-left">
-					<ul class="list header_social">
-						<!-- <li><a href="{% url 'index' %}">Employee Management System</a></li> -->
-					</ul>
-				</div>
+	<nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="197">
+
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<!-- <a class="navbar-brand" href="#"><img src="{% static 'img/a.ico' %}" height="40px" width="100px" ></a> -->
+		</div>
+		<div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav navbar-nav">
+				<li class="nav-item f"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
 				{% if request.session.user %}
-				<div class="top-nav ">
-					<!--search & user info start-->
-					<ul class="nav pull-right top-menu">
-						<!-- user login dropdown start-->
-						<li>
 
-							<a href="{% url 'profile' %}"><img alt="" src="{{ MEDIA_URL }}/{{ request.session.image }}"
-									height="30" width="30" style="border-radius:50px;"></a>
-							<span class="username"
-								style="padding-left:5px;padding-top: 5px;">{{ request.session.fname }}
-								{{ request.session.lname }}</span>
+				<li class="nav-item submenu dropdown f">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Manage <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li class="nav-item"><a class="nav-link" href="{% url 'department_list' %}">Department</a>
 
+						<li class="dropdown-submenu">
+							<a class="test" tabindex="-1" href="#">Staff <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li class="nav-item"><a class="nav-link" href="{% url 'employees_list' %}"
+										tabindex="-1">Employees</a>
+								</li>
+								<li class="nav-item"><a class="nav-link" href="{% url 'manager_list' %}"
+										tabindex="-1">Manager</a>
+								</li>
+							</ul>
+						</li>
+						{% if request.session.type == 'manager' %}
 
+						<li class="nav-item"><a class="nav-link" href="{% url 'show_leaves' %}">Show
+								Leaves</a>
+						</li>
+						<li class="nav-item"><a class="nav-link" href="{% url 'employee_register' %}">Add
+								Employees</a></li>
+						{% else %}
+						<li class="nav-item"><a class="nav-link" href="{% url 'projects' %}">Projects</a>
+						</li>
+						{% endif %}
+						<li class="nav-item"><a class="nav-link" href="{% url 'leave_request' %}">Leave
+								Request</a></li>
+						<li class="nav-item"><a class="nav-link" href="{% url 'time_sheet' %}">Time Sheet
+							</a></li>
+					</ul>
+				</li>
+				{% if request.session.type == 'manager' %}
+				<li class="nav-item submenu dropdown f">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Projects <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li class="nav-item"><a class="nav-link" href="{% url 'all_projects' %}">All Projects</a>
+						<li class="nav-item"><a class="nav-link" href="{% url 'assign_project' %}">Assign
+								Projects</a>
 						</li>
 
-						</a>
+				</li>
+			</ul>
+
+			{% endif %}
+			{% else %}
+			<li class="nav-item f"><a class="nav-link" href="{% url 'login' %}">Log In</a></li>
+			{% endif %}
+			<li class="nav-item f"><a class="nav-link" href="{% url 'help_desk' %}">Help Desk</a></li>
+			</ul>
+
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+						{% if request.session.user %}<img alt="" src="{{ MEDIA_URL }}/{{ request.session.image }}"
+							height="20" width="50" s>{{ request.session.fname }} <span
+							class="caret"></span>{% endif %}</a>
+					<ul class="dropdown-menu">
+						<li><a href="{% url 'profile' %}">Profile</a></li>
+						<li><a href="{% url 'change_password' %}">Change Password</a></li>
+						<li><a href="{% url 'logout' %}">Logout</a></li>
 					</ul>
-					<!--search & user info end-->
-				</div>
-				{% endif %}
-				<div class="float-right">
-
-				</div>
-			</div>
+				</li>
+			</ul>
 		</div>
-		<div class="main_menu" style="margin-top: -1%;">
-			<nav class="navbar navbar-expand-lg navbar-light">
-				<div class="container">
-					<!-- Brand and toggle get grouped for better mobile display -->
-					<a class="navbar-brand logo_h" href="{% url 'index'  %}"><img src="{% static 'img/icon/ems.jpg' %}"
-							style="width:240px;height:65px;margin-top:4%;"></a>
-					<button class="navbar-toggler" type="button" data-toggle="collapse"
-						data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-						aria-expanded="false" aria-label="Toggle navigation">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<!-- Collect the nav links, forms, and other content for toggling -->
-					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
-						<ul class="nav navbar-nav menu_nav ml-auto">
-							<li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
-							{% if request.session.user %}
-							<li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Log out</a></li>
-							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-									aria-haspopup="true" aria-expanded="false">Manage</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link"
-											href="{% url 'department_list' %}">Department</a>
-									<li class="nav-item"><a class="nav-link"
-											href="{% url 'employees_list' %}">Employees</a></li>
-									<li class="nav-item"><a class="nav-link" href="{% url 'manager_list' %}">Manager</a>
-									</li>
-
-									{% if request.session.type == 'manager' %}
-
-									<li class="nav-item"><a class="nav-link" href="{% url 'show_leaves' %}">Show
-											Leaves</a>
-									</li>
-									<li class="nav-item"><a class="nav-link" href="{% url 'employee_register' %}">Add
-											Employees</a></li>
-									{% else %}
-									<li class="nav-item"><a class="nav-link" href="{% url 'projects' %}">Projects</a>
-									</li>
-									{% endif %}
-									<li class="nav-item"><a class="nav-link" href="{% url 'leave_request' %}">Leave
-											Request</a></li>
-									<li class="nav-item"><a class="nav-link" href="{% url 'time_sheet' %}">Time Sheet
-										</a></li>
-								</ul>
-							</li>
-							{% if request.session.type == 'manager' %}
-							<li class="nav-item submenu dropdown">
-								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-									aria-haspopup="true" aria-expanded="false">Project</a>
-								<ul class="dropdown-menu">
-									<li class="nav-item"><a class="nav-link" href="{% url 'all_projects' %}">All
-											Projects</a></li>
-									<li class="nav-item"><a class="nav-link" href="{% url 'assign_project' %}">Assign 
-											Project</a></li>
-								</ul>
-							</li>
-							{% endif %}
-							{% else %}
-							<li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Log In</a></li>
-							{% endif %}
-							<li class="nav-item "><a class="nav-link" href="">Help Desk</a></li>
-
-						</ul>
-					</div>
-				</div>
-			</nav>
 		</div>
-	</header>
+	</nav>
+
 	<!--================Header Menu Area =================-->
 
-
-
-
 	{% block body_block %}
+
 	{% endblock %}
 
-	<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<!-- <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script> -->
+
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 	<script src="{% static 'js/stellar.js' %}"></script>
@@ -215,6 +213,7 @@
 			// set the minDate to the today's date
 			// you can add other options here
 		});
+		var today = new Date();
 		$("#datepicker1").datepicker({
 			changeMonth: true,
 			changeYear: true,
@@ -232,7 +231,15 @@
 		});
 	</script>
 
-
+	<script>
+		$(document).ready(function () {
+			$('.dropdown-submenu a.test').on("click", function (e) {
+				$(this).next('ul').toggle();
+				e.stopPropagation();
+				e.preventDefault();
+			});
+		});
+	</script>
 </body>
 
 </html>

@@ -1,18 +1,22 @@
 from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
-from employee.models import department, staff, project, leave, manager, employee, time_sheet, project_assingment
+from employee.models import department, staff, project, leave, manager, employee, time_sheet, project_assingment,project_inquiry
 from django.db.models import Q,Subquery
 from django.contrib.auth.decorators import login_required
+
 from django.core.mail import send_mail
 from django.conf import settings
 import datetime
-
+from django.urls import reverse
+from django.contrib.auth.hashers import make_password
 # Index Page view
 
 
 def index(request):
-    
+    ''' Index Page '''
+    print("Hashed password is:", make_password("plain_text"))
     emp = staff.objects.all().count()
     p = project.objects.filter(project_status='complete').count()
+   
     return render(request, 'employee/index.html', {'emp1': emp, 'no_of_project': p})
     
 
@@ -20,6 +24,8 @@ def index(request):
 
 
 def departments(request):
+    ''' Display Department Details and Total number of employees
+    in each Department '''
     if request.method == 'POST':
         name = request.POST.get('search')
         departments = department.objects.filter(dept_name__istartswith=name)
@@ -45,6 +51,7 @@ def departments(request):
 
 
 def employee_register(request):
+    ''' Function to add employee details '''
     dept = department.objects.all()
     if request.method == 'POST':
         d = department.objects.get(dept_name=request.POST.get('dept'))
@@ -82,6 +89,7 @@ def employee_register(request):
 
 
 def employees(request):
+    ''' Display Employee details '''
     d = request.session.get('dept')
     if request.method == 'POST':
         name = request.POST.get('search')
@@ -91,17 +99,18 @@ def employees(request):
 
         return context_dict
     else:
-
+        dept = department.objects.all()
         employee_list = employee.objects.order_by('-id')
-        context_dict = {'employees': employee_list}
+        context_dict = {'employees': employee_list,'dept':dept}
 
     return render(request, 'employee/employee_list.html', context_dict)
 
 
 #  login view
 def login(request):
-
+    ''' Login Function '''
     uname = ''
+    msg = ''
     if request.method == 'POST':
         uname = request.POST.get('email')
         password = request.POST.get('password')
@@ -133,17 +142,20 @@ def login(request):
                     return HttpResponse('user is registered but not employeed')
         except Exception as e:
             print('error ', e)
-            return HttpResponse("User is not registered")
-    return render(request, 'employee/login.html', {})
+            msg = 'Invalid Email and Password'
+    return render(request, 'employee/login.html', {'msg':msg})
 
 
 def logout(request):
+    ''' Logout Function '''
     for key in list(request.session.keys()):
         del request.session[key]
     return redirect('index')
 
 
+
 def edit_employee(request, eid):
+    ''' Function to add employee details '''
     s = staff.objects.filter(id=eid)
     if request.method == 'POST':
 
@@ -170,12 +182,14 @@ def edit_employee(request, eid):
 
 
 def delete_employee(request, eid):
+    ''' Function to delete employee details '''
     e = staff.objects.get(id=eid)
     e.delete()
     return redirect('employees_list')
 
 
 def leave_request(request):
+    ''' Function to apply leave request '''
     eid = request.session.get('user')
     st = staff.objects.get(id=eid)
     emp_leave = leave.objects.filter(staff=eid)
@@ -196,6 +210,7 @@ def leave_request(request):
 
 
 def show_leaves(request):
+    ''' Function to display leave details '''
     did = request.session.get('dept')
     eid = request.session.get('user')
     leaves = leave.objects.filter(~Q(staff_id=eid), dept=did)
@@ -204,6 +219,7 @@ def show_leaves(request):
 
 
 def approve(request, lid):
+    ''' Function to approve leaves of an employee '''
     e = employee.objects.all()
     if request.method == "POST":
         le = leave.objects.get(id=lid)
@@ -221,22 +237,32 @@ def approve(request, lid):
 
 
 def deny(request, lid):
+    ''' Function to deny leave of employee '''
     l = leave.objects.filter(id=lid)
     if request.method == "POST":
         le = leave.objects.get(id=lid)
         le.leave_status = 'Deny'
         le.save()
+        subject = 'Your leave has been rejected'
+        message = 'Leave Details:' + '\nLeave date:  ' + \
+            str(le.leave_date) + '\nLeavev reason: ' + \
+            le.leave_reason + '\nLeave time: ' + le.leave_time
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [le.staff.email, ]
+        send_mail(subject, message, email_from, recipient_list)
         return redirect('show_leaves')
     return render(request, 'employee/show_leaves.html')
 
 
 def profile(request):
+    ''' Display User Profile '''
     uid = request.session.get('user')
     st = staff.objects.filter(id=uid)
     return render(request, 'employee/profile.html', {'emp': st})
 
 
 def projects(request):
+    ''' Display Project Details '''
     project_list = project_assingment.objects.all()
     eid = request.session.get('user')
     p1 = ''
@@ -252,6 +278,7 @@ def projects(request):
 
 
 def add_project(request):
+    ''' Function to add project details '''
     dept = department.objects.all()
     if request.method == "POST":
         # d = department.objects.get(dept_name=request.POST.get('dept'))
@@ -265,17 +292,18 @@ def add_project(request):
         p.project_end_date = request.POST.get('pedate')
         p.project_technology = request.POST.get('ptech')
         p.save()
-        # subject = 'You have got a new project'
-        # message = 'Project Details: ' + '\nProject Name:  '+ p.project_name + '\nProject Technology: '+ p.project_technology + '\nProject Start Date: '+ p.project_start_date + '\nProject End Date: '+ p.project_end_date
-        # email_from = settings.EMAIL_HOST_USER
-        # recipient_list = [p.staff.email,]
-        # send_mail(subject,message,email_from,recipient_list)
+        subject = 'You have got a new project'
+        message = 'Project Details: ' + '\nProject Name:  '+ p.project_name + '\nProject Technology: '+ p.project_technology + '\nProject Start Date: '+ p.project_start_date + '\nProject End Date: '+ p.project_end_date
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [p.staff.email,]
+        send_mail(subject,message,email_from,recipient_list)
         return redirect('all_projects')
 
     return render(request, 'employee/add_project.html', {'dept': dept})
 
 
 def all_projects(request):
+    ''' search employees '''
     if request.method == 'POST':
         name = request.POST.get('search')
         project_list = project.objects.filter(project_name__istartswith=name)
@@ -287,6 +315,7 @@ def all_projects(request):
 
 
 def manager_list(request):
+    ''' Display Manager Details '''
     manage = manager.objects.all()
     return render(request, 'employee/manager_list.html', {'employees': manage})
 
@@ -298,6 +327,7 @@ def manager_list(request):
 
 
 def complete(request, pid):
+    ''' Display Completed Projects  '''
     if request.method == "POST":
         pr = project.objects.get(id=pid)
         print(pid)
@@ -312,6 +342,7 @@ def updates(request):
 
 
 def timesheet(request):
+    ''' Add Timesheet  '''
     st = staff.objects.all()
     pr = project_assingment.objects.all()
     now = datetime.datetime.now()
@@ -339,7 +370,7 @@ def timesheet(request):
 
 
 def assign_project(request):
-
+    ''' Assign Project to an Employee'''
     st = employee.objects.all()
     pr = project.objects.all()
     msg = ''
@@ -367,7 +398,122 @@ def assign_project(request):
 def abc(request):
     val = request.GET['value']
     if val == 'assign':
-        pr = project.objects.filter(id__in=Subquery(project_assingment.objects.all().values('project'))) 
+        pr = project.objects.filter(id__in=Subquery(
+            project_assingment.objects.all().values('project')))
+        return render(request, 'employee/assign.html', {'projects': pr})
     elif val == 'unassign':
-        pr = project.objects.filter(~Q(id__in=Subquery(project_assingment.objects.all().values('project')))) 
-    return render(request,'employee/assign.html', {'projects':pr})   
+        pr = project.objects.filter(
+            ~Q(id__in=Subquery(project_assingment.objects.all().values('project'))))
+        return render(request, 'employee/unassign.html', {'projects': pr})   
+
+
+def holiday(request):
+    ''' Display Holiday List '''
+    return render(request,'employee/holiday.html')
+
+def leave_format(request):
+    ''' Display Leave Applying Format '''
+    return render(request,'employee/leave_format.html')
+
+def update_mail(request):
+    ''' Display Mail Applying Format '''
+    return render(request,'employee/update_mail.html')
+
+def policy(request):
+    ''' Display Compnay Details '''
+    return render(request,'employee/policy.html')
+
+
+def help_desk(request):
+    ''' Helpdisk For User '''
+    return render(request,'employee/help_desk.html', {})
+
+def base1(request):
+    return render(request,'employee/base1.html', {})
+
+def change_password(request):
+    ''' Allow Login User to change password  '''
+    eid = request.session.get('user')
+    old = request.POST.get('oldpassword')
+    new = request.POST.get('newpassword')
+    new1 = request.POST.get('newpassword2')
+    c1 = staff.objects.filter(id=eid)
+    msg =''
+    if request.method == 'POST':
+        if new == new1:
+            print(new)
+            c1 = staff.objects.get(id=eid)
+            if c1.password == old:
+               
+                c1.password = request.POST.get('newpassword2')
+                c1.save()  
+
+                msg = 'Password has been change  suceesfully....'
+                subject = 'Employee Management System'
+                message = 'Your Password has been change successfully'
+                email_from = settings.EMAIL_HOST_USER
+                recipient_list = [c1.email,]
+                send_mail(subject,message,email_from,recipient_list)
+                
+        else:
+            msg = "New Password and Re-enter Password must be same."
+    return render(request,'employee/change_password.html',{'msg':msg})
+
+def project_info(request):
+    val = request.GET['value']
+    employee_info = project_assingment.objects.filter(project_id=val)
+    return render(request, 'employee/project_info.html', {'employee_info':employee_info})
+
+
+
+def filter_by_dept(request):
+    val = request.GET['value']
+    if val != '':
+        try:
+            emp = employee.objects.filter(staff__dept_id=val)           
+        except:      
+            return HttpResponse('Something went wrong with ajax..')       
+    return render(request, 'employee/filter_by_dept.html', {'employee': emp})
+
+def inquiry(request):
+    sid = request.session.get('user') 
+    manager = request.session.get('type')
+    if manager == 'manager':
+        dept = request.session.get('dept')
+        proj = project.objects.filter(dept_id=dept)
+        st = staff.objects.filter(id=sid)
+        now = datetime.datetime.now()
+        now1 = now.strftime("%Y-%m-%d, %H:%M:%S %p")
+        p1 = project_inquiry.objects.all().order_by('-id')[:8]
+        context_dict = {'project': proj, 'staff': st, 'now': now1,'project_inquiry':p1}
+    else:
+        pr = project_assingment.objects.filter(emp__staff_id=sid)
+        print(pr.values())
+        st = staff.objects.filter(id=sid)
+        now = datetime.datetime.now()
+        now1 = now.strftime("%Y-%m-%d, %H:%M:%S %p")
+        p1 = project_inquiry.objects.all().order_by('-id')[:8]
+        context_dict = {'project': pr, 'staff': st, 'now': now1,'project_inquiry':p1}
+    
+    if request.method == 'POST':
+        pi = project_inquiry()
+        # if manager == 'employee':
+        #     # pr1 = project_assingment.objects.get(id=request.POST.get('project'))
+        #     pr1 = project_assingment.objects.get(id=request.POST.get('project'))
+        # elif manager == 'manager':
+        
+        pr1 = project.objects.get(id=request.POST.get('project'))
+        print(pr1)
+
+        try:
+            pi.project = pr1
+            st1 = staff.objects.get(id=request.POST.get('ename'))
+            pi.staff = st1
+            pi.time = request.POST.get('time')
+            pi.comment = request.POST.get('comment')
+            pi.save()
+            
+        except Exception as e:
+            print("Something wrong while adding query.", e)
+
+    return render(request, 'employee/project_inquiry.html', context_dict)

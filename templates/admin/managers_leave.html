@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+
+<html lang="en-us" >
+<head>
+<title>Select leave to change | EMS</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+
+  
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/changelists.css">
+  
+  
+    <script type="text/javascript" src="/admin/jsi18n/"></script>
+  
+  
+  
+
+
+
+
+<script type="text/javascript" src="/static/admin/js/vendor/jquery/jquery.js"></script>
+<script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+<script type="text/javascript" src="/static/admin/js/core.js"></script>
+<script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/static/admin/js/actions.js"></script>
+<script type="text/javascript" src="/static/admin/js/urlify.js"></script>
+<script type="text/javascript" src="/static/admin/js/prepopulate.js"></script>
+<script type="text/javascript" src="/static/admin/js/vendor/xregexp/xregexp.js"></script>
+
+
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+    
+
+<meta name="robots" content="NONE,NOARCHIVE">
+</head>
+
+
+<body class=" app-employee model-leave change-list"
+  data-admin-utc-offset="0">
+
+<!-- Container -->
+<div id="container">
+
+    
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+        
+<h1 id="site-name"><a href="/admin/">Employee Management System</a></h1>
+
+        </div>
+        
+        
+        <div id="user-tools">
+            
+                Welcome,
+                <strong>prashant</strong>.
+            
+            
+                
+                    <a href="/">View site</a> /
+                
+                
+                    
+                    
+                
+                
+                <a href="/admin/password_change/">Change password</a> /
+                
+                <a href="/admin/logout/">Log out</a>
+            
+        </div>
+        
+        
+        
+    </div>
+    <!-- END Header -->
+    
+<div class="breadcrumbs">
+<a href="/admin/">Home</a>
+&rsaquo; <a href="/admin/employee/">Employee</a>
+&rsaquo; Leave
+</div>
+
+    
+
+    
+        
+    
+
+    <!-- Content -->
+    <div id="content" class="flex">
+        
+        <h1>Select leave to change</h1>
+        
+  <div id="content-main">
+    
+        <ul class="object-tools">
+          
+          
+          
+        </ul>
+    
+    
+    <div class="module" id="changelist">
+      
+
+
+      
+
+
+      
+        
+      
+
+      <form id="changelist-form" method="post" novalidate><input type="hidden" name="csrfmiddlewaretoken" value="QtGQGe32iiSy3OMO1oxx7LbmtvhDsJN3AL7jpFJIyhfLnIk4x5Hbf23YmoCa9DDT">
+      
+
+      
+     
+          
+<div class="actions">
+  
+    
+    <label>Action: <select name="action" required>
+  <option value="" selected>---------</option>
+
+  <option value="delete_selected">Delete selected Leave</option>
+
+</select></label><input type="hidden" name="select_across" value="0" class="select-across">
+    
+    
+    <button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
+    
+    
+    
+        <span class="action-counter" data-actions-icnt="5">0 of 5 selected</span>
+        
+    
+    
+  
+</div>
+
+          
+
+
+<div class="results">
+<table id="result_list">
+<thead>
+<tr>
+
+<th scope="col"  class="action-checkbox-column">
+   
+   <div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
+   <div class="clear"></div>
+</th>
+<th scope="col"  class="sortable column-dept">
+   
+     
+   
+   <div class="text"><a href="?o=1">Dept</a></div>
+   <div class="clear"></div>
+</th>
+<th scope="col"  class="sortable column-staff">
+   
+     
+   
+   <div class="text"><a href="?o=2">Staff</a></div>
+   <div class="clear"></div>
+</th>
+<th scope="col"  class="sortable column-leave_reason">
+   
+     
+   
+   <div class="text"><a href="?o=3">Leave reason</a></div>
+   <div class="clear"></div>
+</th>
+<th scope="col"  class="sortable column-leave_time">
+   
+     
+   
+   <div class="text"><a href="?o=4">Leave time</a></div>
+   <div class="clear"></div>
+</th>
+<th scope="col"  class="sortable column-leave_date">
+   
+     
+   
+   <div class="text"><a href="?o=5">Leave date</a></div>
+   <div class="clear"></div>
+</th>
+<th scope="col"  class="sortable column-leave_status">
+   
+     
+   
+   <div class="text"><a href="?o=6">Leave status</a></div>
+   <div class="clear"></div>
+</th>
+</tr>
+</thead>
+<tbody>
+
+
+<tr class="row1"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="5" class="action-select"></td><th class="field-dept nowrap"><a href="/admin/employee/leave/5/change/">Python</a></th><td class="field-staff nowrap">Ram</td><td class="field-leave_reason">Attend Marriage</td><td class="field-leave_time">Post Lunch Half Day</td><td class="field-leave_date nowrap">Aug. 10, 2019</td><td class="field-leave_status">0</td></tr>
+
+
+<tr class="row2"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="4" class="action-select"></td><th class="field-dept nowrap"><a href="/admin/employee/leave/4/change/">ASP.NET</a></th><td class="field-staff nowrap">Gaurav</td><td class="field-leave_reason">Sick Leave</td><td class="field-leave_time">Full Day</td><td class="field-leave_date nowrap">March 3, 2019</td><td class="field-leave_status">0</td></tr>
+
+
+<tr class="row1"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="3" class="action-select"></td><th class="field-dept nowrap"><a href="/admin/employee/leave/3/change/">Python</a></th><td class="field-staff nowrap">Prashant</td><td class="field-leave_reason">Hourly leaves</td><td class="field-leave_time">Post Lunch Half Day</td><td class="field-leave_date nowrap">March 3, 2019</td><td class="field-leave_status">0</td></tr>
+
+
+<tr class="row2"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="2" class="action-select"></td><th class="field-dept nowrap"><a href="/admin/employee/leave/2/change/">Python</a></th><td class="field-staff nowrap">Prashant</td><td class="field-leave_reason">Hourly leaves</td><td class="field-leave_time">Post Lunch Half Day</td><td class="field-leave_date nowrap">March 12, 2019</td><td class="field-leave_status">Deny</td></tr>
+
+
+<tr class="row1"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="1" class="action-select"></td><th class="field-dept nowrap"><a href="/admin/employee/leave/1/change/">Python</a></th><td class="field-staff nowrap">Prashant</td><td class="field-leave_reason">Exams</td><td class="field-leave_time">Pre Lunch Half Day</td><td class="field-leave_date nowrap">Feb. 23, 2019</td><td class="field-leave_status">Approve</td></tr>
+
+</tbody>
+</table>
+</div>
+
+
+          
+            
+          
+           
+      
+      
+
+<p class="paginator">
+
+5 Leave
+
+
+</p>
+
+      </form>
+    </div>
+  </div>
+ 
+
+        
+        <br class="clear">
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>

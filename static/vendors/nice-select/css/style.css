@@ -1,4 +1,4 @@
-.nice-select {
+/* .nice-select {
   -webkit-tap-highlight-color: transparent;
   background-color: #fff;
   border-radius: 5px;
@@ -159,7 +159,7 @@ pre[class*="language-"] {
   letter-spacing: 0; }
 
 /* Code blocks */
-pre[class*="language-"] {
+/* pre[class*="language-"] {
   padding: 18px 24px;
   margin: 0 0 24px;
   overflow: auto; }
@@ -168,7 +168,6 @@ pre[class*="language-"] {
 pre[class*="language-"] {
   background: #f6f7f9; }
 
-/* Inline code */
 :not(pre) > code[class*="language-"] {
   padding: 0 2px 1px; }
 
@@ -369,4 +368,4 @@ label {
   color: #90a1b5;
   clear: both;
   font-size: 12px;
-  margin-top: 90px; }
+  margin-top: 90px; } 

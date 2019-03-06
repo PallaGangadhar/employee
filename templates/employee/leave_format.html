@@ -1,0 +1,864 @@
+{% extends 'employee/base.html' %}
+
+{% load staticfiles %}
+{% block body_block %}
+
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <style>
+        /*
+#selectme ::selection{background-color:rgba(0,0,0,0);}
+*/
+
+        .container {
+            width: 90%;
+        }
+
+        body {
+            color: #000;
+        }
+
+        .form-inline .form-group {
+            margin-bottom: 15px !important;
+        }
+
+        .starter-template {
+            margin: 0 0 30px;
+            padding: 5px 15px;
+        }
+
+        span {
+            font-size: 17px;
+        }
+
+        .stud_detail {
+            width: 80%;
+        }
+
+        .main_hr {
+            border: 1px solid;
+        }
+
+        .font-20 {
+            float: right;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        input.task_detail {
+            display: inline-block;
+            /* //width: 91%; */
+            margin-bottom: 10px;
+        }
+
+        input.extra_detail {
+            display: inline-block;
+            margin-left: 11%;
+            width: 80%;
+            margin-bottom: 10px;
+        }
+
+        .blank_error {
+            color: red;
+            font-size: 14px;
+        }
+
+        .extra {
+            margin: 0 5px;
+        }
+
+        .item_checkbox input[type="checkbox"],
+        input[type="radio"] {
+            margin-right: 5px;
+            vertical-align: top;
+        }
+
+        .form-group.stud_detail.item_checkbox {
+            margin-bottom: 15px;
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+
+        .item_checkbox .col-sm-4 {
+            padding-bottom: 0;
+            padding-left: 0;
+            padding-right: 0;
+            padding-top: 0;
+        }
+
+        /** Copy to cliick Button **/
+
+        /* bottom Button */
+
+        .btn-wrapper_bottom {
+            border-top: 1px solid #eeeeee;
+            margin: 0 0 30px;
+            margin-top: 30px;
+            padding: 0 0 20px;
+            text-align: left;
+            padding-top: 25px;
+        }
+
+        .btn-wrapper_bottom input {
+
+            -moz-border-bottom-colors: none;
+            -moz-border-left-colors: none;
+            -moz-border-right-colors: none;
+            -moz-border-top-colors: none;
+            -moz-user-select: none;
+            background-image: none;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-image-outset: 0 0 0 0;
+            border-image-repeat: stretch stretch;
+            border-image-slice: 100% 100% 100% 100%;
+            border-image-source: none;
+            border-image-width: 1 1 1 1;
+            border-left-style: solid;
+            border-left-width: 1px;
+            border-right-style: solid;
+            border-right-width: 1px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-top-style: solid;
+            border-top-width: 1px;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.42857;
+            margin-bottom: 0;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+            padding-bottom: 10px;
+            padding-left: 40px;
+            padding-right: 40px;
+            padding-top: 10px;
+            background-color: #5cb85c;
+            border-bottom-color: #4cae4c;
+            border-left-color: #4cae4c;
+            border-right-color: #4cae4c;
+            border-top-color: #4cae4c;
+            color: #ffffff;
+
+        }
+
+        .btn-wrapper_bottom input:hover {
+            background-color: #449d44;
+            border-bottom-color: #398439;
+            border-left-color: #398439;
+            border-right-color: #398439;
+            border-top-color: #398439;
+            color: #ffffff;
+
+        }
+
+        .btn-wrapper {
+            margin: 0 0 30px;
+            padding: 0 0 20px;
+            text-align: right;
+        }
+
+        .btn-wrapper input {
+            -moz-border-bottom-colors: none;
+            -moz-border-left-colors: none;
+            -moz-border-right-colors: none;
+            -moz-border-top-colors: none;
+            -moz-user-select: none;
+            background-image: none;
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-image-outset: 0 0 0 0;
+            border-image-repeat: stretch stretch;
+            border-image-slice: 100% 100% 100% 100%;
+            border-image-source: none;
+            border-image-width: 1 1 1 1;
+            border-left-style: solid;
+            border-left-width: 1px;
+            border-right-style: solid;
+            border-right-width: 1px;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-top-style: solid;
+            border-top-width: 1px;
+            cursor: pointer;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.42857;
+            margin-bottom: 0;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+            padding-bottom: 10px;
+            padding-left: 40px;
+            padding-right: 40px;
+            padding-top: 10px;
+            background-color: #5cb85c;
+            border-bottom-color: #4cae4c;
+            border-left-color: #4cae4c;
+            border-right-color: #4cae4c;
+            border-top-color: #4cae4c;
+            color: #ffffff;
+        }
+
+        .btn-wrapper input:hover {
+            background-color: #449d44;
+            border-bottom-color: #398439;
+            border-left-color: #398439;
+            border-right-color: #398439;
+            border-top-color: #398439;
+            color: #ffffff;
+        }
+
+        .starter-template {
+            margin: 0 0 10px;
+            padding: 5px 15px;
+        }
+
+        .area {
+          
+            width: 100%;
+            height: auto;
+            margin-top: 5%;
+
+
+        }
+        .text {
+        text-align: center;
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        font-weight: 500;
+        margin-top: 5%;
+        font-size: 24px;
+        font-feature-settings: "afrc";
+    }
+    </style>
+
+        <div class="workArea">
+               
+            <div class="area">
+                <center><h4 style="color:red;">Format of Leave Request that you can use to send through mail.</h4></center>
+                <div class="container">
+                    <div class="row">
+                           
+                        <div class="col-sm-5">
+                            <div class="form-group stud_detail">
+                                <label for="client_name">Your Name : </label>
+                                <input type="text" class="form-control" id="client_name" placeholder="Enter Your Name"
+                                    onkeyup="SetTlName(this);">
+                            </div>
+
+                            <!-- For Date Select -->
+                            <div class="form-group stud_detail item_checkbox">
+                                <div class="col-sm-4 " id="inline_content1">
+                                    <input type="radio" class="one_day_leave" name="one_day" id="one_day" checked
+                                        value="only_one_day">&nbsp;One day
+                                </div>
+                                <!--div class="col-sm-7 " id="inline_content2">
+                                    <input type="radio" name="one_day" id="more_than_one_day" value="more_than_one">&nbsp;More than one day
+                                </div-->
+                            </div>
+
+                            <!-- For start date -->
+                            <div class="form-group stud_detail for1" style="display:none">
+                                <label for="client_name" class="task_label">From Date : </label>
+                                <div class="element-block">
+                                    <div class="">
+                                        <input type="text" placeholder="From Date" name="list_progress" id="datepicker"
+                                            class="form-control custom-input task_detail datePick" value=""
+                                            onchange="setfromdate(this);">
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+
+                            <!-- For start date -->
+                            <div class="form-group stud_detail for_one">
+
+                                <label for="client_name" class="task_label">One Day Leave Date : </label>
+                                <div class="element-block">
+                                    <div class="">
+                                        <input type="text" placeholder="Select Day For Leave" name="one_day_leave"
+                                            id="onedatepicker" class="form-control custom-input task_detail datePick1"
+                                            value="" onchange="setonedayleavedate(this);">
+                                          
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <script>
+                            
+                            </script>
+                            <!-- For End Date -->
+                            <div class="form-group stud_detail typee">
+                                <label for="client_name" class="task_label">Type : </label>
+                                <div class="element-block">
+                                    <div class="">
+                                        <select name="list_done" onkeyup="selecttype" id="type"
+                                            class="custom-input type hourr task_detail done_task">
+                                            <option value="">-- Select --</option>
+                                            <option value="Full Day">Full day</option>
+                                            <option value="Pre-Lunch">Pre-Lunch</option>
+                                            <option value="Post-Lunch">Post-Lunch</option>
+                                            <!-- <option value="Hourly-Leave">Hourly Leave</option> -->
+                                        </select>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+
+                            <!-- For Starting time -->
+                            <div class="form-group stud_detail from_time" style="display:none">
+                                <label for="timepicker_from" class="task_label">From Time : </label>
+                                <div class="element-block">
+                                    <div class="">
+                                        <input type='text' placeholder="Select From Time"
+                                            class="form-control from_time_s" id="timepickerfrom44"
+                                            name="timepickerfromb44" onblur="setfromtime(this);" />
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+
+                            <!-- For Ending time -->
+                            <div class="form-group stud_detail to_time" style="display:none">
+                                <label for="timepicker_to" class="task_label">To Time : </label>
+                                <div class="element-block">
+                                    <div class="">
+                                        <input type="text" placeholder="Select To Time" name="timepicker_to"
+                                            id="timepicker_to"
+                                            class="form-control custom-input task_detail timepicker_to to_time_s"
+                                            value="" onblur="setfromtimee(this);">
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <script>
+                                //For From Time
+                                function setfromtime(timepickerfrom44) {
+                                    if ($(onedatepicker).val() != '') {
+                                        $('.onedaydate').hide();
+                                        $('.timeee').show();
+                                        $('.to_timee').hide();
+                                        $('.onedaydateeee').hide();
+                                        var from_timee = $(timepickerfrom44).val();
+                                        var myonedaydate = $(onedatepicker).val();
+                                        var timeee = 'I wish to apply for leave on <span id="timef"> ' + myonedaydate + ' </span> from ' + from_timee + '<br><br>';
+                                        $('.timeee').html(timeee);
+                                        $('.the_time').html(myonedaydate);
+                                        $('#timepicker_to').val("");
+                                    }
+                                }
+                                //For To Time
+                                function setfromtimee(timepicker_to) {
+                                    if ($(onedatepicker).val() != '') {
+                                        $('.timeee').show();
+
+                                        $('.onedaydateeee').hide();
+                                        var to_timeek = $(timepicker_to).val();
+                                        var from_timee = $(timepickerfrom44).val();
+                                        var myonedaydate = $(onedatepicker).val();
+                                        var to_timeek = 'I wish to apply for leave on <span id="timet"> ' + myonedaydate + ' </span> from <span class="the_time"> ' + from_timee + ' </span>  To ' + to_timeek + '.<br><br>';
+                                        $('.to_timee').html(to_timeek);
+                                        $('.to_timee').show();
+                                        $('.timeee').hide();
+                                    }
+                                }
+
+                                //Hide Show Time Picker
+                                $(document).ready(function () {
+                                    $("select.hourr").change(function () {
+                                        if ($(".hourr option:selected").val() == "Hourly-Leave") {
+                                            $('.from_time').show();
+
+                                            $('.to_time').show();
+                                            $('.for_comming_date').hide();
+                                            $('.to_time_s').val('');
+                                            $('.from_time_s').val('');
+                                            $('.todatee').hide();
+
+                                        }
+                                    });
+                                });
+
+                                //Hide Show Time Picker
+                                $(document).ready(function () {
+                                    $("select.hourr").change(function () {
+                                        if ($(".hourr option:selected").val() == "Full Day") {
+                                            $('.onedaydateeee').show();
+                                            $('.to_timee').hide();
+                                            $('.timeee').hide();
+
+                                            $('.for_comming_date').show();
+                                            $('.for_one_day_comming').show();
+
+                                            $('.datePick2').val("");
+                                        }
+                                    });
+                                });
+
+                                //Hide Show Time Picker
+                                $(document).ready(function () {
+                                    $("select.hourr").change(function () {
+                                        if ($(".hourr option:selected").val() == "Pre-Lunch") {
+                                            $('.onedaydateeee').show();
+                                            $('.to_timee').hide();
+                                            $('.for_comming_date').hide();
+                                        }
+                                    });
+                                });
+
+                                //Hide Show Time Picker
+                                $(document).ready(function () {
+                                    $("select.hourr").change(function () {
+                                        if ($(".hourr option:selected").val() == "Post-Lunch") {
+                                            $('.onedaydateeee').show();
+                                            $('.for_comming_date').hide();
+                                            $('.to_timee').hide();
+                                        }
+                                    });
+                                });
+
+                                //Hide For Other Selection
+                                $(document).ready(function () {
+                                    $("select.hourr").change(function () {
+                                        if ($(".hourr option:selected").val() != "Hourly-Leave") {
+                                            $('.from_time').hide();
+                                            $('.to_time').hide();
+
+
+                                        }
+                                    });
+                                });
+                            </script>
+
+                            <!-- For To Time Select -->
+                            <div class="form-group stud_detail for2" style="display:none">
+                                <label for="client_name" class="task_label">To Date : </label>
+                                <div class="element-block">
+                                    <div class="">
+                                        <input type="text" placeholder="From Date" name="list_progress" id="datepicker1"
+                                            class="form-control custom-input task_detail datePick1" value=""
+                                            onchange="setenddate(this);">
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div class="form-group stud_detail">
+                                    <label for="client_name" class="task_label">Designation : </label>
+                                    <div class="element-block">
+                                        <div class="">
+                                            <select name="list_done" onkeyup="selectdesignation" id="designation"
+                                                class="custom-input hello task_detail done_task">
+                                                <option value="">-- Select --</option>
+                                            
+                                                <option value="Sr. Consultant">Sr. Consultant</option>
+                                                <option value="Trainee Software Engineer">Trainee Software Engineer</option>
+                                                <option value="Software Engineer">Software Engineer</option>
+                                                <option value="Sr. Software Engineer">Sr. Software Engineer</option>
+                                                <option value="Asst. Team Leader">Asst. Team Leader</option>
+                                                <option value="Team Leader">Team Leader</option>
+                                                <option value="Sr. Team Leader">Sr. Team Leader</option>
+                                                
+                                                
+                                            </select>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            <!-- For reason -->
+                            <div class="form-group stud_detail">
+                                <label for="client_name">Reason : </label>
+                                <textarea type="text" rows="3" class="form-control" id="project_name"
+                                    placeholder="Enter Your Reason For Leave"
+                                    onkeyup="setProjectName(this);"></textarea>
+                            </div>
+                            <script>
+
+                            </script>
+                            <!-- For reason -->
+                            <div class="form-group stud_detail commenttts">
+                                <label for="client_name">Comment : </label>
+                                <textarea type="text" rows="3" class="form-control" id="note_id"
+                                    placeholder="See Comment at the end of this page."
+                                    onkeyup="setnote(this);"></textarea>
+                            </div>
+
+                            <!-- For Coming date -->
+                            <div class="form-group stud_detail for_comming_date for_one_day_comming"
+                                style="display:none;">
+                                <label for="client_name" class="task_label">Coming Back Date : </label>
+                                <div class="element-block">
+                                    <div class="">
+                                        <input type="text" placeholder="To Date" name="list_remaining" id="datepicker2"
+                                            class="form-control custom-input task_detail remaining_task datePick2"
+                                            onchange="setcomingdate(this);" value="">
+                                        <!-- <i class="fa fa fa-plus-circle font-20 components"></i> -->
+                                        <!--<i class="fa fa-level-up fa-rotate-90 font-20 extra"></i>-->
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+
+                            <!-- For Team Select -->
+                            
+                            <div class="comment_here commens_detailss" style="display:none;padding-bottom:0px">
+                                <span class="for_comment">Specify leave days in comment box like below:<br />
+                                    Example :<br>
+                                    08-05-2016 : Full day<br />
+                                    09-05-2016 : Half day<br />
+                                    <!--10-05-2016 : 1 Hours leave<br/>
+                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;( Leave @ <u>5.00</u> PM ) -->
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            
+
+                            <span class="subject"></span>
+                            <span class="too"></span>
+                            <span class="ccc"></span>
+                            <span class="subjecttb"></span>
+
+                            <div class="mail_body" id="selectme">
+                                <span class="client_name"></span>
+                                <span class="startdate"></span>
+                                <span class="onedaydate"></span>
+                                <span class="onedaydateeee"></span>
+                                <span class="startdate1"></span>
+                                <span class="timeee"></span>
+                                <span class="to_timee"></span>
+                                <span class="resonn"></span>
+                                <span class="update_msg"></span>
+                                <span class="commentt"></span>
+                                <span class="comment11"></span>
+                                <span class="todatee"></span>
+                                <span class="for_thanx"></span>
+                                <span class="thanks"></span><br />
+                                <span class="desigg"></span>
+                                <span class="companyy"></span>
+                            </div>
+
+                            <div class="btn-wrapper_bottom bottom_buttonn" style="display:none">
+                                <input type="button" name="copytoclick" value="Click To Copy" id="copytoclick"
+                                    class="copytoclick">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        function SelectText(element) {
+            var doc = document
+                , text = doc.getElementById(element)
+                , range, selection
+                ;
+            if (doc.body.createTextRange) {
+                range = document.body.createTextRange();
+                range.moveToElementText(text);
+                range.select();
+            } else if (window.getSelection) {
+                selection = window.getSelection();
+                range = document.createRange();
+                range.selectNodeContents(text);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        }
+
+        document.onclick = function (e) {
+            if (e.target.className === 'copytoclick') {
+                SelectText('selectme');
+                document.execCommand('copy');
+                // $("p").css("background-color"); 
+            }
+        };
+
+        //One day leave form
+        $("#inline_content1 input[id='one_day']").click(function () {
+            $('.for_one').show();
+            $('.for1').hide();
+            $('.for2').hide();
+            $('.onedaydate').show();
+            $('.typee').show();
+            $('.startdate').hide();
+            $('.startdate1').hide();
+
+            $('.commens_detailss').hide();
+
+
+
+        });
+
+        //More than one day leave
+        $("#inline_content2 input[id='more_than_one_day']").click(function () {
+            $('.for_one').hide();
+            $('.onedaydate').hide();
+            $('.typee').hide();
+            $('.to_timee').hide();
+            $('.onedaydateeee').hide();
+            $('.startdate1').show();
+            $('.for_comming_date').show();
+            $('.for1').show();
+            $('.for2').show();
+            $('.from_time').hide();
+            $('.to_time').hide();
+
+            $('.commens_detailss').show();
+            $('.for_one_day_comming').show();
+        });
+
+        //For From Date
+        function setonedayleavedate(onedatepicker) {
+            if ($(onedatepicker).val() != '') {
+                //alert("dhdh");
+                var onedaydateeee = '';
+                if ($(onedaydateeee).val() != '') {
+                    //alert("inside");
+                    //$('.onedaydate').hide();
+                } else {
+                    //alert("inside22");
+                    $('.onedaydate').show();
+                }
+
+
+                var myonedaydate = $(onedatepicker).val();
+                var selectedtype = $(".type option:selected").val();
+                $('.selectedtypee').html(selectedtype);
+                var onedaydate = 'I wish to apply for leave on ' + myonedaydate + '<br><br>';
+                $('.onedaydate').html(onedaydate);
+                $('#timef').html(myonedaydate);
+                $('#timet').html(myonedaydate);
+                $('.chnage_datee').html(myonedaydate);
+
+            } else {
+                $('.onedaydate').hide();
+            }
+        }
+
+        //Leave Type
+        $(document).ready(function () {
+            $("select.type").change(function () {
+                $('.onedaydate').hide();
+
+                var selectedtype = $(".type option:selected").val();
+                var myonedaydate = $(onedatepicker).val();
+                var onedaydateeee = 'I wish to apply for leave on <span class="chnage_datee">' + myonedaydate + '</span> [' + selectedtype + ']. <br><br>';
+                $('.onedaydateeee').html(onedaydateeee);
+
+            });
+        });
+
+        //Date-Picker
+        $(function () {
+            var date = new Date();
+            var currentMonth = date.getMonth();
+            var currentDate = date.getDate();
+            var currentYear = date.getFullYear();
+            $('.onedatePick').datepicker({
+                minDate: new Date(currentYear, currentMonth, currentDate),
+                dateFormat: 'dd-mm-yy'
+            });
+        });
+    </script>
+
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script> -->
+    
+    <!--For Time Picker -->
+    <script type="text/javascript">
+        $('#timepickerfrom44').datetimepicker({
+            format: 'LT'
+        });
+        $('#timepicker_to').datetimepicker({
+            format: 'LT'
+        });
+    </script>
+ 
+
+    <script>
+
+        var blank_txt = "<span class='col-md-12 blank_error' style='color:red;'>Please Fill Existing Field.</span>";
+
+        function setClientName(client_name) {
+            if ($(client_name).val() != '') {
+                var welcome_msg = 'Sir/Madam,<br>';
+                $('.client_name').html(welcome_msg);
+            }
+        }
+
+        function setProjectName(project_name) {
+            if ($(project_name).val() != '') {
+                $('.resonn').show();
+                $('.update_msg').show();
+                var projectName = $(project_name).val();
+                var update_msg1 = '<b><u>Reason :</u></b>';
+                var update_msg = '<ul><li>' + projectName + '.</ul></li><br>';
+                $('.resonn').html(update_msg1);
+                $('.update_msg').html(update_msg);
+            }
+            else {
+                $('.resonn').hide();
+                $('.update_msg').hide();
+            }
+        }
+
+        //For note
+        function setnote(note_id) {
+            if ($(note_id).val() != '') {
+                var notee = $(note_id).val();
+                var comment1 = '<b><u>Comment :</u></b>';
+                var comment = '<ul><li>' + notee + '.</ul></li><br>';
+                $('.commentt').html(comment1);
+                $('.comment11').html(comment);
+            }
+            else {
+                $('.commentt').hide();
+                $('.comment11').hide();
+            }
+        }
+
+        //For From Date
+        function setfromdate(datepicker) {
+            if ($(datepicker).val() != '') {
+                var mystartdate = $(datepicker).val();
+                var startdate = 'I wish to apply for leave from ' + mystartdate + ' to  <br><br>'
+                $('.startdate').html(startdate);
+                $('#start_inside').html(mystartdate);
+            }
+        }
+
+        function setenddate(datepicker1) {
+            if ($(datepicker).val() != '') {
+                $('.startdate').hide();
+                var mystartdate = $(datepicker).val();
+                // alert(mystartdate);
+                var myenddate = $(datepicker1).val();
+                var startdate1 = 'I wish to apply for leave from <span id="start_inside">' + mystartdate + ' </span> to ' + myenddate + '.<br><br>';
+                $('.startdate1').html(startdate1);
+            }
+        }
+
+        //For to Date
+        function setcomingdate(datepicker2) {
+            if ($(datepicker2).val() != '') {
+                $('.todatee').show();
+                var mytodate = $(datepicker2).val();
+                var todate = 'I will be back from ' + mytodate + '.<br><br>';
+                $('.todatee').html(todate);
+                // var thanx_msg = 'I request you to kindly approve my leave.<br>';
+                // $('.for_thanx').html(thanx_msg);                    
+            }
+            else {
+                $('.todatee').hide();
+            }
+
+        }
+
+        function SetTlName(tl_name) {
+            if ($(client_name).val() != '') {
+                $('.client_name').show();
+                $('.thanks').show();
+
+                var welcome_msg = 'Sir/Madam,<br><br>';
+                $('.client_name').html(welcome_msg);
+                $('.top_buttonn').show();
+
+                var toov = "<b>To : </b>Your reporting team leader's and project manager's id <br/>";
+                $('.too').html(toov);
+
+                var cccv = "<b>Cc : </b>Your Hr<br/>";
+                $('.ccc').html(cccv);
+
+                var subjectt = '<b>Subject : </b>Hourly Leave Request<br><hr>';
+                $('.subjecttb').html(subjectt);
+
+
+                var company_name = '<br>Narola Infotech Solutions LLP.<br>';
+                $('.companyy').html(company_name);
+                var thanx_msg = 'I request you to kindly approve my leave.<br>';
+                $('.for_thanx').html(thanx_msg);
+
+            }
+            else {
+                $('.client_name').hide();
+                $('.thanks').hide();
+            }
+            if ($(tl_name).val() != '') {
+                $('.client_name').show();
+                $('.thanks').show();
+                var thanks_msg = '<br>Thanks,<br>' + $(tl_name).val();
+                $('.thanks').html(thanks_msg);
+            }
+            else {
+                $('.client_name').hide();
+                $('.thanks').hide();
+            }
+        }
+
+        $(document).ready(function () {
+            $("select.hello").change(function () {
+                var selectedCountry = $(".hello option:selected").val();
+                $('.desigg').html(selectedCountry);
+                $('.bottom_buttonn').show();
+            });
+        });
+
+        $(function () {
+            var date = new Date();
+            var currentMonth = date.getMonth();
+            var currentDate = date.getDate();
+            var currentYear = date.getFullYear();
+            $('.datePick').datepicker({
+                minDate: new Date(currentYear, currentMonth, currentDate),
+                dateFormat: 'dd-mm-yy'
+            });
+        });
+
+        $(function () {
+            var date = new Date();
+            var currentMonth = date.getMonth();
+            var currentDate = date.getDate();
+            var currentYear = date.getFullYear();
+            $('.datePick1').datepicker({
+                minDate: new Date(currentYear, currentMonth, currentDate),
+                dateFormat: 'dd-mm-yy'
+            });
+        });
+
+        $(function () {
+            var date = new Date();
+            var currentMonth = date.getMonth();
+            var currentDate = date.getDate();
+            var currentYear = date.getFullYear();
+            $('.datePick2').datepicker({
+                minDate: new Date(currentYear, currentMonth, currentDate),
+                dateFormat: 'dd-mm-yy'
+            });
+        });
+
+        $(function () {
+            var date = new Date();
+            var currentMonth = date.getMonth();
+            var currentDate = date.getDate();
+            var currentYear = date.getFullYear();
+            $('.onedatePick').datepicker({
+                minDate: new Date(currentYear, currentMonth, currentDate),
+                dateFormat: 'dd-mm-yy'
+            });
+        });
+
+
+
+
+    </script>
+  
+    {% endblock %}

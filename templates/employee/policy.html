@@ -1,0 +1,441 @@
+{% extends 'employee/base.html' %}
+{% load staticfiles %}
+{% block body_block %}
+
+<style>
+    header.header {
+        z-index: 1000 !important;
+    }
+
+    .pageCont a {
+        outline: none;
+    }
+
+    .linkHead:hover {
+        text-decoration: none;
+    }
+
+    .left-right-wrapper {
+        padding: 0 0 0 480px;
+    }
+
+    .leftSideArea {
+        background: #fff;
+        min-height: 750px;
+        padding: 50px 0px 10px 0px;
+        border-right: 1px solid #e5e5e5;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 450px;
+    }
+
+    .rightSideArea {
+        padding: 40px 70px 10px 25px;
+        margin: 0 0 30px;
+    }
+
+    .headTitle {
+        font-weight: 600;
+        letter-spacing: 0;
+        text-align: center;
+        background: transparent;
+        color: #000;
+        font-size: 24px;
+        padding: 5px;
+        line-height: normal;
+        margin-top: 0px;
+        text-transform: uppercase;
+    }
+
+    .workArea {
+        background: #fff;
+        min-height: 610px;
+        border: 1px solid #e5e5e5;
+    }
+
+    .headDiv {
+        background: #f5f5f5;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 5px;
+    }
+
+    .listArea {
+        padding: 15px 35px 35px;
+    }
+
+    .headDiv>span {
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .errForumDiv {
+        color: #ff2424;
+    }
+
+    .itemInn {
+        border: 1px solid #e6e6e6;
+        margin-bottom: 40px;
+        padding: 10px;
+    }
+
+    .cntnDiv {
+        margin-top: 15px;
+    }
+
+    .otherInfo {
+        margin-bottom: 5px;
+    }
+
+    .topicsBlock {
+        background: #f5f5f5;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        padding: 10px;
+    }
+
+    .innTilteLink {
+        display: inline-block;
+        width: 90%;
+    }
+
+    .topicActionGrp {
+        display: inline-block;
+        font-size: 18px;
+        padding: 5px;
+    }
+
+    .topicActionGrp a {
+        margin: 0 5px;
+    }
+
+    .actionBtn a {
+        font-size: 15px;
+    }
+
+    .tagsDisplayDiv {
+        margin: 15px 0;
+    }
+
+    .removeTag {
+        font-size: 15px;
+        padding-left: 5px;
+    }
+
+    .tagsDisplayDiv span {
+        background: #ccc;
+        border-radius: 5px;
+        color: #000;
+        display: inline-block;
+        line-height: 18px;
+        margin: 5px;
+        padding: 4px 7px 7px;
+    }
+
+    .postAddSection {
+        display: inline-block;
+        margin: 15px 0 30px;
+    }
+
+
+    .postContent {
+        display: block;
+        padding: 0;
+        width: auto;
+    }
+
+    .profileInfo .img-responsive {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+    }
+
+    .postHead {
+        background: #f2f2f2;
+        font-size: 15px;
+        margin: 0px 0 15px 0;
+        padding: 10px;
+        text-transform: uppercase;
+    }
+
+    .authorName {
+        margin-bottom: 0;
+        padding: 5px 0 5px 0;
+    }
+
+    .authorName h2 {
+        font-size: 18px;
+        color: #717171;
+        margin: 0 0 6px 0;
+        line-height: 20px;
+        font-weight: bold;
+    }
+
+    .authorName span {
+        color: #999;
+        font-size: 13px;
+        display: block;
+    }
+
+    .dateTag {
+        color: #6e8aef;
+        font-size: 14px;
+        margin-top: 15px;
+        text-align: right;
+    }
+
+    .breadcrumbDiv {
+        font-size: 14px;
+        padding: 5px;
+    }
+
+    .breadcrumbDiv a {
+        color: #000;
+    }
+
+    .breadcrumbDiv a:hover,
+    .breadcrumbDiv a:active {
+        color: #37C4F0;
+        text-decoration: none;
+    }
+
+    .breadcrumbDiv .active {
+        color: #37C4F0;
+    }
+
+    .smallPopupCont .modal-content {
+        height: 210px;
+        overflow-y: hidden;
+    }
+
+
+
+
+
+    .ul_itemlist>li a {
+        position: relative;
+        padding-left: 28px;
+        font-size: 15px;
+        margin-bottom: 5px;
+        display: inline-block;
+    }
+
+    ul.ul_itemlist {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .ul_itemlist>li a:After {
+        position: absolute;
+        left: 0;
+        top: 0;
+        content: "\f0a4";
+        font-family: fontawesome;
+        font-size: 15px;
+        left: 5px;
+    }
+
+
+
+
+
+
+
+    .area {
+        border: 1px solid;
+        border-color: lightgrey;
+        width: 85%;
+        height: auto;
+        margin-top: 5%;
+        margin-left: 7%;
+        margin-right: 10%;
+    }
+
+    .text {
+        text-align: center;
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        font-weight: 500;
+        margin-top: 5%;
+        font-size: 14px;
+        font-feature-settings: "afrc";
+    }
+
+    .title {
+        margin-left: 2%;
+        color: black;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .content {
+        margin-left: 2%;
+        color: black;
+        font-weight: 500;
+        font-size: 13px;
+        padding-right: 5px;
+
+
+    }
+
+    ul.a {
+        list-style-type: circle;
+    }
+</style>
+
+    <div class="area">
+        <div class="itemInn">
+            <h5>
+                <img src="{% static 'img/icon/ems.jpg' %}" height="40" width="100"> Policy Manual </h5>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <p class="title">EMS Manual Policy:</p>
+                <p class="content"> This guide is not a just a journal but a discipline & every team member must make
+                    sure that they follow
+                    company’s culture. We, at Narola believe in the culture of transparency & openness. You are in your
+                    own
+                    control & the focus is on getting stuff done quickly without wasting time on stuff that is not
+                    important.</p>
+            </div>
+            <hr />
+            <div class="row">
+                <p class="title">Salary Processing:</p>
+                <p class="content"> Salary will be processed by 7th Date of every month.</p>
+            </div>
+            <hr />
+            <div class="row">
+                <p class="title">Company Business Hours</p>
+                <p>
+                    <ul class="content">
+                        <li>Monday to Friday – 09:00 am to 06:00 pm</li>
+                        <li>Lunch Break – 01:00 pm to 02:00 pm</li>
+                        <li>Saturday – 09:00 am to 01:00 pm</li>
+                    </ul>
+                </p>
+                <p class="content">Note – You are supposed to complete the assigned task on time. If necessary you will
+                    have to put extra efforts to finish the given task on time. </p>
+            </div>
+            <hr />
+            <div class="row">
+                <p class="title">Late Marks:</p>
+                <p class="content">
+                    <ul class="content">
+                        <li>> If anyone comes after 9:20 am, it will be considered as late mark.</li>
+                        <li>> If anyone comes later than 2:05 PM from lunch, it will be considered as late mark.</li>
+                        <li>> if anyone does not fill 8 hour a day, it will be considered as late mark.</li>
+                    </ul>
+                </p>
+                <p class="content">Note – At the end of each month, three late marks will be considered as half day
+                    leave and will be deducted from salary.</p>
+            </div>
+            <hr />
+            <div class="row">
+                <p class="title">Salary Slip FAQs:</p>
+                <p>
+                    <ul class="content a">
+                        <li>> WD : Working Days</li>
+                        <li>> WO : Week Off (Number of Sunday during Month)</li>
+                        <li>> PH : Paid Holidays</li>
+                        <li>> PD : Paid Days</li>
+                        <li>> LWP : Leave Without Pay (Number of Approved + Un Approved Leaves)</li>
+                        <li>> Basic Payable : Pay for the month after deduction of approved + un approved leaves</li>
+                        <li>> HRA : Not Applicable</li>
+                        <li>> Leave Encashment : [ (Salary / WD + PH) * 1.25 ]</li>
+                        <li>> Production : Bonus</li>
+                        <li>> Convenience : Phone Allowance / Other Allowance (To whomsoever it is applicable)</li>
+                        <li>> Transport : Transport Allowance (To whomsoever it is applicable)</li>
+                        <li>> P.F. : Provident Fund Deduction - Employee (12 % of Basic Payable) - To whomsoever it is
+                            applicable</li>
+                        <li>> ESI : ESI Deduction - Employee [1.75% of (Basic Payable + Convenience Allowance +
+                            Transport + HRA + Leave Encashment) ] - To whomsoever it is applicable</li>
+                        <strong>* "April to Sep" and "Oct to Mar"</strong> - So if someone's salary is less than or
+                        equal to 21,000 in either of the slot for a single month, ESIC deduction will be there for
+                        entire slot
+                        <li>> P.T. : Professional Tax</li>
+                        <li>> TDS : Income Tax</li>
+                        <li>> Oth. Deduction : Late Mark Deduction + Snacks + Any Other Deduction</li>
+                    </ul>
+                    <p class="title">Note: Apart from it, all Saturdays will be counted as full day from 1st July, 2017,
+                        (Just for Total Monthly Working Days Calculations) even though we are working Half Day on
+                        Saturday. And if someone is taking leave on Saturday only half day salary will get deducted.</p>
+                </p>
+
+            </div>
+            <hr />
+            <div class="row">
+                <p class="title">Leave Application Policy</p>
+                <p class="content"> You need take approval in advance if you plan for any leave except you have any
+                    health issue or any Urgent leave you take.
+
+                    For applying for Leave , you have to go on Leave Application Screen on Easycollab and apply for the
+                    leave. </p>
+
+                <p class="title" style="margin-top:2%;">>Unapproved Leaves</p>
+                <p class="content">If you take leave without prior approval then it will be considered as unapproved
+                    leave and it will be deducted from salary. Unapproved leave will lead to a deduction of 1.5 days.
+                </p>
+
+
+                <p class="title" style="margin-top:2%;">> Urgent Leaves</p>
+                <p class="content">When any team member calls on the same day itself and informs that he/she won’t be
+                    able to come office on that particular day it will be considered as an Urgent leave reason.
+                    For example, Because of *sick leaves, Going out of station for urgent work, Going out of station for
+                    family issues</p>
+
+
+                <p class="title" style="margin-top:2%;">> Wedding Leave Policy</p>
+                <p class="content">Narola Infotech (P) Ltd, allows total maximum 14 days (Including Weekend Off + Public
+                    Holiday) of leaves for wedding. In this 14 days you can plan all wedding + religious functions or
+                    going out of station. In case you need more leaves for going out of station then you must plan it
+                    after 3 months of your wedding leaves.</p>
+
+                <p class="title" style="margin-top:2%;">> Vacation Leave Policy</p>
+                <p class="content">
+                    Narola Infotech (P) Ltd, allows total maximum 7 days (Including Week Off + Public Holiday) of leaves
+                    for yearly vacation. It is obvious that you should take prior approval for vacation leaves to manage
+                    work efficiently during your absence. Kindly inform well in advance.
+                </p>
+            </div>
+            <hr />
+
+            <div class="row">
+                <p class="title">Increment Policy</p>
+                <p class="content">You will get yearly increment. If you join before 10th of any month, that month will
+                    be considered.
+
+                    (For example, if anyone joins on or after 11th of Jan, he/she will get his/her increment in Feb and
+                    if he/she joins on or before 10th of Jan, he/she will get increment in month of Jan itself)</p>
+            </div>
+            <hr />
+
+            <div class="row">
+                <p class="title">Salary and Performance Reports</p>
+                <p class="content">Salary hikes are on the bases of merit rather than experience alone. Performance of
+                    an employee is evaluated on the bases of etiquette, quality of code & productivity levels.
+
+                    (For example, if anyone joins on or after 11th of Jan, he/she will get his/her increment in Feb and
+                    if he/she joins on or before 10th of Jan, he/she will get increment in month of Jan itself)</p>
+            </div>
+            <hr />
+            <div class="row">
+                <p class="title">Employment Practices</p>
+                <ul class="content">
+                    <li>> You are strictly not allowed to use the internet for personal use during working hours that is
+                        9:00 am to 1:00 pm & 2:00 pm to 6:00 pm.</li>
+                    <li>> You are not allowed to use any messenger without permission of management at any time (mean
+                        working & non-working hours).
+                    </li>
+                    <li>> Your company email account is for office use only.</li>
+                    <li>> Use of any torrent tool is strictly prohibited.</li>
+                    <li>> You must consult the Network Administrator for your need for any software</li>
+                    <li>> You are not allowed to change any password of your logins or machine without permission of the
+                        concerned person.</li>
+                </ul>
+            </div>
+        </div>
+       
+    </div>
+ 
+
+{% endblock %}

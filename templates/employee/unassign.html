@@ -1,0 +1,35 @@
+{% if projects %}
+
+{% for project in projects %}
+
+{% if request.session.dept == project.dept_id %}
+<tr>
+    <td>
+        {{ project.project_name }} 
+
+    </td>
+    <td>{{ project.project_start_date }}</td>
+    <td>{{ project.project_end_date }}</td>
+    <td>{{ project.project_technology }}</td>
+
+    {% if project.project_status == 'complete' %}
+    <td>{{ project.project_status }}</td>
+    {% else %}
+    <td>
+        <form method="POST" action="{% url 'complete' project.id %}">
+            {% csrf_token %}
+            <input type="submit" value="Complete" class="btn btn-success"
+                style="width: 69px; font-size: 10px;border-radius: 10px;margin-left: -1%;" name="complete"></a>
+        </form>
+    </td>
+    {% endif %}
+
+</tr>
+
+<tr id="employee{{ project.id }}">
+
+</tr>
+{% endif %}
+{% endfor %}
+{% endif %}
+

@@ -24,7 +24,7 @@ urlpatterns = [
     path('deny/<lid>', views.deny, name='deny'),
     path('all_project/', views.all_projects, name='all_projects'),
     path('add_project/', views.add_project, name='add_project'),
-    # path('fill_by_dept/', views.fill_by_dept, name='fill'),
+    path('filter_by_dept/', views.filter_by_dept, name='filter_by_dept'),
     path('employee_register/', views.employee_register, name='employee_register'),
     # path('help_desk/', views.help_desk, name='help_desk'),
     path('complete/<pid>', views.complete, name='complete'),    
@@ -33,7 +33,13 @@ urlpatterns = [
     # path('project_information/<pid>', views.project_info, name='project_info'),    
     path('assign_project/', views.assign_project, name='assign_project'),    
     path('abc/', views.abc, name='abc'),    
-
-      
-      
+    path('holiday/', views.holiday, name='holiday'),
+    path('leave_format/', views.leave_format, name='leave_format'),
+    path('update_mail/', views.update_mail, name='update_mail'),
+    path('policy/', views.policy,name='policy'),
+    path('help_desk/', views.help_desk, name='help_desk'),
+    path('change_password/', views.change_password, name='change_password'),
+    path('base1/', views.base1, name='base1'),
+    path('project_info/', views.project_info, name='project_info'),  
+    path('project_inquiry/', views.inquiry, name='project_inquiry'),
 ]+  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

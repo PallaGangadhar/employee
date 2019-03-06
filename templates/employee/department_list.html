@@ -10,53 +10,54 @@
 
 <body>
 
-    <section class="courses_area p_120">
-        <div class="container">
-            <div class="row courses_inner" style="margin-top:-2%;">
-                <div class="col-lg-12">
+
+    <div class="container" style="margin-top:5%">
+        <div class="panel panel-success">
+            <div class="panel-heading">EMS</div>
+            <div class="panel-body">
                     <div class="topnav" style="color:brown;">
-                        <h2 style="color:gray;">Department Infomation </h2>
-                        <div class="search-container">
-                            <form action="{% url 'department_list' %}" method="POST">
-                                {% csrf_token %}
-                                <input type="text" placeholder="Search Department" name="search" id="myInput">
-                                <button type="submit"><i class="fa fa-search"></i></button>
-                            </form>
+                            <h2 style="color:gray;">Department Infomation </h2>
+                            <div class="search-container"  style="padding-right:10px;">
+                                <form action="{% url 'department_list' %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="text" placeholder="Search Department" name="search" id="myInput">
+                                    
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                    <div class="table-wrapper-scroll-y">
-                        <table class="table table-striped " style="margin-top:2%;">
-                            <thead>
-                                <tr>
-                                    <th>Department Name</th>
-                                    <th>Total Employees</th>
-
-                                </tr>
-                            </thead>
-                            <tbody id="myTable">
-                                {% if dict1 %}
-                                {% for key,value in dict1.items %}
-                                <tr>
-                                    <td>{{key}}</td>
-                                    <td>{{value}}</td>
-                                </tr>
-
-                                {% endfor %}
-                                {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
+                        <div class="table-wrapper-scroll-y">
+                            <table class="table table-striped " style="margin-top:2%;">
+                                <thead>
+                                    <tr>
+                                        <th>Department Name</th>
+                                        <th>Total Employees</th>
+    
+                                    </tr>
+                                </thead>
+                                <tbody id="myTable">
+                                    {% if dict1 %}
+                                    {% for key,value in dict1.items %}
+                                    <tr>
+                                        <td style="font-size:14px;">{{key}}</td>
+                                        <td style="font-size:14px;">{{value}}</td>
+                                    </tr>
+    
+                                    {% endfor %}
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        
             </div>
-    </section>
+        </div>
+
+    </div>
     <script>
         $(document).ready(function () {
             console.log('hi');
-            $('#myInput').on("keyup",function(){
+            $('#myInput').on("keyup", function () {
                 var value = $(this).val().toLowerCase();
-                $("#myTable tr").filter(function(){
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value)>-1)
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });
 

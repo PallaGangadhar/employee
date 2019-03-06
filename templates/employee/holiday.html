@@ -1,0 +1,461 @@
+{% extends 'employee/base.html' %}
+{% load staticfiles %}
+{% block body_block %}
+<style>
+    header.header {
+        z-index: 1000 !important;
+    }
+
+    .pageCont a {
+        outline: none;
+    }
+
+    .linkHead:hover {
+        text-decoration: none;
+    }
+
+    .left-right-wrapper {
+        padding: 0 0 0 480px;
+    }
+
+    .leftSideArea {
+        background: #fff;
+        min-height: 750px;
+        padding: 50px 0px 10px 0px;
+        border-right: 1px solid #e5e5e5;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 450px;
+    }
+
+    .rightSideArea {
+        padding: 40px 70px 10px 25px;
+        margin: 0 0 30px;
+    }
+
+    .headTitle {
+        font-weight: 600;
+        letter-spacing: 0;
+        text-align: center;
+        background: transparent;
+        color: #000;
+        font-size: 24px;
+        padding: 5px;
+        line-height: normal;
+        margin-top: 0px;
+        text-transform: uppercase;
+    }
+
+    .workArea {
+        background: #fff;
+        min-height: 610px;
+        border: 1px solid #e5e5e5;
+    }
+
+    .headDiv {
+        background: #f5f5f5;
+        border-bottom: 1px solid #e5e5e5;
+        padding: 5px;
+    }
+
+    .listArea {
+        padding: 15px 35px 35px;
+    }
+
+    .headDiv>span {
+        font-size: 17px;
+        font-weight: bold;
+    }
+
+    .errForumDiv {
+        color: #ff2424;
+    }
+
+    .itemInn {
+        border: 1px solid #e6e6e6;
+        margin-bottom: 40px;
+        padding: 10px;
+    }
+
+    .cntnDiv {
+        margin-top: 15px;
+    }
+
+    .otherInfo {
+        margin-bottom: 5px;
+    }
+
+    .topicsBlock {
+        background: #f5f5f5;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        padding: 10px;
+    }
+
+    .innTilteLink {
+        display: inline-block;
+        width: 90%;
+    }
+
+    .topicActionGrp {
+        display: inline-block;
+        font-size: 18px;
+        padding: 5px;
+    }
+
+    .topicActionGrp a {
+        margin: 0 5px;
+    }
+
+    .actionBtn a {
+        font-size: 15px;
+    }
+
+    .tagsDisplayDiv {
+        margin: 15px 0;
+    }
+
+    .removeTag {
+        font-size: 15px;
+        padding-left: 5px;
+    }
+
+    .tagsDisplayDiv span {
+        background: #ccc;
+        border-radius: 5px;
+        color: #000;
+        display: inline-block;
+        line-height: 18px;
+        margin: 5px;
+        padding: 4px 7px 7px;
+    }
+
+    .postAddSection {
+        display: inline-block;
+        margin: 15px 0 30px;
+    }
+
+
+    .postContent {
+        display: block;
+        padding: 0;
+        width: auto;
+    }
+
+    .profileInfo .img-responsive {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+    }
+
+    .postHead {
+        background: #f2f2f2;
+        font-size: 15px;
+        margin: 0px 0 15px 0;
+        padding: 10px;
+        text-transform: uppercase;
+    }
+
+    .authorName {
+        margin-bottom: 0;
+        padding: 5px 0 5px 0;
+    }
+
+    .authorName h2 {
+        font-size: 18px;
+        color: #717171;
+        margin: 0 0 6px 0;
+        line-height: 20px;
+        font-weight: bold;
+    }
+
+    .authorName span {
+        color: #999;
+        font-size: 13px;
+        display: block;
+    }
+
+    .dateTag {
+        color: #6e8aef;
+        font-size: 14px;
+        margin-top: 15px;
+        text-align: right;
+    }
+
+    .breadcrumbDiv {
+        font-size: 14px;
+        padding: 5px;
+    }
+
+    .breadcrumbDiv a {
+        color: #000;
+    }
+
+    .breadcrumbDiv a:hover,
+    .breadcrumbDiv a:active {
+        color: #37C4F0;
+        text-decoration: none;
+    }
+
+    .breadcrumbDiv .active {
+        color: #37C4F0;
+    }
+
+    .smallPopupCont .modal-content {
+        height: 210px;
+        overflow-y: hidden;
+    }
+
+    .popupContent {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .otherInfo>span {
+        display: inline-block;
+        font-size: 13px;
+        padding: 10px 0 0;
+    }
+
+    .blockDiv {
+        margin: 15px 0px;
+        padding: 0px;
+    }
+
+    .blockDiv>span {
+        margin: 2px 5px 2px 0px;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .blockDiv a:hover {
+        text-decoration: none;
+        color: #37C4F0;
+    }
+
+    .blockDiv h4 {
+        background: #efefef;
+        padding: 10px;
+        margin-top: 0;
+        margin-bottom: 15px;
+    }
+
+    .ul_itemlist>li a {
+        position: relative;
+        padding-left: 28px;
+        font-size: 15px;
+        margin-bottom: 5px;
+        display: inline-block;
+    }
+
+    ul.ul_itemlist {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .ul_itemlist>li a:After {
+        position: absolute;
+        left: 0;
+        top: 0;
+        content: "\f0a4";
+        font-family: fontawesome;
+        font-size: 15px;
+        left: 5px;
+    }
+
+    body.body_forum {
+        padding-top: 50px;
+        height: auto;
+    }
+
+    .body_forum header {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+    }
+
+    .leftForumArea {
+        padding-left: 10px;
+        padding-right: 10px;
+        overflow: auto;
+    }
+
+    .post_wrap_cstm {
+        position: relative;
+        min-height: 110px;
+        padding-left: 130px;
+    }
+
+    .profileInfo {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .postContent p {
+        font-size: 13px;
+        margin: 0;
+        line-height: 22px;
+        color: #666;
+    }
+
+    .postBlc {
+        border: 1px solid rgba(204, 204, 204, 0.75);
+        padding: 10px;
+        margin: 0 0 20px 0;
+        box-sizing: border-box;
+    }
+
+    .pageCont .postBlc .postContent a {
+        color: #2da7dd;
+    }
+
+    .pageCont .cntnDiv a {
+        color: #2da7dd;
+    }
+
+    .pageCont .cntnDiv pre {
+        width: 94%;
+    }
+
+
+    /* START */
+    .image {
+        margin-top: 5%;
+
+    }
+
+    .area {
+        border: 1px solid;
+        border-color: lightgrey;
+        width: 85%;
+        height: 50%;
+        margin-top: 5%;
+        margin-left: 7%;
+        margin-right: 10%;
+        margin-bottom: 5%;
+    }
+
+    table {
+        width: 77.5%;
+        height: auto;
+        margin-top: 5%;
+        align-self: center;
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        margin-bottom: 5%;
+
+    }
+
+
+    table td,
+    table th {
+
+        padding: 8px;
+        text-align: center;
+        border: 1px solid lightgray;
+    }
+
+
+    th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        border: 1px solid lightgray;
+
+    }
+
+    .text {
+       margin-left:28%;
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        font-weight: 500;
+        margin-top: 5%;
+        font-size: 24px;
+        font-feature-settings: "afrc";
+        color:black;
+    }
+</style>
+
+<div style="margin-top:8%;margin-left:10%;margin-right: 10%;">
+    <div class="workArea">
+        <div class="headDiv">
+            <span>EMS</span>
+        </div>
+        <div class="area">
+            <center><img src="{% static 'img/ems.jpg' %}" class="image"> </center>
+            <div class="container">
+                <h4 class="text">HOLIDAYS FOR 2019</h4>
+                    <table>
+                        <thead>
+                            <th><b>DATE</b></th>
+                            <th><b>DAY</b></th>
+                            <th><b>HOLIDAY</b></th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>14-01-2019</td>
+                                <td>MONDAY</td>
+                                <td>MAKAR SANKRANTI</td>
+                            </tr>
+                            <tr>
+                                <td>26-01-2019</td>
+                                <td>SATURDAY</td>
+                                <td>REPUBLIC DAY</td>
+                            </tr>
+                            <tr>
+                                <td>21-03-2019</td>
+                                <td>THURSDAY</td>
+                                <td>DHULETI</td>
+                            </tr>
+                            <tr>
+                                <td>15-08-2019</td>
+                                <td>THURSDAY</td>
+                                <td>INDEPENDENCE DAY/RAKSHA BANDHAN</td>
+                            </tr>
+                            <tr>
+                                <td>24-08-2019</td>
+                                <td>SATURDAY</td>
+                                <td>JANMASHTAMI</td>
+                            </tr>
+                            <tr>
+                                <td>12-09-2019</td>
+                                <td>THURSDAY</td>
+                                <td>GANESH VISARJAN</td>
+                            </tr>
+                            <tr>
+                                <td>27-10-2019</td>
+                                <td>SUNSDAY</td>
+                                <td>DIWALI</td>
+                            </tr>
+
+                            <tr>
+                                <td>28-10-2019</td>
+                                <td>MONDAY</td>
+                                <td>NEW YEAR</td>
+                            </tr>
+                            <tr>
+                                <td>29-10-2019</td>
+                                <td>TUESSDAY</td>
+                                <td>BHAI BIJ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="topicList" style="margin-top:5%;">
+                   </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+{% endblock %}

@@ -22,20 +22,33 @@
     {% if request.session.user %}
 
 
-    <section class="courses_area p_120">
-        <div class="container">
-            <div class="row courses_inner" style="margin-top:-2%;">
-                <div class="col-lg-12">
+    <div class="container" style="margin-top:5%">
+        <div class="panel panel-success">
+            <div class="panel-heading">EMS</div>
+            <div class="panel-body">
+
                     <div class="topnav" style="color:brown;">
                         <h2 style="color:gray;">Employee Infomation </h2>
-                        <div class="search-container">
+                        <div class="search-container"  style="padding-right:10px;">
                             <form action="{% url 'employees_list' %}" method="POST">
                                 {% csrf_token %}
                                 <input type="text" placeholder="Search Employee" name="search" id="myInput">
-                                <button type="submit"><i class="fa fa-search"></i></button>
+                               
                             </form>
                         </div>
                     </div>
+                    <ul style="margin-top:1%;" id="message">
+                        <li style="float:left;">
+                            <select name="option" id="show">
+                                <option>-- Department --</option>
+                             {% for d in dept %}  
+                                <option value="{{ d.id}}">{{ d.dept_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </li>
+                    </ul>
+                    <br/>
+                    <br/>
                     <div class="table-wrapper-scroll-y">
                         <table class="table table-striped" style="margin-top:2%;">
                             <thead>
@@ -71,14 +84,14 @@
                                     <td>{{ emp.staff.city }}</td>
                                     <td>{{ emp.staff.qualification }}</td>
                                     <td>{{emp.staff.dept}}</td>
-                                    <td>
+                                    <td class="controller-column">
                                         {% if request.session.type == 'manager' and request.session.dept == emp.staff.dept_id %}
                                         <a style="margin-right: 15px;" href="{% url 'edit_employee' emp.staff.id %}">
-                                            <i class="fa fa-edit"></i>
+                                            <i class="fa fa-pencil edit-icon"></i>
                                         </a>
 
                                         <a href="{% url 'delete_employee'  emp.staff.id %}">
-                                            <i class="fa fa-trash"></i>
+                                            <i class="fa fa-trash-o delete-icon"></i>
                                         </a>
                                         
                                         {% endif %}
@@ -94,11 +107,10 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
             </div>
-
-        </div>
-    </section>
+            </div>
+            </div>
+        
 
     {% endif %}
     <script>
@@ -109,6 +121,27 @@
                 $("#myTable tr").filter(function(){
                     $(this).toggle($(this).text().toLowerCase().indexOf(value)>-1)
                 });
+            });
+
+             $('#show').change(function () {
+                console.log('hi');
+                var catid;
+                catid = $(this).val();
+                console.log(catid)
+                $.ajax(
+                    {
+                        type: "GET",
+                        url: "/filter_by_dept/",
+                        data: {
+                            value: catid
+                        },
+                        
+                        success: function (data) {
+                            console.log('hiii')
+                            $('#myTable').html(data);
+                            console.log(data)
+                        }
+                    })
             });
 
         });

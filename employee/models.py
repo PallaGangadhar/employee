@@ -121,8 +121,13 @@ class time_sheet(models.Model):
         return self.pid.project_name
 
 class project_assingment(models.Model):
+    status = (('complete', 'Complete'),
+            ('incomplete', 'Incomplete'),
+            ('running','Running'))
     emp = models.ForeignKey(employee, on_delete=models.CASCADE,default='')
     project = models.ForeignKey(project, on_delete=models.CASCADE, default='')
+    status = models.CharField(max_length=128, blank=False, choices=status, default="incomplete")
+
 
     class Meta:
         verbose_name_plural = 'Assigned Projects'
@@ -130,4 +135,28 @@ class project_assingment(models.Model):
     def __str__(self):
         return self.project.project_name
 
+class project_inquiry(models.Model):
+    staff = models.ForeignKey(staff, on_delete=models.CASCADE)
+    project = models.ForeignKey(project_assingment, on_delete=models.CASCADE, blank=True, null=True)
+    comment = models.CharField(max_length=128, blank=False)
+    time = models.CharField(max_length=128,blank=False)
+
+    class Meta:
+        verbose_name_plural = 'Project Inquiry'
+
+    def __str__(self):
+        return self.project.project.project_name
+
+
+class project_inquiry(models.Model):
+    staff = models.ForeignKey(staff, on_delete=models.CASCADE)
+    project = models.ForeignKey(project, on_delete=models.CASCADE, blank=True, null=True)
+    comment = models.CharField(max_length=128, blank=False)
+    time = models.CharField(max_length=128,blank=False)
+
+    class Meta:
+        verbose_name_plural = 'Project Inquiry'
+
+    def __str__(self):
+        return self.project.project_name
 

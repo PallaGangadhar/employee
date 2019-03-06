@@ -1,0 +1,665 @@
+{% extends 'employee/base.html' %}
+
+{% load staticfiles %}
+{% block body_block %}
+
+
+<!-- 
+/*
+#selectme ::selection{background-color:rgba(0,0,0,0);}
+*/ -->
+
+<style>
+    .area {
+
+        width: 100%;
+        height: auto;
+        margin-top: 5%;
+
+
+    }
+
+    .text {
+        text-align: center;
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        font-weight: 500;
+        margin-top: 5%;
+        font-size: 24px;
+        font-feature-settings: "afrc";
+    }
+
+    .container {
+        width: 90%;
+    }
+
+    body {
+        color: #000;
+    }
+
+    .form-inline .form-group {
+        margin-bottom: 15px !important;
+    }
+
+    .starter-template {
+        padding: 5px 15px;
+    }
+
+    span {
+        font-size: 17px;
+    }
+
+    .stud_detail {
+        width: 80%;
+    }
+
+    .main_hr {
+        border: 1px solid;
+    }
+
+    .font-20 {
+        float: right;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    input.task_detail {
+        display: inline-block;
+        width: 91%;
+        margin-bottom: 10px;
+    }
+
+    input.extra_detail {
+        display: inline-block;
+        margin-left: 11%;
+        width: 80%;
+        margin-bottom: 10px;
+    }
+
+    .blank_error {
+        color: red;
+        font-size: 14px;
+    }
+
+    .extra {
+        margin: 0 5px;
+    }
+
+
+
+    /** Copy to cliick Button **/
+
+    /* bottom Button */
+
+    .btn-wrapper_bottom {
+        border-top: 1px solid #eeeeee;
+        margin: 0 0 30px;
+        margin-top: 30px;
+        padding: 0 0 20px;
+        text-align: left;
+        padding-top: 25px;
+    }
+
+    .btn-wrapper_bottom input {
+
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        -moz-user-select: none;
+        background-image: none;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-image-outset: 0 0 0 0;
+        border-image-repeat: stretch stretch;
+        border-image-slice: 100% 100% 100% 100%;
+        border-image-source: none;
+        border-image-width: 1 1 1 1;
+        border-left-style: solid;
+        border-left-width: 1px;
+        border-right-style: solid;
+        border-right-width: 1px;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        border-top-style: solid;
+        border-top-width: 1px;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.42857;
+        margin-bottom: 0;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+        padding-bottom: 10px;
+        padding-left: 40px;
+        padding-right: 40px;
+        padding-top: 10px;
+        background-color: #5cb85c;
+        border-bottom-color: #4cae4c;
+        border-left-color: #4cae4c;
+        border-right-color: #4cae4c;
+        border-top-color: #4cae4c;
+        color: #ffffff;
+
+    }
+
+    .btn-wrapper_bottom input:hover {
+        background-color: #449d44;
+        border-bottom-color: #398439;
+        border-left-color: #398439;
+        border-right-color: #398439;
+        border-top-color: #398439;
+        color: #ffffff;
+
+    }
+
+    .btn-wrapper {
+        margin: 5px;
+
+        text-align: right;
+    }
+
+    .btn-wrapper input {
+        -moz-border-bottom-colors: none;
+        -moz-border-left-colors: none;
+        -moz-border-right-colors: none;
+        -moz-border-top-colors: none;
+        -moz-user-select: none;
+        background-image: none;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-image-outset: 0 0 0 0;
+        border-image-repeat: stretch stretch;
+        border-image-slice: 100% 100% 100% 100%;
+        border-image-source: none;
+        border-image-width: 1 1 1 1;
+        border-left-style: solid;
+        border-left-width: 1px;
+        border-right-style: solid;
+        border-right-width: 1px;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        border-top-style: solid;
+        border-top-width: 1px;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.42857;
+        margin-bottom: 0;
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+        padding-bottom: 10px;
+        padding-left: 40px;
+        padding-right: 40px;
+        padding-top: 10px;
+        background-color: #5cb85c;
+        border-bottom-color: #4cae4c;
+        border-left-color: #4cae4c;
+        border-right-color: #4cae4c;
+        border-top-color: #4cae4c;
+        color: #ffffff;
+    }
+
+    .btn-wrapper input:hover {
+        background-color: #449d44;
+        border-bottom-color: #398439;
+        border-left-color: #398439;
+        border-right-color: #398439;
+        border-top-color: #398439;
+        color: #ffffff;
+    }
+
+    .starter-template {
+        margin: 0 0 30px;
+        padding: 5px 15px;
+    }
+</style>
+<!-- Script -->
+<script type='text/javascript'>
+    var blank_txt = "<span class='col-md-12 blank_error' style='color:red;'>Please Fill Existing Field.</span>";
+    $(document).on('keyup', '.task_detail', function (e) {
+        if (e.keyCode === 13) {
+            $(this).parent().find('.components').click();
+
+        } else {
+            var txtValue = $(this).val();
+            if (txtValue == '') {
+                $(this).val($(this).next().next().val());
+                $(this).next().next().next().remove();
+                $(this).next().next().remove();
+                setHtml($(this));
+
+            }
+            if ($(this).val() != '') {
+                setHtml($(this));
+
+            }
+        }
+    });
+
+    function setHtml(txt_box) {
+        var txt_name = txt_box.attr('name');
+
+        //var task_detail_h = txt_box.attr('name');
+
+        if ($("input[name=" + txt_name + "]").length == 1 && $("input[name=" + txt_name + "]").val() == '') {
+            var task_detail = '';
+            if (txt_name == 'list_done') {
+                $('.review_note').html('');
+                // alert("2222")
+            }
+        } else {
+            var task_detail = "<b><u>" + txt_box.parent().parent().prev().text() + "</u></b>";
+
+            task_detail += "<br>";
+            task_detail += "<ol type='1'>";
+
+
+            $("input[name=" + txt_name + "]").each(function () {
+                if ($(this).val() != '') {
+                    if (txt_name == 'list_done') {
+                        $('.review_note').html('Please check with the latest updates and let us know your thoughts for the same.<br>')
+
+                        task_detail += "<li>" + $(this).val() + "<b> [Done]</b></li>";
+
+
+                    } else {
+                        task_detail += "<li>" + $(this).val() + "</li>";
+
+                    }
+                    if ($(this).next('input.extra_detail').length > 0) {
+                        task_detail += "<ul>";
+
+
+                        $(this).nextAll('input.extra_detail').each(function () {
+                            task_detail += "<li>" + $(this).val() + "</li>";
+                            //var task_detail_h ='';
+
+                        })
+                        task_detail += "</ul>";
+                    }
+                }
+            });
+            task_detail += "</ol>";
+        }
+
+        if (!($("input[name=" + txt_name + "]").length == 1 && $("input[name=" + txt_name + "]").val() == '')) {
+
+            var task_detail_h;
+            var i = 1;
+
+            $("input[name=" + txt_name + "]").each(function () {
+                if ($(this).val() != '') {
+                    if (txt_name == 'list_done') {
+
+                        task_detail_h += i + "." + $(this).val() + "<br/>";
+                        i++;
+
+                    }
+                }
+            });
+        }
+
+
+        $('.' + txt_name).empty();
+        $('.' + txt_name).html(task_detail);
+
+
+
+        //$('.task_sheet_details').html(task_detail_h);
+        var str = task_detail_h;
+
+        var res = str.replace("undefined", "");
+        $('.task_sheet_details').html(res);
+
+
+    }
+    $(document).on('click', '.components', function () {
+        var textbox_placeholder = $(this).prev('input').attr('placeholder');
+        var textbox_name = $(this).prev('input').attr('name');
+        var firstText = $(this).prev('input').val();
+        var last_val = $(this).nextAll('input.task_detail').last().val();
+        if (firstText != "" && last_val != "") {
+            var auto = "<input type='text' placeholder='" + textbox_placeholder + "' name=" + textbox_name + " class='form-control custom-input task_detail'>\n\
+                    <i class='fa fa-minus-circle font-20 component_close'></i>";
+            $(this).parent().append(auto);
+            $(this).parent().find('.task_detail').last().focus();
+
+            $(this).nextAll('span.blank_error').remove();
+        } else {
+            if (!$(this).nextAll('span').hasClass('blank_error')) {
+                $(this).parent().append(blank_txt);
+            }
+        }
+    });
+
+    $(document).on('click', '.component_close', function () {
+        $(this).prev('input').val('');
+        setHtml($(this).prev('input'));
+        $(this).prev('input').remove();
+        $(this).next('.extra').remove();
+        $(this).nextAll('.extra_close').remove();
+        $(this).nextAll('input.extra_detail').remove();
+        $(this).nextAll('span.blank_error').remove();
+        $(this).remove();
+    });
+
+    $(document).on('click', '.extra', function () {
+        var textbox_placeholder = 'Extra Description';
+        var textbox_name = 'extra_detail';
+        var firstText = $(this).prev('input').val();
+        var last_val = $(this).nextAll('input.extra_detail').last().val();
+        if (firstText != "" && last_val != "") {
+            var auto = "<input type='text' placeholder='" + textbox_placeholder + "' name=" + textbox_name + " class='form-control custom-input extra_detail'>\n\
+                    <i class='fa fa-minus-circle font-20 extra_close'></i>";
+            $(this).parent().append(auto);
+            $(this).nextAll('span.blank_error').remove();
+        } else {
+            if (!$(this).nextAll('span').hasClass('blank_error')) {
+                $(this).parent().append(blank_txt);
+            }
+        }
+    });
+
+    $(document).on('click', '.extra_close', function () {
+        //                $(this).prev('input').val('');
+        //                setHtml($(this).prev('input'));
+        $(this).prev('input').remove();
+        //                $(this).next('.extra').remove();
+        //                $(this).nextAll('.extra_close').remove();
+        //                $(this).nextAll('input.extra_detail').remove();
+        //                $(this).nextAll('span.blank_error').remove();
+        $(this).remove();
+    });
+    function getOrdinal(n) {
+        if ((parseFloat(n) == parseInt(n)) && !isNaN(n)) {
+            var s = ["th", "st", "nd", "rd"],
+                v = n % 100;
+            return n + (s[(v - 20) % 10] || s[v] || s[0]);
+        }
+        return n;
+    }
+    function currentDate() {
+        var date = new Date();
+        var month = new Array();
+        month[0] = "January";
+        month[1] = "February";
+        month[2] = "March";
+        month[3] = "April";
+        month[4] = "May";
+        month[5] = "June";
+        month[6] = "July";
+        month[7] = "August";
+        month[8] = "September";
+        month[9] = "October";
+        month[10] = "November";
+        month[11] = "December";
+        return getOrdinal(date.getDate()) + " " + month[date.getMonth()] + ", " + date.getFullYear();
+    }
+    function setClientName(client_name) {
+        if ($(client_name).val() != '') {
+
+            $('.top_buttonn').show();
+            var welcome_msg = 'Hi ' + $(client_name).val() + ',<br><br>';
+            $('.client_name').html(welcome_msg);
+        }
+    }
+    function setProjectName(project_name) {
+        if ($(project_name).val() != '') {
+            var projectName = $(project_name).val();
+            var update_msg = 'Following are the updates for ' + projectName + ' as on ' + currentDate() + ' :<br><br>';
+            var subject = 'Updates for ' + projectName + ' as on ' + currentDate() + '<hr>';
+            $('.update_msg').html(update_msg);
+            $('.subject').html(subject);
+
+            var working_on = 'Working on ' + projectName + ' site.<br/> ';
+            var has_been_completed = 'In this site following task has been completed.<br/><br/>';
+            $('.working_on').html(working_on);
+            $('.has_been_completed').html(has_been_completed);
+            $('.top_buttonn1').show();
+        }
+    }
+    function SetTlName(tl_name) {
+        if ($(tl_name).val() != '') {
+            $('.bottom_buttonn').show();
+            var thanks_msg = '<br>Thanks,<br>' + $(tl_name).val();
+            $('.thanks').html(thanks_msg);
+        }
+    }
+</script>
+<!-- End Script -->
+
+<!-- START SECTION -->
+
+    <div class="workArea">
+
+        <div class="area">
+            <center>
+                <h4 style="color:red;">I'm here to write your daily update.</h4>
+            </center>
+            <div class="container">
+            
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="form-group stud_detail">
+                            <label for="client_name">Client Name : </label>
+                            <input type="text" class="form-control" id="client_name" placeholder="Enter Client Name"
+                                onkeyup="setClientName(this);">
+                        </div>
+                        <div class="form-group stud_detail">
+                            <label for="client_name">Project Name : </label>
+                            <input type="text" class="form-control" id="project_name" placeholder="Enter Project Name"
+                                onkeyup="setProjectName(this);">
+                        </div>
+                        <div class="form-group stud_detail">
+                            <label for="client_name" class="task_label">List of Completed Tasks : </label>
+                            <div class="element-block">
+                                <div class="">
+                                    <input type="text" placeholder="Done Task" name="list_done" id="txt_done_task"
+                                        class="form-control custom-input task_detail done_task" value="">
+                                    <i class="fa fa fa-plus-circle font-20 components"></i>
+                                    <!--<i class="fa fa-level-up fa-rotate-90 font-20 extra"></i>-->
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="form-group stud_detail">
+                            <label for="client_name" class="task_label">List of In-Progress Tasks : </label>
+                            <div class="element-block">
+                                <div class="">
+                                    <input type="text" placeholder="In-Progress Task" name="list_progress"
+                                        id="txt_progress_task"
+                                        class="form-control custom-input task_detail progress_task" value="">
+                                    <i class="fa fa fa-plus-circle font-20 components"></i>
+                                    <!--<i class="fa fa-level-up fa-rotate-90 font-20 extra"></i>-->
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="form-group stud_detail">
+                            <label for="client_name" class="task_label">List of Remaining Tasks : </label>
+                            <div class="element-block">
+                                <div class="">
+                                    <input type="text" placeholder="Remaining Task" name="list_remaining"
+                                        id="txt_remaining_task"
+                                        class="form-control custom-input task_detail remaining_task" value="">
+                                    <i class="fa fa fa-plus-circle font-20 components"></i>
+                                    <!--<i class="fa fa-level-up fa-rotate-90 font-20 extra"></i>-->
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="form-group stud_detail">
+                            <label for="client_name" class="task_label">Queries : </label>
+                            <div class="element-block">
+                                <div class="">
+                                    <input type="text" placeholder="Query" name="list_query" id="txt_query"
+                                        class="form-control custom-input task_detail query_task" value="">
+                                    <i class="fa fa fa-plus-circle font-20 components"></i>
+                                    <!--<i class="fa fa-level-up fa-rotate-90 font-20 extra"></i>-->
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="form-group stud_detail">
+                            <label for="client_name" class="task_label">Notes : </label>
+                            <div class="element-block">
+                                <div class="">
+                                    <input type="text" placeholder="Note" name="list_note" id="txt_note"
+                                        class="form-control custom-input task_detail note_task" value="">
+                                    <i class="fa fa fa-plus-circle font-20 components"></i>
+                                    <!--<i class="fa fa-level-up fa-rotate-90 font-20 extra"></i>-->
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                        <div class="form-group stud_detail">
+                            <label for="tl_name">TL Name : </label>
+                            <input type="text" class="form-control" id="tl_name" placeholder="TL Name"
+                                onkeyup="SetTlName(this);">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-7">
+                        <div class="btn-wrapper top_buttonn" style="display:none">
+                            <input type="button" name="copytoclick" value="Copy Update Mail" id="copytoclick"
+                                class="copytoclick">
+                        </div>
+
+                        <div class="btn-wrapper top_buttonn" style="display:none">
+                            <input type="button" name="copysubject" value="Copy Subject" id="copysubject"
+                                class="copysubject">
+                        </div>
+
+                        <span class="subject" id="subject"></span>
+                        <div class="mail_body">
+                            <div id="selectme">
+                                <span class="client_name"></span>
+                                <span class="update_msg"></span>
+                                <span class="list_done"></span>
+                                <span class="list_progress"></span>
+                                <span class="list_remaining"></span>
+                                <span class="list_query"></span>
+                                <span class="list_note"></span>
+                                <span class="review_note"></span>
+                                <span class="thanks"></span>
+                            </div>
+                            <span class="total_worked"></span>
+                        </div>
+                        <div class="btn-wrapper_bottom bottom_buttonn" style="display:none">
+                            <input type="button" name="copytoclick" value="Copy Update Mail" id="copytoclick"
+                                class="copytoclick">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- END START SECTION -->
+<script>
+    $(".copysubject").click(function () {
+        // alert("sdfsdfgsd");
+        function SelectText(element) {
+            var doc = document
+                , text = doc.getElementById(element)
+                , range, selection
+                ;
+            if (doc.body.createTextRange) {
+                range = document.body.createTextRange();
+                range.moveToElementText(text);
+                range.select();
+            } else if (window.getSelection) {
+                selection = window.getSelection();
+                range = document.createRange();
+                range.selectNodeContents(text);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        }
+
+        document.onclick = function (e) {
+            if (e.target.className === 'copysubject') {
+                SelectText('subject');
+                document.execCommand('copy');
+            }
+        };
+    });
+    //----------------------------------------------------------------
+
+
+
+
+    $(".copytoclick1").click(function () {
+
+
+        function SelectText(element) {
+            var doc = document
+                , text = doc.getElementById(element)
+                , range, selection
+                ;
+            if (doc.body.createTextRange) {
+                range = document.body.createTextRange();
+                range.moveToElementText(text);
+                range.select();
+            } else if (window.getSelection) {
+                selection = window.getSelection();
+                range = document.createRange();
+                range.selectNodeContents(text);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        }
+
+        document.onclick = function (e) {
+            if (e.target.className === 'copytoclick1') {
+                SelectText('selectme1');
+                document.execCommand('copy');
+                // alert("Timesheet Text Copied.");
+            }
+        };
+
+
+    });
+
+
+    //FOr copy update mail----------------------------------
+
+
+    $(".copytoclick").click(function () {
+        // alert("sdfsdfgsd");
+        function SelectText(element) {
+            var doc = document
+                , text = doc.getElementById(element)
+                , range, selection
+                ;
+            if (doc.body.createTextRange) {
+                range = document.body.createTextRange();
+                range.moveToElementText(text);
+                range.select();
+            } else if (window.getSelection) {
+                selection = window.getSelection();
+                range = document.createRange();
+                range.selectNodeContents(text);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        }
+
+        document.onclick = function (e) {
+            if (e.target.className === 'copytoclick') {
+                SelectText('selectme');
+                document.execCommand('copy');
+            }
+        };
+    });
+//----------------------------------------------------------------
+
+</script>
+{% endblock %}

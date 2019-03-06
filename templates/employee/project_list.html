@@ -15,17 +15,27 @@
 {% block body_block %}
 
 <body>
+<style>
+   .filltext {
+        font-size: 22px;
+        font-family: Playfair Display, serif;
+        font: outline;
+        font-display: bold;
+    }
+</style>
     {% if request.session.user %}
-    <section class="courses_area p_120">
-            <div class="container">
-                <div class="row courses_inner" style="margin-top:-2%;">
-                    <div class="col-lg-12">
+     <div class="container" style="margin-top:5%">
+        <div class="panel panel-success">
+            <div class="panel-heading filltext">Assigned Projects</div>
+            <div class="panel-body">
                         <div class="topnav" style="color:brown;">
-                            <h2 style="color:gray;">Assign Projects </h2>
+                            
+                            <a href="{% url 'project_inquiry' %}"><button class="btn btn-info"
+                            style="margin-left:10px;float:left;margin-top: 7px; ">Inquiry</button></a>
                             <div class="search-container">
                                 <form action="" method="POST">
                                     {% csrf_token %}
-                                    <input type="text" placeholder="Search Project" name="search" id="myInput">
+                                    <input type="text" placeholder="Search Project" name="search" id="myInput" style="margin-bottom:2.5%;">
                                     <button type="submit"><i class="fa fa-search"></i></button>
                                 </form>
                             </div>
@@ -34,7 +44,7 @@
                         </br>
                         <div class="table-wrapper-scroll-y">
                            
-                            <table class="table table-striped employee-edit" style="margin-top:2%;">
+                            <table class="table table-striped employee-edit">
                                     <thead>
                                         <tr>
             
@@ -64,11 +74,12 @@
                                         {% endif %}
                                     </tbody>
                                 </table>
-                        </div>
-                    </div>
-                </div>
-        </section>
+
+    </div>
+    </div>
+    </div>           
     {% endif %}
+    
      <script>
             $(document).ready(function () {
                 console.log('hi');

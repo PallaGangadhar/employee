@@ -1,97 +1,13 @@
-{% extends 'employee/base.html' %}
-{% load staticfiles %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <title>Employee Profiles</title>
+<tr id="assigned_emp_info">
+    <th style="border: 1px solid #ddd !important;">Employee Name</th>
+    <th style="padding-left:10px;border: 1px solid #ddd !important;">Project Status</th>
+</tr>
 
-</head>
-{% block body_block %}
+{% for e in employee_info %}
+<tr>
+    <td style="border: 1px solid #ddd !important;">{{ e.emp.staff.first_name }} {{ e.emp.staff.last_name }}</td>
+    <td style="padding-left:10px;border: 1px solid #ddd !important;">{{ e.status}}</td>
+</tr>
 
-<body>
-
-    {% if request.session.user %}
-    <section class="courses_area p_120">
-        <div class="container">
-            <div class="row courses_inner" style="margin-top:-2%;">
-                <div class="col-lg-12">
-                    <div class="topnav" style="color:brown;">
-                        <h2 style="color:gray;">Project Infomation </h2>
-                        <div class="search-container">
-                            <form action="{% url 'all_projects' %}" method="POST">
-                                {% csrf_token %}
-                                <input type="text" placeholder="Search Project" name="search" id="myInput">
-                                <button type="submit"><i class="fa fa-search"></i></button>
-                            </form>
-                        </div>
-                    </div>
-
-                    </br>
-                    <div class="table-wrapper-scroll-y">
-                        <table class="table table-striped employee-edit" style="margin-top:2%;">
-
-                            <thead>
-                                <tr>
-                                  
-                                    <th>Employee</th>
-                                    <th>Project</th>
-                                    <th>Start Date</th>
-                                    <th>Deadline</th>
-                                    <th>Project Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="myTable">
-                                {% if projects %}
-                                {% for project in projects %}
-                                {% if request.session.dept == project.dept_id %}
-
-                                <tr>
-                                    <td>{{ project.dept }}</td>
-                                    <td>{{ project.staff.first_name }} &nbsp; {{ project.staff.last_name }}</td>
-                                    <td>{{ project.project_name }}</td>
-                                    <td>{{ project.project_start_date }}</td>
-                                    <td>{{ project.project_end_date }}</td>
-                                    <td>{{ project.project_technology }}</td>
-                                    {% if project.project_status == 'complete' %}
-                                    <td>{{ project.project_status }}</td>
-                                    {% else %}
-                                    <form method="POST" action="{% url 'complete' project.id %}">
-                                        {% csrf_token %}
-                                        <td><input type="submit" value="Complete" class="btn btn-success"
-                                                style="width: 69px; font-size: 10px;border-radius: 10px;margin-left: -1%;"
-                                                name="complete"></a>
-                                        </td>
-                                    </form>
-                                    {% endif %}
-                                </tr>
-
-                                {% endif %}
-                                {% endfor %}
-                                {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-    </section>
-    <div style="margin-left: 9.3%;margin-top: -5%;">
-        <a href="{% url 'add_project' %}"><button class="btn btn-info">Add Project</button></a>
-    </div>
-    {% endif %}
-    <script>
-            $(document).ready(function () {
-                console.log('hi');
-                $('#myInput').on("keyup",function(){
-                    var value = $(this).val().toLowerCase();
-                    $("#myTable tr").filter(function(){
-                        $(this).toggle($(this).text().toLowerCase().indexOf(value)>-1)
-                    });
-                });
-    
-            });
-        </script>
-</body>
-
-</html>
-{% endblock %}
+{% endfor %}
