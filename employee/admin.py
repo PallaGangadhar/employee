@@ -1,5 +1,5 @@
 from django.contrib import admin
-from employee.models import department, staff, leave, project, employee, manager,project_assingment,time_sheet
+from employee.models import department, staff, leave, project, employee, manager,project_assingment,time_sheet,project_inquiry
 from django.contrib.auth.models import User,Group
 from django.core.mail import send_mail
 from django.conf import settings
@@ -88,7 +88,7 @@ class employee_list(admin.ModelAdmin):
 #         super().save_model(request, obj, form, change)
         
 class project_list(admin.ModelAdmin):
-    list_display = ('project_name','project_technology','project_start_date','project_end_date','project_status')
+    list_display = ('id','project_name','project_technology','project_start_date','project_end_date','project_status')
     # def save_model(self,request,obj,form,change):
     #     subject = 'Employee Management System'
     #     message = 'You have been assigned a new project' + '\nProject Name: ' + obj.project_name
@@ -169,6 +169,7 @@ admin.site.register(manager, manager_list)
 # admin.site.register(salary)
 admin.site.register(leave, leave_request)
 admin.site.register(project, project_list)
+admin.site.register(project_inquiry)
 admin.site.unregister(Group)
 admin.site.unregister(User)
 

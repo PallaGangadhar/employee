@@ -22,14 +22,21 @@ def index(request):
         up = project.objects.filter(~Q(id__in=Subquery(project_assingment.objects.all().values('project'))),dept=did).count()
         ap = project.objects.filter(id__in=Subquery(project_assingment.objects.all().values('project')),dept=did).count()
         emp = employee.objects.filter(staff__dept=did).count()
-        context_dict = {'pending_leaves':pl,'unassign_projects':up,'assigned_projects':ap,'total_employees':emp} 
+        unass_pr = project.objects.filter(
+            ~Q(id__in=Subquery(project_assingment.objects.all().values('project'))))
+       
+        pinquiry = project_inquiry.objects.filter(~Q(staff_id=sid),staff__dept_id=did,reply='no').order_by('-id')
+        context_dict = {'pending_leaves':pl,'unassign_projects':up,'assigned_projects':ap,'total_employees':emp,'unass_pr':unass_pr,'pinquiry':pinquiry} 
     elif role == 'employee':
         pl = leave.objects.filter(Q(staff_id=sid), dept=did, leave_status='').count()
         ap = project_assingment.objects.filter(emp__staff_id=sid).count()
         cp = project_assingment.objects.filter(Q(emp__staff_id=sid),project__dept=did ,status='complete').count()
-      
+        ap1 = project.objects.filter(id__in=Subquery(project_assingment.objects.all().values('project')),dept=did).count()
+       
         tl = leave.objects.filter(Q(staff_id=sid), dept=did, leave_status='Approve').count()
-        context_dict = {'pending_leaves':pl,'assigned_projects':ap,'complete_projects':cp,'total_leaves':tl}
+        pinquiry = project_inquiry.objects.filter(~Q(staff_id=sid),staff__dept_id=did,reply='no',project=ap1).order_by('-id')
+       
+        context_dict = {'pending_leaves':pl,'assigned_projects':ap,'complete_projects':cp,'total_leaves':tl,'pinquiry':pinquiry}
     return render(request, 'employee/index.html', context_dict)
     
 
@@ -188,7 +195,8 @@ def edit_employee(request, eid):
         s.save()
         e = employee.objects.get(staff_id=eid)
         e.save()
-        print('done')
+        
+
 
         return redirect('employees_list')
     return render(request, 'employee/edit.html', {'emp': s})
@@ -279,13 +287,10 @@ def projects(request):
     project_list = project_assingment.objects.all()
     eid = request.session.get('user')
     p1 = ''
-    print(eid)
+    
     for p in project_list:
         if p.emp.staff_id == eid:
-            print(p.emp.staff_id)
-            p1 = project_assingment.objects.filter(emp__staff_id=eid)
-            for p in p1:
-                print(p.emp.staff_id)
+            p1 = project_assingment.objects.filter(emp__staff_id=eid).order_by('-id')            
     context_dict = {'projects': p1}
     return render(request, 'employee/project_list.html', context_dict)
 
@@ -338,7 +343,7 @@ def complete(request, pid):
     ''' Display Completed Projects  '''
     if request.method == "POST":
         pr = project.objects.get(id=pid)
-        print(pid)
+      
         pr.project_status = 'complete'
         pr.save()
         return redirect('all_projects')
@@ -384,7 +389,7 @@ def assign_project(request):
     
     if request.method == "POST":
         p = project_assingment()
-        print(request.POST.get('pid'))
+       
 
         st = employee.objects.get(staff_id=request.POST.get('emp'))
         pr = project.objects.get(id=request.POST.get('pid'))
@@ -393,8 +398,9 @@ def assign_project(request):
         try:
             p = project_assingment.objects.get_or_create(emp=st,project=pr)
             
-        except:
-            print('hi')
+        except Exception as e:
+            print(e)
+     
         p1 = project_assingment.objects.order_by('-id')[:1]
         for e in p1:
             pname = e.project.project_name
@@ -402,7 +408,7 @@ def assign_project(request):
             sdate = str(e.project.project_start_date)
             edate = str(e.project.project_end_date)
             ptech = e.project.project_technology
-        print('=======',emp)
+     
         msg = 'The project has been assigned Successfully...'
         subject = 'You have got a new project'
         message = 'Project Details: ' + '\nProject Name:  ' + pname +  '\nProject Start Date: ' + sdate + '\nProject End Date: ' + edate + '\nProject Technology: ' + ptech 
@@ -467,7 +473,7 @@ def change_password(request):
     msg =''
     if request.method == 'POST':
         if new == new1:
-            print(new)
+          
             c1 = staff.objects.get(id=eid)
             if c1.password == old:
                
@@ -502,6 +508,7 @@ def filter_by_dept(request):
     return render(request, 'employee/filter_by_dept.html', {'employee': emp})
 
 def inquiry(request):
+    
     sid = request.session.get('user') 
     manager = request.session.get('type')
     if manager == 'manager':
@@ -510,7 +517,7 @@ def inquiry(request):
         st = staff.objects.filter(id=sid)
         now = datetime.datetime.now()
         now1 = now.strftime("%Y-%m-%d, %H:%M:%S %p")
-        p1 = project_inquiry.objects.all().order_by('-id')[:8]
+        p1 = project_inquiry.objects.all().order_by('-id')
         context_dict = {'project': proj, 'staff': st, 'now': now1,'project_inquiry':p1}
     else:
         pr = project_assingment.objects.filter(emp__staff_id=sid)
@@ -522,6 +529,7 @@ def inquiry(request):
         context_dict = {'project': pr, 'staff': st, 'now': now1,'project_inquiry':p1}
     
     if request.method == 'POST':
+        print('hii~~~~~~~~~~~~>')
         pi = project_inquiry()
         # if manager == 'employee':
         #     # pr1 = project_assingment.objects.get(id=request.POST.get('project'))
@@ -537,9 +545,37 @@ def inquiry(request):
             pi.staff = st1
             pi.time = request.POST.get('time')
             pi.comment = request.POST.get('comment')
+           
             pi.save()
             
         except Exception as e:
             print("Something wrong while adding query.", e)
 
     return render(request, 'employee/project_inquiry.html', context_dict)
+
+def project_complete(request,pid):
+    if request.method == "POST":
+        pr = project_assingment.objects.get(id=pid)
+  
+        pr.status = 'complete'
+        pr.save()
+        return redirect('projects')
+       
+    return render(request, 'employee/project_list.html',{})
+
+def project_inprogress(request,pid):
+    if request.method == "POST":
+        pr = project_assingment.objects.get(id=pid)
+  
+        pr.status = 'inprogress'
+        pr.save()
+        return redirect('projects')
+       
+    return render(request, 'employee/project_list.html',{})
+
+def reply(request,pid):
+    # if request.method == 'POST':
+    pi = project_inquiry.objects.get(id=pid)
+    pi.reply = 'yes'
+    pi.save()
+    return redirect('project_inquiry')

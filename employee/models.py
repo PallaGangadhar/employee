@@ -137,7 +137,7 @@ class project_assingment(models.Model):
 
 class project_inquiry(models.Model):
     staff = models.ForeignKey(staff, on_delete=models.CASCADE)
-    project = models.ForeignKey(project_assingment, on_delete=models.CASCADE, blank=True, null=True)
+    project = models.ForeignKey(project, on_delete=models.CASCADE, blank=True, null=True)
     comment = models.CharField(max_length=128, blank=False)
     time = models.CharField(max_length=128,blank=False)
     reply = models.CharField(max_length=128,blank=True,default='no')
@@ -146,5 +146,5 @@ class project_inquiry(models.Model):
         verbose_name_plural = 'Project Inquiry'
 
     def __str__(self):
-        return self.project.project.project_name
+        return self.project.project_name
 

@@ -1,155 +1,189 @@
 {% extends 'employee/base.html' %}
-
 {% load staticfiles %}
-
-
-
-
-
-
 {% block body_block %}
 
 <body>
 
-        <style>
-                .table-wrapper-scroll-y1 {
-                    display: block;
-                    height: 250px;
-                    overflow-y: auto;
-                    -ms-overflow-style: -ms-autohiding-scrollbar;
-                }
-            </style>
+    <style>
+        .table-wrapper-scroll-y1 {
+            display: block;
+            height: 250px;
+            overflow-y: auto;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+        }
 
-    <div class="container" style="margin-top:10%;">
+        .filltext {
+            font-size: 22px;
+            font-family: Playfair Display, serif;
+            font: outline;
+            font-display: bold;
+        }
+    </style>
 
-        <div style="text-align:left;">
-            <h2>Project Inquiry</h2>
-        </div>
-        <hr />
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="container">
-                        <form action="{% url 'project_inquiry' %}" method="POST">
-                            {% csrf_token %}
-                            <div class="row">
+    <div class="container" style="margin-top:5%">
+        <div class="panel panel-info">
+            <div class="panel-heading filltext">Project Inquiry</div>
+            <div class="panel-body">
 
-                                <div class="col-sm-2">
 
-                                    {% for s in staff %}
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="container">
+                                <form action="{% url 'project_inquiry' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="row">
 
-                                    <input type="hidden" name="ename" value="{{ s.id }}">
+                                        <div class="col-sm-2">
 
-                                    {% endfor %}
-                                </div>
+                                            {% for s in staff %}
 
-                                <div class="col-sm-2">
+                                            <input type="hidden" name="ename" value="{{ s.id }}">
 
-                                    <input type="hidden" name="time" value="{{ now }}">
-                                </div>
-                            </div>
-                            <!--  -->
-                            {% if request.session.type == 'manager' %}
-                            <div class="row" style="margin-top:1%;">
-                                <div class="col-sm-2">
-                                    {% if project %}
+                                            {% endfor %}
+                                        </div>
 
-                                    <select name="project">
-                                        {% for p in project %}
+                                        <div class="col-sm-2">
 
-                                        <option value="{{ p.id }}">{{ p.project_name }}</option>
+                                            <input type="hidden" name="time" value="{{ now }}">
+                                        </div>
+                                    </div>
+                                    <!--  -->
+                                    {% if request.session.type == 'manager' %}
+                                    <div class="row" style="margin-top:1%;">
+                                        <div class="col-sm-2">
+                                            {% if project %}
 
-                                        {% endfor %}
-                                    </select>
+                                            <select name="project">
+                                                {% for p in project %}
+
+                                                <option value="{{ p.id }}">{{ p.project_name }}</option>
+
+                                                {% endfor %}
+                                            </select>
+                                            {% endif %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <div class="row" style="margin-top:1%;">
+                                        <div class="col-sm-2">
+                                            {% if project %}
+
+                                            <select name="project">
+                                                {% for p in project %}
+
+                                                <option value="{{ p.project_id }}">{{ p.project.project_name }}</option>
+
+                                                {% endfor %}
+                                            </select>
+                                            {% endif %}
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     {% endif %}
-                                    </select>
-                                </div>
+                                    <div class="row" style="margin-top:1%;">
+                                        <div class="col-sm-3">
+                                            <input type="text" name="comment" value="" class="form-control">
+
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-top:1%;">
+
+                                        <div class="col-sm-6">
+                                            <button type="submit" id="sendBtn" class="btn btn-primary">Send</button>
+                                        </div>
+                                    </div>
                             </div>
-                            {% else %}
-                            <div class="row" style="margin-top:1%;">
-                                <div class="col-sm-2">
-                                    {% if project %}
+                            </form>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="leaveReportMainDiv" style="margin-top: 0%;">
+                                <div class="leaveHistory">
+                                    <h4>Project Inquiry:-</h4>
+                                    <div class="table-wrapper-scroll-y1" style="margin-top: 3%;">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr class="active">
 
-                                    <select name="project">
-                                        {% for p in project %}
+                                                    <th>Project Name</th>
+                                                    <th>Query</th>
+                                                    <th>Employee Name</th>
+                                                    <th>Time</th>
 
-                                        <option value="{{ p.project_id }}">{{ p.project.project_name }}</option>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% if project_inquiry  %}
+                                                {% for p in project_inquiry %}
 
-                                        {% endfor %}
-                                    </select>
-                                    {% endif %}
-                                    </select>
+                                                {% if request.session.type == 'manager' and request.session.dept == p.staff.dept_id %}
+                                                <tr>
+                                                    <td>{{ p.project.project_name }}</td>
+                                                  
+                                                    <td>{{ p.comment}}</td>
+                                                  
+                                               
+                                                    <td>{{ p.staff.first_name}} {{ p.staff.last_name}}</td>
+                                                    <td>{{ p.time}}</td>
+
+
+                                                </tr>
+                                                {% elif request.session.type == 'employee' and request.session.dept == p.staff.dept_id %}
+                                                <tr>
+                                                    <td>{{ p.project.project_name}}</td>
+                                                    <td>{{ p.comment}}</td>
+                                                    <td>{{ p.staff.first_name}} {{ p.staff.last_name}}</td>
+                                                    <td>{{ p.time}}</td>
+                                                </tr>
+                                                {% endif %}
+                                                {% endfor %}
+                                                {% endif %}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                            </div>
 
-                            {% endif %}
-                            <div class="row" style="margin-top:1%;">
-                                <div class="col-sm-3">
-                                    <input type="text" name="comment" value="" class="form-control">
-
-                                </div>
-
-                            </div>
-                            <div class="row" style="margin-top:1%;">
-
-                                <div class="col-sm-6">
-                                    <button type="submit" id="sendBtn" class="btn btn-primary">Send</button>
-                                </div>
-                            </div>
-                    </div>
-                    </form>
-                </div>
-
-                <div class="col-sm-8">
-                    <div class="leaveReportMainDiv" style="margin-top: 0%;">
-                        <div class="leaveHistory">
-                            <h4>Project Inquiry:-</h4>
-                            <div class="table-wrapper-scroll-y1" style="margin-top: 3%;">
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr class="active">
-
-                                        <th>Project Name</th>
-                                        <th>Query</th>
-                                        <th>Employee Name</th>
-                                        <th>Time</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% if project_inquiry  %}
-                                    {% for p in project_inquiry %}
-
-                                    {% if request.session.type == 'manager' and request.session.dept == p.staff.dept_id %}
-                                    <tr>
-                                        <td>{{ p.project.project_name }}</td>
-                                        <td>{{ p.comment}}</td>
-                                        <td>{{ p.staff.first_name}} {{ p.staff.last_name}}</td>
-                                        <td>{{ p.time}}</td>
-                                    </tr>
-                                    {% elif request.session.type == 'employee' and request.session.dept == p.staff.dept_id %}
-                                    <tr>
-                                        <td>{{ p.project.project_name}}</td>
-                                        <td>{{ p.comment}}</td>
-                                        <td>{{ p.staff.first_name}} {{ p.staff.last_name}}</td>
-                                        <td>{{ p.time}}</td>
-                                    </tr>
-                                    {% endif %}
-                                    {% endfor %}
-                                    {% endif %}
-                                </tbody>
-                            </table>
                             </div>
                         </div>
+                    </div>
 
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="container">
+            <div class="row">
+                <div class="panel panel-success">
+                    <div class="panel-heading filltext">Chat</div>
+                    
+                    <div class="panel-body">
+                            {% if request.session.type == 'manager' %}
+                            <div style="float:left;">
+                                <p>any doubt.</p>
+
+                            </div>
+                            {% else %}
+                            <div style="float:right;margin-top:3%;">
+                               <p>Yes</p>
+                            </div>
+                            {% endif %}
+                            {% if request.session.type == 'employee' %}
+                            <div style="float:left;">
+                                Yes Sir
+                            </div>
+                            {% else %}
+                            <div style="float:right;margin-top:3%;">
+                                ok
+                            </div>
+                            {% endif %}
+                            
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
 
-    </div>
-
-
-
-    {% endblock %}
+        {% endblock %}
