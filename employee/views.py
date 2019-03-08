@@ -13,11 +13,24 @@ from django.contrib.auth.hashers import make_password
 
 def index(request):
     ''' Index Page '''
-    print("Hashed password is:", make_password("plain_text"))
-    emp = staff.objects.all().count()
-    p = project.objects.filter(project_status='complete').count()
-   
-    return render(request, 'employee/index.html', {'emp1': emp, 'no_of_project': p})
+    context_dict = {}
+    sid = request.session.get('user')
+    role = request.session.get('type')
+    did = request.session.get('dept')
+    if role == 'manager':
+        pl = leave.objects.filter(~Q(staff_id=sid), dept=did, leave_status='').count()
+        up = project.objects.filter(~Q(id__in=Subquery(project_assingment.objects.all().values('project'))),dept=did).count()
+        ap = project.objects.filter(id__in=Subquery(project_assingment.objects.all().values('project')),dept=did).count()
+        emp = employee.objects.filter(staff__dept=did).count()
+        context_dict = {'pending_leaves':pl,'unassign_projects':up,'assigned_projects':ap,'total_employees':emp} 
+    elif role == 'employee':
+        pl = leave.objects.filter(Q(staff_id=sid), dept=did, leave_status='').count()
+        ap = project_assingment.objects.filter(emp__staff_id=sid).count()
+        cp = project_assingment.objects.filter(Q(emp__staff_id=sid),project__dept=did ,status='complete').count()
+      
+        tl = leave.objects.filter(Q(staff_id=sid), dept=did, leave_status='Approve').count()
+        context_dict = {'pending_leaves':pl,'assigned_projects':ap,'complete_projects':cp,'total_leaves':tl}
+    return render(request, 'employee/index.html', context_dict)
     
 
 # # All department view
@@ -292,11 +305,6 @@ def add_project(request):
         p.project_end_date = request.POST.get('pedate')
         p.project_technology = request.POST.get('ptech')
         p.save()
-        subject = 'You have got a new project'
-        message = 'Project Details: ' + '\nProject Name:  '+ p.project_name + '\nProject Technology: '+ p.project_technology + '\nProject Start Date: '+ p.project_start_date + '\nProject End Date: '+ p.project_end_date
-        email_from = settings.EMAIL_HOST_USER
-        recipient_list = [p.staff.email,]
-        send_mail(subject,message,email_from,recipient_list)
         return redirect('all_projects')
 
     return render(request, 'employee/add_project.html', {'dept': dept})
@@ -368,32 +376,50 @@ def timesheet(request):
 
 #     return render(request, 'employee/project_info.html', {})
 
-
 def assign_project(request):
     ''' Assign Project to an Employee'''
     st = employee.objects.all()
     pr = project.objects.all()
     msg = ''
+    
     if request.method == "POST":
         p = project_assingment()
         print(request.POST.get('pid'))
 
         st = employee.objects.get(staff_id=request.POST.get('emp'))
         pr = project.objects.get(id=request.POST.get('pid'))
-        # print(request.POST.get('emp'))
-
-        p.emp = st
-        p.project = pr
-        p.save()
+        
+       
+        try:
+            p = project_assingment.objects.get_or_create(emp=st,project=pr)
+            
+        except:
+            print('hi')
+        p1 = project_assingment.objects.order_by('-id')[:1]
+        for e in p1:
+            pname = e.project.project_name
+            emp = e.emp.staff.email
+            sdate = str(e.project.project_start_date)
+            edate = str(e.project.project_end_date)
+            ptech = e.project.project_technology
+        print('=======',emp)
         msg = 'The project has been assigned Successfully...'
         subject = 'You have got a new project'
-        message = 'Project Details: ' + '\nProject Name:  ' + p.project.project_name + '\nProject Technology: ' + p.project.project_technology + '\nProject Start Date: ' + str(p.project.project_start_date) + '\nProject End Date: ' + str(p.project.project_end_date)
+        message = 'Project Details: ' + '\nProject Name:  ' + pname +  '\nProject Start Date: ' + sdate + '\nProject End Date: ' + edate + '\nProject Technology: ' + ptech 
         email_from = settings.EMAIL_HOST_USER
-        recipient_list = [p.emp.staff.email,]
+        recipient_list = [emp,]
         send_mail(subject,message,email_from,recipient_list)
-        return render(request, 'employee/assign_project.html', {'msg': msg})
+        # p.emp = st
+        # p.project = pr
+        # p.save()
+        # msg = 'The project has been assigned Successfully...'
+        # subject = 'You have got a new project'
+        # message = 'Project Details: ' + '\nProject Name:  ' + p1.project 
+        # email_from = settings.EMAIL_HOST_USER
+        # recipient_list = [p1.emp.staff.email,]
+        # send_mail(subject,message,email_from,recipient_list)
+        return redirect('assign_project')
     return render(request, 'employee/assign_project.html', {'staff': st, 'project': pr, 'msg': msg})
-
 
 def abc(request):
     val = request.GET['value']

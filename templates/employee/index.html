@@ -3,10 +3,429 @@
 {% load staticfiles %}
 {% block body_block %}
 <style>
-	.images {
-		height: 170px;
-		width: 400px;
-		margin-top: 3%;
+	.text-info {
+		color: #2cabe3 !important;
+	}
+
+	.row {
+		display: flex;
+		flex-wrap: wrap;
+		margin-right: -15px;
+		margin-left: -15px;
+	}
+
+	.card {
+		margin-bottom: 30px;
+	}
+
+	.card {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+		word-wrap: break-word;
+		background-color: #fff;
+		background-clip: border-box;
+		border: 0 solid transparent;
+		border-radius: 0;
+	}
+
+	* {
+		outline: 0;
+	}
+
+	.card-body {
+		flex: 1 1 auto;
+		padding: 1.57rem;
+	}
+
+	.card .card-title {
+		position: relative;
+		font-weight: 500;
+		font-size: 16px;
+	}
+
+	.text-uppercase {
+		text-transform: uppercase !important;
+	}
+
+	.card-title {
+		margin-bottom: .75rem;
+	}
+
+	.mt-4,
+	.my-4 {
+		margin-top: 1.5rem !important;
+	}
+
+	.mb-2,
+	.my-2 {
+		margin-bottom: .5rem !important;
+	}
+
+	.align-items-center {
+		align-items: center !important;
+	}
+
+	.d-flex {
+		display: flex !important;
+	}
+
+	.display-5 {
+		font-size: 3rem;
+	}
+
+	.display-5,
+	.display-6,
+	.display-7 {
+		font-weight: 300;
+		line-height: 1.2;
+	}
+
+	.mb-0,
+	.my-0 {
+		margin-bottom: 0 !important;
+	}
+
+	.text-info {
+		color: #2cabe3 !important;
+	}
+
+	.col-lg-3 {
+		flex: 0 0 25%;
+		max-width: 25%;
+	}
+
+	.page-wrapper>.page-content {
+		padding: 30px;
+		min-height: calc(100vh - 167px);
+	}
+
+	.ml-auto,
+	.mx-auto {
+		margin-left: auto !important;
+	}
+
+	.font-normal {
+
+		font-weight: 400;
+
+	}
+
+	.page-wrapper>.page-content {
+		padding: 30px;
+		min-height: calc(100vh - 167px);
+	}
+
+
+
+	.icon-action-redo,
+	.icon-action-undo,
+	.icon-anchor,
+	.icon-arrow-down,
+	.icon-arrow-down-circle,
+	.icon-arrow-left,
+	.icon-arrow-left-circle,
+	.icon-arrow-right,
+	.icon-arrow-right-circle,
+	.icon-arrow-up,
+	.icon-arrow-up-circle,
+	.icon-badge,
+	.icon-bag,
+	.icon-ban,
+	.icon-basket,
+	.icon-basket-loaded,
+	.icon-bell,
+	.icon-book-open,
+	.icon-briefcase,
+	.icon-bubble,
+	.icon-bubbles,
+	.icon-bulb,
+	.icon-calculator,
+	.icon-calender,
+	.icon-call-end,
+	.icon-call-in,
+	.icon-call-out,
+	.icon-camera,
+	.icon-camrecorder,
+	.icon-chart,
+	.icon-check,
+	.icon-chemistry,
+	.icon-clock,
+	.icon-close,
+	.icon-cloud-download,
+	.icon-cloud-upload,
+	.icon-compass,
+	.icon-control-end,
+	.icon-control-forward,
+	.icon-control-pause,
+	.icon-control-play,
+	.icon-control-rewind,
+	.icon-control-start,
+	.icon-credit-card,
+	.icon-crop,
+	.icon-cup,
+	.icon-cursor,
+	.icon-cursor-move,
+	.icon-diamond,
+	.icon-direction,
+	.icon-directions,
+	.icon-disc,
+	.icon-dislike,
+	.icon-doc,
+	.icon-docs,
+	.icon-drawar,
+	.icon-drop,
+	.icon-earphones,
+	.icon-earphones-alt,
+	.icon-emotsmile,
+	.icon-energy,
+	.icon-envelope,
+	.icon-envelope-letter,
+	.icon-envelope-open,
+	.icon-equalizer,
+	.icon-eye,
+	.icon-eyeglass,
+	.icon-feed,
+	.icon-film,
+	.icon-fire,
+	.icon-flag,
+	.icon-folder,
+	.icon-folder-alt,
+	.icon-frame,
+	.icon-game-controller,
+	.icon-ghost,
+	.icon-globe,
+	.icon-globe-alt,
+	.icon-graduation,
+	.icon-graph,
+	.icon-grid,
+	.icon-handbag,
+	.icon-heart,
+	.icon-home,
+	.icon-hourglass,
+	.icon-info,
+	.icon-key,
+	.icon-layers,
+	.icon-like,
+	.icon-link,
+	.icon-list,
+	.icon-location-pin,
+	.icon-lock,
+	.icon-lock-open,
+	.icon-login,
+	.icon-logout,
+	.icon-loop,
+	.icon-magic-wand,
+	.icon-magnet,
+	.icon-magnifier,
+	.icon-magnifier-add,
+	.icon-magnifier-remove,
+	.icon-map,
+	.icon-menu,
+	.icon-microphone,
+	.icon-mouse,
+	.icon-music-tone,
+	.icon-music-tone-alt,
+	.icon-mustache,
+	.icon-note,
+	.icon-notebook,
+	.icon-options,
+	.icon-options-vertical,
+	.icon-paper-clip,
+	.icon-paper-plane,
+	.icon-paypal,
+	.icon-pencil,
+	.icon-people,
+	.icon-phone,
+	.icon-picture,
+	.icon-pie-chart,
+	.icon-pin,
+	.icon-plane,
+	.icon-playlist,
+	.icon-plus,
+	.icon-power,
+	.icon-present,
+	.icon-printer,
+	.icon-puzzle,
+	.icon-question,
+	.icon-refresh,
+	.icon-reload,
+	.icon-rocket,
+	.icon-screen-desktop,
+	.icon-screen-smartphone,
+	.icon-screen-tablet,
+	.icon-settings,
+	.icon-share,
+	.icon-share-alt,
+	.icon-shield,
+	.icon-shuffle,
+	.icon-size-actual,
+	.icon-size-fullscreen,
+	.icon-social-behance,
+	.icon-social-dribbble,
+	.icon-social-dropbox,
+	.icon-social-facebook,
+	.icon-social-foursqare,
+	.icon-social-github,
+	.icon-social-gplus,
+	.icon-social-instagram,
+	.icon-social-linkedin,
+	.icon-social-pintarest,
+	.icon-social-reddit,
+	.icon-social-skype,
+	.icon-social-soundcloud,
+	.icon-social-spotify,
+	.icon-social-stumbleupon,
+	.icon-social-tumblr,
+	.icon-social-twitter,
+	.icon-social-youtube,
+	.icon-speech,
+	.icon-speedometer,
+	.icon-star,
+	.icon-support,
+	.icon-symble-female,
+	.icon-symbol-male,
+	.icon-tag,
+	.icon-target,
+	.icon-trash,
+	.icon-trophy,
+	.icon-umbrella,
+	.icon-user,
+	.icon-user-female,
+	.icon-user-follow,
+	.icon-user-following,
+	.icon-user-unfollow,
+	.icon-vector,
+	.icon-volume-1,
+	.icon-volume-2,
+	.icon-volume-off,
+	.icon-wallet,
+	.icon-wrench {
+		font-family: simple-line-icons;
+		speak: none;
+		font-style: normal;
+		font-weight: 400;
+		font-variant: normal;
+		text-transform: none;
+		line-height: 1;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	.icon-people:before {
+		content: "\e001"
+	}
+
+	.icon-folder-alt:before {
+		content: "\e039"
+	}
+
+	.icon-folder:before {
+		content: "\e089"
 	}
 </style>
+{% if request.session.user %}
+
+<div class="container">
+	<div class="row">
+
+
+		<div class="col-md-6 col-lg-3">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title text-uppercase">Pending Leaves</h5>
+					<div class="d-flex align-items-center mb-2 mt-4">
+						<h2 class="mb-0 display-5"><i class="fa fa-user text-info"></i></h2>
+						<div class="ml-auto">
+							<h2 class="mb-0 display-6"><span class="font-normal">{{ pending_leaves }}</span></h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% if request.session.type == 'manager' %}
+		<div class="col-md-6 col-lg-3">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title text-uppercase">New Projects</h5>
+					<div class="d-flex align-items-center mb-2 mt-4">
+						<h2 class="mb-0 display-5"><i class="fa fa-folder text-primary"></i></h2>
+						<div class="ml-auto">
+							<h2 class="mb-0 display-6"><span class="font-normal">{{ unassign_projects }}</span></h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-3">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title text-uppercase">Assigned Projects</h5>
+					<div class="d-flex align-items-center mb-2 mt-4">
+						<h2 class="mb-0 display-5"><i class="fa fa-folder-open text-danger"></i></h2>
+						<div class="ml-auto">
+							<h2 class="mb-0 display-6"><span class="font-normal">{{ assigned_projects }}</span></h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-3">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title text-uppercase">Total Employee</h5>
+					<div class="d-flex align-items-center mb-2 mt-4">
+						<h2 class="mb-0 display-5"><i class="fa fa-users text-success"></i></h2>
+						<div class="ml-auto">
+							<h2 class="mb-0 display-6"><span class="font-normal">{{ total_employees }}</span></h2>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% else %}
+		<div class="col-md-6 col-lg-3">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title text-uppercase">Assigned Projects</h5>
+						<div class="d-flex align-items-center mb-2 mt-4">
+							<h2 class="mb-0 display-5"><i class="fa fa-folder text-primary"></i></h2>
+							<div class="ml-auto">
+								<h2 class="mb-0 display-6"><span class="font-normal">{{ assigned_projects }}</span></h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-lg-3">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title text-uppercase">Completed Projects</h5>
+						<div class="d-flex align-items-center mb-2 mt-4">
+							<h2 class="mb-0 display-5"><i class="fa fa-folder-open text-danger"></i></h2>
+							<div class="ml-auto">
+								<h2 class="mb-0 display-6"><span class="font-normal">{{ complete_projects }}</span></h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-lg-3">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title text-uppercase">Total Leaves</h5>
+						<div class="d-flex align-items-center mb-2 mt-4">
+							<h2 class="mb-0 display-5"><i class="fa fa-users text-success"></i></h2>
+							<div class="ml-auto">
+								<h2 class="mb-0 display-6"><span class="font-normal">{{ total_leaves }}</span></h2>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+	</div>
+</div>
+{% endif %}
 {% endblock %}

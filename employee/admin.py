@@ -97,15 +97,15 @@ class project_list(admin.ModelAdmin):
     #     send_mail(subject,message,email_from,recipient_list)
     #     super().save_model(request, obj,form,change)
    
-    change_list_template = "admin/leave.html"
-    list_display_links = None
-    list_per_page = 5
-    def has_delete_permission(self, request, obj=None):
-        return False
+    # change_list_template = "admin/leave.html"
+    # list_display_links = None
+    # list_per_page = 5
+    # def has_delete_permission(self, request, obj=None):
+    #     return False
 
-    def has_change_permission(self, request, obj=None):
-        return False
-    actions = None
+    # def has_change_permission(self, request, obj=None):
+    #     return False
+    # actions = None
 
     def changelist_view(self, request, extra_context=None):
         extra_context = {'title': 'Project Details'}
@@ -118,22 +118,22 @@ class leave_request(admin.ModelAdmin):
 
 class assign_projects(admin.ModelAdmin):
     list_display = ('emp','project','dept_name','status')  
-    change_list_template = "admin/leave.html"
+    # change_list_template = "admin/leave.html"
     def dept_name(self, instance):
         return instance.emp.staff.dept.dept_name
 
-    def assign_projects(self, request, extra_context=None):
-        extra_context = {'title': 'Project Assignment Details'}
-        return super(assign_projects, self).changelist_view(request, extra_context=extra_context)
+    # def assign_projects(self, request, extra_context=None):
+    #     extra_context = {'title': 'Project Assignment Details'}
+    #     return super(assign_projects, self).changelist_view(request, extra_context=extra_context)
 
-    def has_delete_permission(self, request, obj=None):
-        return False
+    # def has_delete_permission(self, request, obj=None):
+    #     return False
 
-    def has_change_permission(self, request, obj=None):
-        return False
-    actions = None
-    list_display_links = None
-    list_per_page = 5
+    # def has_change_permission(self, request, obj=None):
+    #     return False
+    # actions = None
+    # list_display_links = None
+    # list_per_page = 5
     def changelist_view(self, request, extra_context=None):
         extra_context = {'title': 'Assign Project Details'}
         return super(assign_projects, self).changelist_view(request, extra_context=extra_context)

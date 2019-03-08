@@ -54,6 +54,7 @@
                                             <th>Start Date</th>
                                             <th>End Date</th>
                                             <th>Project Technology</th>
+                                            <th>Project Status</th>
             
                                         </tr>
                                     </thead>
@@ -68,6 +69,22 @@
                                             <td>{{ p.project.project_start_date }}</td>
                                             <td>{{ p.project.project_end_date}}</td>
                                             <td>{{ p.project.project_technology}}</td>
+                                            <td>
+                                                    <form action="" method="POST">
+                                                        {% csrf_token %}
+                                                       <input type="submit" value="Complete" class="btn btn-primary"
+                                                                style="width: 63px; font-size: 10px;border-radius: 20px;margin-left: -14%;font-family: black;"
+                                                                name="approve"></a>
+                                                    </form>
+                                                    </td>
+                                                    <td>
+                                                    <form action="" method="POST">
+                                                        {% csrf_token %}
+                                                       <input type="submit" value="In-Progress" class="btn btn-info"
+                                                                style="width: 73px; font-size: 10px;border-radius: 20px;margin-left: -96%;font-family: black;"
+                                                                name="deny">
+                                                    </form> 
+                                                    </td>
                                         </tr>
             
                                         {% endfor %}

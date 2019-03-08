@@ -74,7 +74,7 @@ class leave(models.Model):
     leave_reason = models.CharField(max_length=128, blank=False)
     leave_date = models.DateField(default=0, blank=True)
     leave_time = models.CharField(max_length=128, default=0)
-    leave_status = models.CharField(max_length=128, default=0)
+    leave_status = models.CharField(max_length=128, default='',blank=True)
 
     class Meta:
         verbose_name_plural = 'Leave'
@@ -122,8 +122,8 @@ class time_sheet(models.Model):
 
 class project_assingment(models.Model):
     status = (('complete', 'Complete'),
-            ('incomplete', 'Incomplete'),
-            ('running','Running'))
+            ('inprogress', 'Inprogress'),
+            ('incomplete','Incomplete'))
     emp = models.ForeignKey(employee, on_delete=models.CASCADE,default='')
     project = models.ForeignKey(project, on_delete=models.CASCADE, default='')
     status = models.CharField(max_length=128, blank=False, choices=status, default="incomplete")
@@ -140,23 +140,11 @@ class project_inquiry(models.Model):
     project = models.ForeignKey(project_assingment, on_delete=models.CASCADE, blank=True, null=True)
     comment = models.CharField(max_length=128, blank=False)
     time = models.CharField(max_length=128,blank=False)
+    reply = models.CharField(max_length=128,blank=True,default='no')
 
     class Meta:
         verbose_name_plural = 'Project Inquiry'
 
     def __str__(self):
         return self.project.project.project_name
-
-
-class project_inquiry(models.Model):
-    staff = models.ForeignKey(staff, on_delete=models.CASCADE)
-    project = models.ForeignKey(project, on_delete=models.CASCADE, blank=True, null=True)
-    comment = models.CharField(max_length=128, blank=False)
-    time = models.CharField(max_length=128,blank=False)
-
-    class Meta:
-        verbose_name_plural = 'Project Inquiry'
-
-    def __str__(self):
-        return self.project.project_name
 

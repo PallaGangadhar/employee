@@ -145,14 +145,15 @@
 			<li class="nav-item f"><a class="nav-link" href="{% url 'login' %}">Log In</a></li>
 			{% endif %}
 			<li class="nav-item f"><a class="nav-link" href="{% url 'help_desk' %}">Help Desk</a></li>
+
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 						{% if request.session.user %}<img alt="" src="{{ MEDIA_URL }}/{{ request.session.image }}"
-							height="20" width="50" s>{{ request.session.fname }} <span
-							class="caret"></span>{% endif %}</a>
+							height="30" width="30" style="border-radius:50%;"> {{ request.session.fname }}
+						{{ request.session.lname }} <span class="caret"></span>{% endif %}</a>
 					<ul class="dropdown-menu">
 						<li><a href="{% url 'profile' %}">Profile</a></li>
 						<li><a href="{% url 'change_password' %}">Change Password</a></li>
