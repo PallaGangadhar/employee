@@ -1,0 +1,45 @@
+
+<label style="font-size:16px;">From Date</label>
+<input type="text" id="datepicker1" class="form-control" placeholder="Select Date" name="start_date" required>
+
+<label style="font-size:16px;">To Date</label>
+<input type="text" id="datepicker2" class="form-control" placeholder="Select Date" name="end_date" required>
+
+<script>
+    $(document).ready(function () {
+        var today = new Date();
+
+        $("#datepicker1").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            minDate: today,
+            numberOfMonths: 2,
+            dateFormat: 'yy-mm-dd',
+            // set the minDate to the today's date
+            // you can add other options here
+        });
+
+        $("#datepicker2").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            
+            numberOfMonths: 2,
+            dateFormat: 'yy-mm-dd',
+            // set the minDate to the today's date
+            // you can add other options here
+        });
+     
+
+        $("#datepicker2").change(function () {
+            var startDate = document.getElementById("datepicker1").value;
+            var endDate = document.getElementById("datepicker2").value;
+
+            if ((Date.parse(endDate) <= Date.parse(startDate))) {
+                alert("End date should be greater than Start date");
+                document.getElementById("datepicker2").value = "";
+            }
+        });
+      
+    });
+
+</script>
