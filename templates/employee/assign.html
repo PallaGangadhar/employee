@@ -5,9 +5,11 @@
 {% if request.session.dept == project.dept_id %}
 <tr>
     <td>
-        {{ project.project_name }} <button class="fa fa-chevron-down emp-info" data-id="{{ project.id }}"></button>
-        <button class="fa fa-chevron-up emp-info1" data-id="{{ project.id }}"></button>
-
+        {{ project.project_name }} 
+            <button class="	fa fa-caret-down emp-info" data-id="{{ project.id }}"></button>
+            <button class="	fa fa-caret-up emp-info1" data-id="{{ project.id }}"></button>
+                <!-- <i class="fa fa-caret-up"></i>
+                <i class="fa fa-caret-down"></i> -->
     </td>
     <td>{{ project.project_start_date }}</td>
     <td>{{ project.project_end_date }}</td>
@@ -22,6 +24,18 @@
             <input type="submit" value="Complete" class="btn btn-success"
                 style="width: 69px; font-size: 10px;border-radius: 10px;margin-left: -1%;" name="complete"></a>
         </form>
+    </td>
+    <td class="controller-column">
+                                       
+        <a style="margin-right: 15px;" href="{% url 'edit_project' project.id %}">
+            <i class="fa fa-pencil edit-icon"></i>
+        </a>
+
+        <a href="{% url 'delete_project' project.id %}">
+            <i class="fa fa-trash-o delete-icon"></i>
+        </a>
+        
+       
     </td>
     {% endif %}
 

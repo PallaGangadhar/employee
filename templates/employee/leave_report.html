@@ -1,0 +1,43 @@
+{% extends 'employee/base.html' %}
+
+{% load staticfiles %}
+{% block body_block %}
+<div class="container">
+    <div class="row">
+        
+        <div class="col-sm-2">
+                <a href="{% url 'leave_request' %}"><button type="submit" id="sendBtn" class="btn btn-primary" style="margin-top:18%;">Back</button></a>
+            </div>
+    </div>
+            <div class="leaveReportMainDiv row" style="margin-top: 5%;">
+        <div class="leaveHistory">
+            <h4 class="leavetext">Leave Report :-</h4>
+            <div class="table-wrapper-scroll-y">
+                <table class="table table-bordered" style="margin-top:1%;">
+                    <thead>
+                        <tr class="active" >
+                            <th>From Date</th>
+                            <th>To Date</th>
+                            <th>Leave Time</th>
+                            <th>Leave Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if leave_report %}
+                        {% for leave in leave_report %}
+                        <tr>
+                            <td>{{ leave.leave_date}}</td>
+                            <td>{{ leave.leave_date_one }}</td>
+                            <td>{{ leave.leave_time}}</td>
+                            <td>{{ leave.leave_reason}}</td>
+                        </tr>
+                        {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

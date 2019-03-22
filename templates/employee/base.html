@@ -1,4 +1,4 @@
-<!doctype html>
+<!Doctype html>
 {% load staticfiles %}
 <html lang="en">
 
@@ -13,20 +13,23 @@
 	<link rel="stylesheet" href="{% static 'vendors/linericon/style.css' %}">
 	<link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
 	<link rel="stylesheet" href="{% static 'vendors/lightbox/simpleLightbox.css' %}">
-	<link rel="stylesheet" href="{% static 'vendors/nice-select/css/nice-select.css' %}">
+
 	<link rel="stylesheet" href="{% static 'vendors/animate-css/animate.css' %}">
 	<link rel="stylesheet" href="{% static 'css/count.css' %}">
 	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	
 	<link rel="stylesheet" href="{% static 'css/responsive.css' %}">
 
+	
 
-
-	<link href="{% static "css/font-awesome.css" %}" rel="stylesheet" />
+	<link href="{% static 'css/font-awesome.css' %}" rel="stylesheet" />
 	<link href="{% static 'css/style2.css' %}" rel="stylesheet">
-	<link href="{% static "css/style-responsive.css" %}" rel="stylesheet" />
+	<link href="{% static 'css/style-responsive.css' %}" rel="stylesheet" />
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
+	<link href="{% static 'css/chosen.css' %}" rel="stylesheet">
 	<script src="{% static 'js/jquery.js' %}"></script>
+	<script src="{% static 'js/chosen.js' %}"></script>
 	<script src="{% static 'js/jquery-ui.js' %}"></script>
 
 
@@ -45,7 +48,7 @@
 
 		.f {
 			font-size: 16px;
-			font-family: fantasy;
+			font-family: Arial, Helvetica, sans-serif;
 		}
 
 
@@ -133,8 +136,9 @@
 					<a class="dropdown-toggle" data-toggle="dropdown" href="#">Projects <span class="caret"></span></a>
 					<ul class="dropdown-menu">
 						<li class="nav-item"><a class="nav-link" href="{% url 'all_projects' %}">All Projects</a>
-						<li class="nav-item"><a class="nav-link" href="{% url 'assign_project' %}">Assign
-								Projects</a>
+							{% with uid=0 %}
+						<li class="nav-item"><a class="nav-link" href="{% url 'assign_project' uid %}">Assign Projects</a>
+							{% endwith %}
 						</li>
 
 				</li>
@@ -145,6 +149,7 @@
 			<li class="nav-item f"><a class="nav-link" href="{% url 'login' %}">Log In</a></li>
 			{% endif %}
 			<li class="nav-item f"><a class="nav-link" href="{% url 'help_desk' %}">Help Desk</a></li>
+			<li class="nav-item f"><a class="nav-link" href="{% url 'inquiry1' %}">Project Inquiry</a></li>
 
 			</ul>
 
@@ -172,11 +177,14 @@
 	{% endblock %}
 
 
-	<script src="{% static 'js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.6.8-fix/jquery.nicescroll.min.js"></script>
+	
 	<script src="{% static 'js/stellar.js' %}"></script>
 	<script src="{% static 'vendors/lightbox/simpleLightbox.min.js' %}"></script>
-	<script src="{% static 'vendors/nice-select/js/jquery.nice-select.min.js' %}"></script>
+	
 	<script src="{% static 'vendors/isotope/imagesloaded.pkgd.min.js' %}"></script>
 	<script src="{% static 'vendors/isotope/isotope.pkgd.min.js' %}"></script>
 	<script src="{% static 'vendors/owl-carousel/owl.carousel.min.js' %}"></script>
@@ -186,7 +194,7 @@
 	<script src="{% static 'vendors/counter-up/jquery.counterup.js' %}"></script>
 	<script src="{% static 'js/mail-script.js' %}"></script>
 	<script src="{% static 'js/theme.js' %}"></script>
-	<script src="{% static 'js/ajax.js' %}"></script>
+	
 
 
 	<script class="include" type="text/javascript" src="{% static 'js/jquery.dcjqaccordion.2.7.js' %}"></script>
@@ -201,19 +209,11 @@
 	<script src="{% static 'js/script.js' %}"></script>
 	<script src="{% static 'js/common-scripts.js' %}"></script>
 
-
+	
 
 	<script>
 
-		$("#datepicker").datepicker({
-
-			changeMonth: true,
-			changeYear: true,
-			yearRange: "-30:-00",
-			dateFormat: 'yy-mm-dd',
-			// set the minDate to the today's date
-			// you can add other options here
-		});
+	
 		var today = new Date();
 		$("#datepicker1").datepicker({
 			changeMonth: true,

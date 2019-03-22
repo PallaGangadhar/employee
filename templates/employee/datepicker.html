@@ -1,0 +1,52 @@
+{% extends 'employee/base.html' %}
+{% load staticfiles %}
+{% block body_block %}
+<html>
+<head>
+    <style>
+        .demo{
+            width: 35%;
+            height: 50px;
+            background-color: grey;
+            margin-left:10%; 
+        }
+    </style>
+</head>
+<body>
+    <p>This is Ajax Example</p>
+    <button class="btn btn-primary " id="check">Check</button>
+    <div class="demo" id="myTable">
+
+      
+    </div>
+    <script>
+        $(document).ready(function () {
+
+            $('#check').click(function () {
+                console.log('hi');
+
+
+                $.ajax(
+                    {
+                        type: "GET",
+                        url: "/demo/",
+                        data: {
+
+                        },
+
+                        success: function (data) {
+                            console.log('hiii')
+                            $('#myTable').html(data);
+
+                        }
+                    })
+            });
+
+        });
+    </script>
+</body>
+
+</html>
+
+
+{% endblock %}

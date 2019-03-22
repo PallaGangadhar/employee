@@ -25,11 +25,11 @@
             <div class="panel-body">
                     <div class="topnav" style="color:brown;">
                         <h2 style="color:gray;">Manager Infomation </h2>
-                        <div class="search-container">
+                        <div class="search-container"  style="padding-right:10px;">
                             <form action="{% url 'employees_list' %}" method="POST">
                                 {% csrf_token %}
                                 <input type="text" placeholder="Search Manager" name="search" required id="myInput">
-                                <button type="submit"><i class="fa fa-search"></i></button>
+                                
                             </form>
                         </div>
                     </div>

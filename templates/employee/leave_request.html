@@ -18,13 +18,12 @@
         font: outline;
         font-display: bold;
     }
-
 </style>
 <div class="container" style="margin-top:5%">
     <div class="panel panel-info">
         <div class="panel-heading filltext">Leave Request</div>
         <div class="panel-body">
-
+            <input type="checkbox" name="check" id="check"> If you want leaves more than one day
             <hr />
             {% if msg %}
             <div class="alert alert-success">
@@ -33,17 +32,17 @@
             </div>
             {% endif %}
 
-            <form action="{% url 'leave_request' %}" method="POST">
+            <form action="{% url 'leave_request' %}" method="POST" autocomplete="off">
                 {% csrf_token %}
-                <div class="row">
-                    <div class="col-sm-2">
-                     <label style="font-size:16px;">Date</label>
+                <div class="row" >
+                    <div class="col-sm-2" id="range">
+                        <label style="font-size:16px;">Date</label>
                         <input type="text" id="datepicker" class="form-control" placeholder="Select Date"
-                            name="leave_date" required>
+                            name="start_date" required>
                     </div>
                     <div class="col-sm-2">
-                       <label style="font-size:16px;">Leave Time</label>
-                        <select name="leave_time"  required>
+                        <label style="font-size:16px;">Leave Time</label>
+                        <select name="leave_time" required>
 
                             <option value="Full Day">Full Day</option>
                             <option value="Pre Lunch Half Day">Pre Lunch
@@ -53,8 +52,8 @@
                         </select>
                     </div>
                     <div class="col-sm-2">
-                    <label style="font-size:16px;">Leave Reason</label>
-                        <select name="leave_reason"   required>
+                        <label style="font-size:16px;">Leave Reason</label>
+                        <select name="leave_reason" required>
 
                             <option value="Sick Leave">Sick Leave</option>
                             <option value="Out of Station">Out of Station</option>
@@ -66,12 +65,12 @@
                         </select>
                     </div>
                     <div class="col-sm-2">
-                      <label style="font-size:16px;">Name</label>
+                        <label style="font-size:16px;">Name</label>
                         <input type="text" name="ename" value="{{ ename }} {{ elname }}" class="form-control" readonly>
                         <input type="hidden" name="emp_id" value="{{ emp_id }}">
                     </div>
                     <div class="col-sm-2">
-                    <label style="font-size:16px;">Department:</label>
+                        <label style="font-size:16px;">Department:</label>
                         <input type="text" name="dname" value="{{ dname }}" class="form-control" readonly>
                         <input type="hidden" name="dept_id" value="{{ dept_id }}">
                     </div>
@@ -86,15 +85,38 @@
         </div>
     </div>
 </div>
+
 <div class="container">
+    <form action="{% url 'leave_report' %}" method="POST" autocomplete="off">
+        {% csrf_token %}
+        <h4>Check Your leave Report</h4>
+        <div class="row" style="margin-top: 0.5%;">
+            <div class="col-sm-2">
+                <label style="font-size:16px;">Start Date</label>
+                <input type="text" id="datepicker1" class="form-control" placeholder="Select Date" name="start_date"
+                    required>
+            </div>
+            <div class="col-sm-2">
+                <label style="font-size:16px;">End Date</label>
+                <input type="text" id="datepicker2" class="form-control" placeholder="Select Date" name="end_date"
+                    required>
+            </div>
+            <div class="col-sm-2">
+                <button type="submit" id="sendBtn" class="btn btn-primary" style="margin-top:18%;">Report</button>
+            </div>
+        </div>
+
+    </form>
     <div class="leaveReportMainDiv row" style="margin-top: 5%;">
         <div class="leaveHistory col-sm-4">
+
             <h4 class="leavetext">Leave History of 12 Months :-</h4>
             <div class="table-wrapper-scroll-y">
                 <table class="table table-bordered">
                     <thead>
                         <tr class="active">
-                            <th>Date</th>
+                            <th>From date</th>
+                            <th>To date</th>
                             <th>Leave Time</th>
                         </tr>
                     </thead>
@@ -103,6 +125,7 @@
                         {% for leave in emp_leave %}
                         <tr>
                             <td>{{ leave.leave_date}}</td>
+                            <td>{{ leave.leave_date_one}}</td>
                             <td>{{ leave.leave_time}}</td>
                         </tr>
                         {% endfor %}
@@ -114,6 +137,7 @@
         <div class="leaveRequest col-sm-8">
             <h4>Approve Leaves:-</h4>
             <div class="table-wrapper-scroll-y">
+
                 <table class="table table-bordered">
                     <thead>
                         <tr class="active">
@@ -143,24 +167,71 @@
         </div>
     </div>
 </div>
-<script>
-    var today = new Date();
 
-    $("#datepicker").datepicker({
-        changeMonth: true,
-        changeYear: true,
-        minDate: today,
-        numberOfMonths: 2,
-        dateFormat: 'yy-mm-dd',
-        // set the minDate to the today's date
-        // you can add other options here
+
+<script>
+    $(document).ready(function () {
+        var today = new Date();
+
+        $("#datepicker").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            minDate: today,
+            numberOfMonths: 2,
+            dateFormat: 'yy-mm-dd',
+            // set the minDate to the today's date
+            // you can add other options here
+        });
+
+        $("#datepicker1").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            
+            numberOfMonths: 2,
+            dateFormat: 'yy-mm-dd',
+            // set the minDate to the today's date
+            // you can add other options here
+        });
+        $("#datepicker2").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            
+            numberOfMonths: 2,
+            dateFormat: 'yy-mm-dd',
+            // set the minDate to the today's date
+            // you can add other options here
+        });
+        // $("#datepicker1, #datepicker2").datepicker();
+
+        $("#datepicker2").change(function () {
+            var startDate = document.getElementById("datepicker1").value;
+            var endDate = document.getElementById("datepicker2").value;
+
+            if ((Date.parse(endDate) <= Date.parse(startDate))) {
+                alert("End date should be greater than Start date");
+                document.getElementById("datepicker2").value = "";
+            }
+        });
+
+        $("#check").change(function(){
+           $.ajax(
+               {
+                   url: '/range/',
+                   success: function (data) {
+                        $('#range').html(data)
+                        $('#range').show(data)
+                        console.log('successful check')
+                    }
+           })
+        });
+       
+     
     });
 
 </script>
 
-<script>
-    $(function () {
-        $("#datepicker").datepicker();
-    });
-</script>
+
+
+
+
 {% endblock %}

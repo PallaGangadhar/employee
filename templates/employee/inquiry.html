@@ -1,0 +1,120 @@
+{% extends 'employee/base.html' %}
+{% load staticfiles %}
+{% block body_block %}
+
+<body>
+
+    <style>
+        .table-wrapper-scroll-y1 {
+            display: block;
+            height: 250px;
+            overflow-y: auto;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+        }
+
+        .filltext {
+            font-size: 22px;
+            font-family: Playfair Display, serif;
+            font: outline;
+            font-display: bold;
+        }
+    
+    </style>
+
+    <div class="container" style="margin-top:5%">
+        <div class="panel panel-info">
+            <div class="panel-heading filltext">Project Inquiry</div>
+            <div class="panel-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="container">
+                                <form action="{% url 'project_inquiry' %}" method="POST">
+                                    {% csrf_token %}
+
+                                    {% if request.session.type == 'manager' %}
+                                    <div class="row" style="margin-top:1%;">
+                                        <div class="col-sm-2">
+                                            {% if project %}
+
+                                            <select id="pid" class="livesearch"
+                                                style="width:150px;height:40px;border:1px solid;" name="project">
+                                                <option>Select Project</option>
+                                                {% for p in project %}
+
+                                                <option value="{{ p.id }}" data-pid="{{ p.id }}">{{ p.project_name }}
+                                                </option>
+
+                                                {% endfor %}
+                                            </select>
+                                            {% endif %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <div class="row" style="margin-top:1%;">
+                                        <div class="col-sm-2">
+                                            {% if project %}
+
+                                            <select name="project" id="pid"
+                                                style="width:150px;height:40px;border:1px solid;" class="livesearch">
+                                                <option>Select Project</option>
+                                                {% for p in project %}
+
+                                                <option value="{{ p.project_id }}" data-pid="{{ p.id }}">
+                                                    {{ p.project.project_name }}</option>
+
+                                                {% endfor %}
+                                            </select>
+                                            {% endif %}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    {% endif %}
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" style="margin-top:0%">
+        <div class="panel-heading filltext" style="border:none;color:chocolate;margin-left: -1.5%;">Ongoing Inquiries on projects
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                {% for p in project_query %}
+                    <li><p style="color:grey;"> {{ p }} </p></li>
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#pid").change(function () {
+                var pid
+                pid = $(this).val()
+                console.log(pid)
+                $.ajax(
+                    {
+                        type: "GET",
+                        url: "/project_inquiry/",
+                        data: {
+                            value: pid
+                        },
+
+                        success: function (data) {
+                            window.location.href = '../check_query/' + pid;
+                            console.log('hiii')
+
+                        }
+                    })
+            });
+        });
+
+    </script>
+    {% endblock %}

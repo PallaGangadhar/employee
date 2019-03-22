@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
+from datetime import date
 # Create your models here.
 from django.core.exceptions import ValidationError
 USER_TYPE_CHOICES = (
@@ -72,7 +73,8 @@ class leave(models.Model):
     dept = models.ForeignKey(department, on_delete=models.CASCADE)
     staff = models.ForeignKey(staff, on_delete=models.CASCADE)
     leave_reason = models.CharField(max_length=128, blank=False)
-    leave_date = models.DateField(default=0, blank=True)
+    leave_date = models.DateField(default=date.today, blank=True)
+    leave_date_one =  models.DateField(default=date.today, blank=True, null=True)
     leave_time = models.CharField(max_length=128, default=0)
     leave_status = models.CharField(max_length=128, default='',blank=True)
 
@@ -108,15 +110,13 @@ class project(models.Model):
     #                                           dept_name=self.dept.dept_name))
 
 class time_sheet(models.Model):
-    pid = models.ForeignKey(project, on_delete=models.Model)
+    pid = models.ForeignKey(project, on_delete=models.Model, default='project_assignment')
     staff = models.ForeignKey(staff, on_delete=models.Model)
     date = models.DateField(blank=False)
     time = models.IntegerField(blank=False)
     description = models.CharField(max_length=128, blank=False)
-
     class Meta:
         verbose_name_plural = 'Time Sheet'
-
     def __str__(self):
         return self.pid.project_name
 
@@ -127,11 +127,8 @@ class project_assingment(models.Model):
     emp = models.ForeignKey(employee, on_delete=models.CASCADE,default='')
     project = models.ForeignKey(project, on_delete=models.CASCADE, default='')
     status = models.CharField(max_length=128, blank=False, choices=status, default="incomplete")
-
-
     class Meta:
         verbose_name_plural = 'Assigned Projects'
-
     def __str__(self):
         return self.project.project_name
 
@@ -141,10 +138,8 @@ class project_inquiry(models.Model):
     comment = models.CharField(max_length=128, blank=False)
     time = models.CharField(max_length=128,blank=False)
     reply = models.CharField(max_length=128,blank=True,default='no')
-
     class Meta:
         verbose_name_plural = 'Project Inquiry'
-
     def __str__(self):
         return self.project.project_name
 

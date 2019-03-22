@@ -4,7 +4,7 @@
 {% block body_block %}
 
 {% if request.session.user %}
-
+{% if request.session.type == 'manager' %}
 <head>
     <script>
         function mydate() {
@@ -233,6 +233,9 @@
         $("#datepicker1").datepicker();
     });
 </script>
+   {% else %}
+   <p style="font-size: 30px;text-align: center;">Sorry...! You can't access this page</p>
+   {% endif %} 
 {% endif %}
 
 {% endblock %}

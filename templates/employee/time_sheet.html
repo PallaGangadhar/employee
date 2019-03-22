@@ -70,14 +70,23 @@
                         </div>
                     </div>
                 </div>
-
+                
                 <div class="row row1">
                     <div class="form-group">
                         <div class="col-sm-2">
                             <label class="labeltext">Project:</label>
                             <select name="project" required>
-                                <option value="">-- Select Project --</option>
+                                <option value=""> Select Project </option>
+                                {% if request.session.type == 'manager' %}
+                                {% if project %}
+                                {% for p in project %}
+                                {% if request.session.dept == p.dept_id%}
 
+                                <option value="{{ p.project_id }}">{{ p.project_name }}</option>
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                                {% elif request.session.type == 'employee' %}
                                 {% if project %}
                                 {% for p in project %}
                                 {% if request.session.dept == p.project.dept_id and request.session.user == p.emp.staff_id %}
@@ -85,6 +94,7 @@
                                 <option value="{{ p.project_id }}">{{ p.project.project_name }}</option>
                                 {% endif %}
                                 {% endfor %}
+                                {% endif %}
                                 {% endif %}
                             </select>
                         </div>
@@ -147,6 +157,7 @@
             <tbody>
                 {% if time_sheet %}
                 {% for time in  time_sheet  %}
+                {% if request.session.user == time.staff_id %}
                 <tr>
                     <td>{{ time.staff.first_name}} {{ time.staff.last_name}}</td>
                     <td>{{ time.pid}}</td>
@@ -154,6 +165,7 @@
                     <td>{{ time.time}}</td>
                     <td>{{ time.description}}</td>
                 </tr>
+                {% endif %}
                 {% endfor %}
                 {% endif %}
             </tbody>

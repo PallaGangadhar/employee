@@ -141,22 +141,45 @@
 	.scrollable {
 		position: relative;
 	}
+	/* .element {
+  outline: 2px dotted red;
+} */
 </style>
 
 {% if request.session.user %}
+
+{% if msg %}
 <div class="container">
 	<div class="alert alert-danger">
-		<p>You forgot to fill<strong><i> 8 Hour(s)</i></strong> Timesheet on <strong><i>6-Feb-2019
-					(Wednesday)</i></strong>. It is mandatory to fill timesheet.<a href="{% url 'time_sheet' %}"
-				style="color:royalblue;"><i>click here to fill timesheet</i></a>
+		<p>{{ msg }}<a href="{% url 'time_sheet' %}" style="color:royalblue;"> <i>Click here to fill timesheet</i></a>
 		</p>
 	</div>
 </div>
+{% else %}
+{% if timesheet == 0 %}
+<div class="container">
+	<div class="alert alert-danger">
+		<p>You forgot to fill<strong><i> 8 Hour(s)</i></strong> Timesheet on <strong><i>{{ date }}
+				</i></strong>. It is mandatory to fill timesheet.<a href="{% url 'time_sheet' %}"
+				style="color:royalblue;"><i>Click here to fill timesheet</i></a>
+		</p>
+	</div>
+</div>
+{% elif timesheet == 2 %}
+<div class="container">
+	<div class="alert alert-danger">
+		<p>You forgot to fill<strong><i> 8 Hour(s)</i></strong> Timesheet from <strong><i>{{ date }}</i></strong> to<i>
+				<strong>{{ tdate }}
+			</i></strong>. It is mandatory to fill timesheet.<a href="{% url 'time_sheet' %}"
+				style="color:royalblue;"><i>Click here to fill timesheet</i></a>
+		</p>
+	</div>
+</div>
+{% endif %}
+{% endif %}
 
 <div class="container" style="margin-top:5%;">
 	<div class="row">
-
-
 		<div class="col-md-6 col-lg-3">
 			<div class="card">
 				<div class="card-body">
@@ -253,10 +276,11 @@
 		{% endif %}
 	</div>
 </div>
+
 <!-- START -->
 <div class="container" style="margin-top:5%;">
-		<div class="row">
-			<!-- 1 Column -->
+	<div class="row">
+		<!-- 1 Column -->
 		{% if request.session.type == 'manager' %}
 		<div class="col-md-12 col-lg-6">
 			<div class="card" style="overflow-y:auto;max-height:500px;">
@@ -265,28 +289,22 @@
 				</h5>
 				<div class="card-body">
 					{% for u in unass_pr %}
-
 					{% if request.session.dept == u.dept_id %}
 					<ul class="list-style-none chat-list">
 						<li class="mb-3">
-
 							<div class="d-flex align-items-center">
-
 								<div class="ml-3">
-									<h5 class="mb-0 text-dark">{{ u.project_name }}</h5>
-									<small class="text-success">{{ u.project_technology }}</small>
+									<h5 class="mb-0 text-danger">{{ u.project_name }}</h5>
+									<small class="text-info ">{{ u.project_technology }}</small>
 								</div>
 								<div class="ml-auto chat-icon">
-
 									{% csrf_token %}
-									<a href="{% url 'assign_project'  %}"><button type="submit"
-											class="btn btn-success btn-circle btn-circle text-white">
+									<a href="{% url 'assign_project' u.id %}"><button type="submit"
+											class="btn btn-info btn-circle btn-circle text-white">
 											Assign
 										</button></a>
-
 								</div>
 							</div>
-
 						</li>
 					</ul>
 					{% endif %}
@@ -294,8 +312,6 @@
 				</div>
 			</div>
 		</div>
-
-
 		<!-- 2nd Column -->
 		<div class="col-md-12 col-lg-6">
 			<div class="card" style="overflow-y:auto;max-height:500px;">
@@ -307,12 +323,59 @@
 
 
 					<ul class="list-style-none chat-list">
-						<li class="mb-3" >
+						<li class="mb-3">
 
 							<div class="d-flex align-items-center">
 
 								<div class="ml-3">
-									<h5 class="mb-0 text-dark" style="color:green;">{{ u.project.project_name }}</h5>
+									<h6 class="mb-0 text-dark" style="color:black;font-weight:300;">
+										{{ u.staff.first_name }}</h6>
+									<h5 class="mb-0 text-dark element" style="color:grey;">{{ u.project.project_name }}
+									</h5>
+									<h6 class="mb-0 text-dark" style="color:red;"><i class="fa fa-comment-o"
+											aria-hidden="true"> {{ u.comment }}</i></h6>
+									<!-- <small class="text-success">{{ u.project_technology }}</small> -->
+								</div>
+
+								<div class="ml-auto chat-icon">
+
+									{% csrf_token %}
+									<a href="{% url 'reply' u.id %}"><button type="submit"
+											class="btn btn-primary btn-circle btn-circle text-white">
+											Check it
+										</button></a>
+
+								</div>
+							</div>
+
+						</li>
+					</ul>
+
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+		{% elif request.session.type == 'employee' %}
+		<div class="col-md-12 col-lg-6">
+			<div class="card" style="overflow-y:auto;max-height:500px;">
+				<h5 class="card-title text-uppercase p-3 bg-info text-white mb-0">
+					New Comments
+				</h5>
+				<div class="card-body">
+					{% for u in pinquiry %}
+					{% for p in  pid %}
+					{% if p.project_id == u.project_id %}
+
+					<ul class="list-style-none chat-list">
+						<li class="mb-3">
+
+							<div class="d-flex align-items-center">
+
+								<div class="ml-3">
+									<h6 class="mb-0 text-dark" style="color:black;font-weight:300;">
+										{{ u.staff.first_name }}</h6>
+									<h6 class="mb-0 text-dark" style="color:green;font-weight:300;">
+										{{ u.project.project_name }}</h6>
 									<h6 class="mb-0 text-dark" style="color:red;"><i class="fa fa-comment-o"
 											aria-hidden="true"> {{ u.comment }}</i></h6>
 									<!-- <small class="text-success">{{ u.project_technology }}</small> -->
@@ -330,57 +393,16 @@
 
 						</li>
 					</ul>
-
+					{% endif %}
+					{% endfor %}
 					{% endfor %}
 				</div>
 			</div>
 		</div>
-		{% elif request.session.type == 'employee' %}
-		<div class="col-md-12 col-lg-6">
-				<div class="card" style="overflow-y:auto;max-height:500px;">
-					<h5 class="card-title text-uppercase p-3 bg-info text-white mb-0">
-						New Comments
-					</h5>
-					<div class="card-body">
-						{% for u in pinquiry %}
-	
-	
-						<ul class="list-style-none chat-list">
-							<li class="mb-3">
-	
-								<div class="d-flex align-items-center">
-	
-									<div class="ml-3">
-										<h6 class="mb-0 text-dark" style="color:black;font-weight:300;">{{ u.staff.first_name }}</h6>
-										<h6 class="mb-0 text-dark" style="color:green;font-weight:300;">{{ u.project.project_name }}</h6>
-										<h6 class="mb-0 text-dark" style="color:red;"><i class="fa fa-comment-o"
-												aria-hidden="true"> {{ u.comment }}</i></h6>
-										<!-- <small class="text-success">{{ u.project_technology }}</small> -->
-									</div>
-									<div class="ml-auto chat-icon">
-	
-										{% csrf_token %}
-										<a href="{% url 'reply' u.id %}"><button type="submit"
-												class="btn btn-success btn-circle btn-circle text-white">
-												Check it
-											</button></a>
-	
-									</div>
-								</div>
-	
-							</li>
-						</ul>
-	
-						{% endfor %}
-					</div>
-				</div>
-			</div>
 		{% endif %}
 		<!-- End of 2nd Column -->
 	</div>
 </div>
-
-
 {% endif %}
 <!-- END -->
 {% endblock %}

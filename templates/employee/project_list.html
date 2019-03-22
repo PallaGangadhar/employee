@@ -13,6 +13,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
 </head>
 {% block body_block %}
+{% if request.session.user %}
+{% if request.session.type == 'employee' %}
 
 <body>
     <style>
@@ -23,21 +25,21 @@
             font-display: bold;
         }
     </style>
-    {% if request.session.user %}
+
     <div class="container" style="margin-top:5%">
         <div class="panel panel-success">
             <div class="panel-heading filltext">Assigned Projects</div>
             <div class="panel-body">
                 <div class="topnav" style="color:brown;">
 
-                    <a href="{% url 'project_inquiry' %}"><button class="btn btn-info"
-                            style="margin-left:10px;float:left;margin-top: 7px; ">Inquiry</button></a>
-                    <div class="search-container">
+                    <!-- <a href="{% url 'project_inquiry' %}"><button class="btn btn-info"
+                            style="margin-left:10px;float:left;margin-top: 9px; ">Inquiry</button></a> -->
+                    <div class="search-container" style="padding-right:10px;">
                         <form action="" method="POST">
                             {% csrf_token %}
                             <input type="text" placeholder="Search Project" name="search" id="myInput"
-                                style="margin-bottom:2.5%;">
-                            <button type="submit"><i class="fa fa-search"></i></button>
+                                style="margin-bottom:5%;">
+
                         </form>
                     </div>
                 </div>
@@ -45,17 +47,18 @@
                 </br>
                 <div class="table-wrapper-scroll-y">
 
-                    <table class="table table-striped employee-edit">
+                    <table class="table table-striped ">
                         <thead>
                             <tr>
 
 
-                                
+
                                 <th>Project Name</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Project Technology</th>
                                 <th>Project Status</th>
+                              
 
                             </tr>
                         </thead>
@@ -65,7 +68,7 @@
 
                             <tr>
 
-                                
+
                                 <td>{{ p.project.project_name}}</td>
                                 <td>{{ p.project.project_start_date }}</td>
                                 <td>{{ p.project.project_end_date}}</td>
@@ -77,7 +80,7 @@
                                     <form action="{% url 'project_complete' p.id %}" method="POST">
                                         {% csrf_token %}
                                         <input type="submit" value="Complete" class="btn btn-primary"
-                                            style="width: 63px; font-size: 10px;border-radius: 20px;margin-left: -14%;color: black;font-style:inherit;"
+                                            style="width: 65px; font-size: 10px;border-radius: 20px;margin-left: -14%;font-style:inherit;"
                                             name="approve"></a>
                                     </form>
                                 </td>
@@ -85,11 +88,12 @@
                                     <form action="{% url 'project_inprogress' p.id %}" method="POST">
                                         {% csrf_token %}
                                         <input type="submit" value="In-Progress" class="btn btn-info"
-                                            style="width: 74px; font-size: 10px;border-radius: 20px;margin-left: -94%;color: black;"
+                                            style="width: 74px; font-size: 10px;border-radius: 20px;margin-left: -94%;"
                                             name="deny">
                                     </form>
                                 </td>
                                 {% endif %}
+                               
                             </tr>
 
                             {% endfor %}
@@ -100,7 +104,7 @@
                 </div>
             </div>
         </div>
-        {% endif %}
+
 
         <script>
             $(document).ready(function () {
@@ -117,4 +121,8 @@
 </body>
 
 </html>
+{% else %}
+<p style="font-size: 30px;text-align: center;">Sorry...! You can't access this page</p>
+{% endif %}
+{% endif %}
 {% endblock %}

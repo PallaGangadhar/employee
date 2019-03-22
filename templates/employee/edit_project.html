@@ -1,0 +1,180 @@
+{% extends 'employee/base.html' %}
+{% load staticfiles %}
+
+{% block body_block %}
+
+{% if request.session.user %}
+
+<head>
+    <script type="text/javascript">
+        $(function () {
+            $('#emp').multiselect({
+                includeSelectAllOption: true
+            });
+        });
+    </script>
+    <style>
+        .error {
+            color: red;
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+    .filltext {
+        font-size: 22px;
+        font-family: Playfair Display, serif;
+        font: outline;
+        font-display: bold;
+    }
+    </style>
+</head>
+
+
+
+            <div class="container" style="margin-top:5%;">
+                    <div class="panel panel-primary">
+                            <div class="panel-heading filltext">Edit Project</div>
+                            <div class="panel-body">
+                    
+            
+                <form action="" method="POST" enctype="multipart/form-data" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label>Department</label>
+
+                            {% for d in dept %}
+                          
+
+                            <input type="text" class="form-control" value="{{ d.dept_name }}" name="dept" readonly
+                                size="60px;">
+                        
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% for p in project%}
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label>Project Name: <small class="error">*</small></label>
+                           
+                            <input type="text" class="form-control" value="{{ p.project_name }}" name="pname" required>
+                         
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label>Project Start Date: <small class="error">*</small></label>
+                            <p><input type="text" id="datepicker2" class="form-control" placeholder="Select Date"
+                                    name="psdate" required value="{{ p.project_start_date|date:'Y-m-d' }}"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label>Project End Date: <small class="error">*</small></label>
+                            <p><input type="text" id="datepicker3" class="form-control" placeholder="Select Date"
+                                    name="pedate" required value="{{ p.project_end_date|date:'Y-m-d'}}"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <label>Project Technology: <small class="error">*</small></label>
+                            <input type="text" class="form-control" value="{{ p.project_technology }}" name="ptech" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-4">
+
+                            <input type="hidden" class="form-control" value="" name="status">
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <input type="submit" class="btn btn-info" value="Submit" style="margin-left:1.5%;margin-top: 2.5%;">
+                </form>
+
+            </div>
+</div>
+</div>
+</div>
+{% endif %}
+<script>
+    function mydate() {
+        d = new Date(document.getElementById("ndt").value);
+        dt = d.getDate();
+        mn = d.getMonth();
+
+        yy = d.getFullYear();
+        document.getElementById("ndt").value = yy + "/" + mn + "/" + dt
+
+    }
+    $(document).ready(function () {
+        var today = new Date();
+        console.log('hiiiiiiii...')
+        $("#datepicker2").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            minDate: today,
+            
+            dateFormat: 'yy-mm-dd',
+
+
+            // set the minDate to the today's date
+            // you can add other options here
+        });
+
+        $(function () {
+            $("#datepicker2").datepicker();
+        });
+
+
+        var today = new Date();
+        console.log('hiiiiiiii...')
+        $("#datepicker3").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            minDate: today,
+            dateFormat: 'yy-mm-dd',
+
+
+            // set the minDate to the today's date
+            // you can add other options here
+        });
+
+        $(function () {
+            $("#datepicker3").datepicker();
+        });
+
+        $('#dept1').change(function () {
+
+            console.log("hiifjkdsfdksbdsf")
+            var did = $(this).val();
+            console.log(did);
+            $.get('/fill_by_dept/', { dept_id: did }, function (data) {
+
+                // document.getElementById("emp1") = $('#emp1').html(data);
+                // console.log(html(data).getElementById("emp1"))
+
+                console.log(
+                    helpers.buildDropdown(
+                        jQuery.parseJSON(data),
+                        $('#dropdown'),
+                        'Select an option'
+                    )
+
+                );
+
+            });
+
+
+
+        });
+
+    });
+
+
+
+
+</script>
+
+{% endblock %}

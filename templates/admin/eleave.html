@@ -1,0 +1,77 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+<style>
+
+
+</style>
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Employee Administration') }}</a></h1>
+
+{% endblock %}
+{% block nav-global %}
+<p style="margin-top:0.8%;float:right;">
+  <strong
+    style="font-size:11px;font-weight:300;letter-spacing:0.5px;text-transform:uppercase;text-align:right;">Welcome</strong>, <strong
+    style="font-size:11px;font-weight:300;letter-spacing:0.5px;text-transform:uppercase;text-align:right;">{{ request.user }}</strong>.
+  {% if user.has_usable_password %}
+  <a href="{% url 'admin:password_change' %}"
+    style="font-size:11px;font-weight:300;letter-spacing:0.5px;text-transform:uppercase;text-align:right;">Change
+    Password</a> /
+  {% endif %}
+  <a href="{% url 'admin:logout' %}"
+    style="font-size:11px;font-weight:300;letter-spacing:0.5px;text-transform:uppercase;text-align:right;">Log out</a>
+  <p>
+    {% endblock %}
+    {% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="{% url 'admin:index' %}">Home</a>
+
+
+› <a href="/admin/employee/">Employee</a>
+› <a href="/admin/employee/leave/">Leave</a>
+› <a href="{% url 'admin:mleave' %}" style="color: #c4dce8;">Manager Leaves</a>
+
+        {% if title %} &rsaquo; {{ title }}{% endif %}
+    </div>
+    {% endblock %}
+    {% load staticfiles %}
+    {% block content %}
+    
+    <link href="{% static 'css/bootstrap.css' %}" rel="text/css">
+    <!-- Header -->
+
+
+
+    <h1 style="margin: 0 0 20px;
+    font-weight: 300;
+    font-size: 20px;
+    color: #666;">Manager Leaves</h1>
+    
+    <table style="width:100%">
+      <thead>
+      
+
+           <tr>
+      <th>Department</th>
+      <th>Name</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Reason</th>
+     
+    </tr>
+        <thead>
+        <tbody>
+          {% for x in m %}
+        <tr>
+          <td>{{ x.staff.dept }}</td>
+          <td>{{ x.staff.first_name }}</td>
+          <td>{{ x.leave_date }}</td>
+          <td>{{ x.leave_time }}</td>
+          <td>{{ x.leave_reason }}</td>
+      </tr>
+      {% endfor %}
+        </tbody>
+    </table>
+
+    {% endblock %}

@@ -4,8 +4,11 @@
 {% block body_block %}
 
 {% if request.session.user %}
+{% if request.session.type == 'manager' %}
 
 <head>
+
+   
     <script type="text/javascript">
         $(function () {
             $('#emp').multiselect({
@@ -28,6 +31,7 @@
         .scrollable select {
             border: none;
         }
+
         .filltext {
             font-size: 22px;
             font-family: Playfair Display, serif;
@@ -57,16 +61,17 @@
                 <strong>{{ msg }}</strong>
             </div>
             {% else %}
-            <form action="{% url 'assign_project' %}" method="POST" enctype="multipart/form-data" autocomplete="off">
+            <form action="" method="POST" enctype="multipart/form-data" autocomplete="off">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-sm-2">
-                        <label style="margin-left: 1.5%;" class="leavetext">Employee: <small class="error">*</small></label>
-                        <select name="emp">
+                        <label style="margin-left: 1.5%;" class="leavetext">Employee: <small
+                                class="error">*</small></label>
+                        <select name="emp" class="livesearch" style="width:300px;">
+                                <option>Select Employee</option>
                             {% for e in staff %}
 
                             {% if request.session.dept == e.staff.dept_id %}
-
                             <option value="{{ e.staff.id }}">{{ e.staff.first_name }} {{ e.staff.last_name }}
                             </option>
 
@@ -77,20 +82,30 @@
                 </div>
                 <div class="row" style="margin-top:2%;">
                     <div class="col-sm-2">
-                        <label class="leavetext">Project Name: <small class="error">*</small></label>
-                        <select name="pid">
+                        
+                      
+                        {% if uid == '0' %}
+                        <label class="leavetext">Project:  <small class="error">*</small></label>
+                        <select name="pid" class="livesearch" style="width:300px;">
+                                <option>Select Project</option>
                             {% for p in project %}
                             {% if request.session.dept == p.dept_id %}
                             <option value="{{ p.id }}">{{ p.project_name}}</option>
                             {% endif %}
                             {% endfor %}
                         </select>
+                        {% elif uid != 0 %}
+                        <label class="leavetext">Project Name:  <small class="error">*</small></label>
+                        <input type="text" name="pname" class="form-control" value="{{ project }}" readonly>
+                        <input type="hidden" name="pid" value="{{ pid }}">
+                     
+                        {% endif %}
                     </div>
                 </div>
                 <div class="row" style="margin-top: 2%;">
-                 
-                        <input type="submit" class="btn btn-info" value="Submit" style="margin-left:1.5%;">
-                    
+
+                    <input type="submit" class="btn btn-info" value="Submit" style="margin-left:1.5%;">
+
                 </div>
             </form>
             {% endif %}
@@ -98,65 +113,12 @@
 
     </div>
 </div>
-
+{% else %}
+<p style="font-size: 30px;text-align: center;">Sorry...! You can't access this page</p>
 {% endif %}
-<script>
-    function mydate() {
-        d = new Date(document.getElementById("ndt").value);
-        dt = d.getDate();
-        mn = d.getMonth();
+{% endif %}
 
-        yy = d.getFullYear();
-        document.getElementById("ndt").value = yy + "/" + mn + "/" + dt
-
-    }
-    $(document).ready(function () {
-        var today = new Date();
-        console.log('hiiiiiiii...')
-        $("#datepicker").datepicker({
-            changeMonth: true,
-            changeYear: true,
-            minDate: today,
-            numberOfMonths: 2,
-            dateFormat: 'yy-mm-dd',
-            // set the minDate to the today's date
-            // you can add other options here
-        });
-
-        $(function () {
-            $("#datepicker").datepicker();
-        });
-
-        $('#dept1').change(function () {
-
-            console.log("hiifjkdsfdksbdsf")
-            var did = $(this).val();
-            console.log(did);
-            $.get('/fill_by_dept/', { dept_id: did }, function (data) {
-
-                // document.getElementById("emp1") = $('#emp1').html(data);
-                // console.log(html(data).getElementById("emp1"))
-
-                console.log(
-                    helpers.buildDropdown(
-                        jQuery.parseJSON(data),
-                        $('#dropdown'),
-                        'Select an option'
-                    )
-
-                );
-
-            });
-
-
-
-        });
-
-    });
-
-
-
-
+<script type="text/javascript">
+    $(".livesearch").chosen();
 </script>
-
 {% endblock %}

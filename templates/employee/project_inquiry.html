@@ -2,188 +2,472 @@
 {% load staticfiles %}
 {% block body_block %}
 
+
+<style>
+    .row.row-broken {
+        padding-bottom: 0;
+    }
+
+    .col-inside-lg {
+        padding: 20px;
+    }
+
+    .chat {
+        height: calc(100vh - 180px);
+    }
+
+    .decor-default {
+        background-color: #ffffff;
+    }
+
+    .chat-users h6 {
+        font-size: 20px;
+        margin: 0 0 20px;
+    }
+
+    .chat-users .user {
+        position: relative;
+        padding: 0 0 0 50px;
+        display: block;
+        cursor: pointer;
+        margin: 0 0 20px;
+    }
+
+    .chat-users .user .avatar {
+        top: 0;
+        left: 0;
+    }
+
+    .chat .avatar {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+    }
+
+    .chat .avatar img {
+        display: block;
+        border-radius: 20px;
+        height: 100%;
+    }
+
+    .chat .avatar .status.off {
+        border: 1px solid #5a5a5a;
+        background: #ffffff;
+    }
+
+    .chat .avatar .status.online {
+        background: #4caf50;
+    }
+
+    .chat .avatar .status.busy {
+        background: #ffc107;
+    }
+
+    .chat .avatar .status.offline {
+        background: #ed4e6e;
+    }
+
+    .chat-users .user .status {
+        bottom: 0;
+        left: 28px;
+    }
+
+    .chat .avatar .status {
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        position: absolute;
+    }
+
+    .chat-users .user .name {
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .chat-users .user .mood {
+        font: 200 14px/20px "Raleway", sans-serif;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /*****************CHAT BODY *******************/
+    .chat-body h6 {
+        font-size: 20px;
+        margin: 0 0 20px;
+    }
+
+    .chat-body .answer.left {
+        padding: 0 58px 0 58px;
+        text-align: left;
+        float: left;
+        align-self: center;
+        background-color: lightsteelblue;
+        margin-top: 3%;
+        margin: 10px 320px 10px 300px;
+        width: 840px;
+
+    }
+
+    .chat-body .answer {
+        position: relative;
+        max-width: 600px;
+        overflow: hidden;
+        clear: both;
+        width: 640px;
+
+    }
+
+    .chat-body .answer.left .avatar {
+        left: 0;
+    }
+
+    .chat-body .answer .avatar {
+        bottom: 36px;
+    }
+
+    .chat .avatar {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+    }
+
+    .chat .avatar img {
+        display: block;
+        border-radius: 20px;
+        height: 100%;
+        width: 40px;
+
+    }
+
+    .chat-body .answer .name {
+        font-size: 14px;
+        line-height: 36px;
+        margin-top: 1%;
+    }
+
+    .chat-body .answer .project {
+        font-size: 14px;
+        line-height: 36px;
+        margin-top: -2%;
+    }
+
+    .chat-body .answer.left .avatar .status {
+        right: 4px;
+    }
+
+    .chat-body .answer .avatar .status {
+        bottom: 0;
+    }
+
+    .chat-body .answer.left .text {
+        margin-top: -3%;
+        color: #333333;
+        margin-left: -2%;
+
+    }
+
+    .chat-body .answer .text {
+        padding: 12px;
+        font-size: 16px;
+        line-height: 26px;
+        position: relative;
+
+    }
+
+    /* .chat-body .answer.left .text:before {
+            left: -30px;
+            border-right-color: #ebebeb;
+            border-right-width: 12px;
+        } */
+
+    .chat-body .answer .text:before {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: 0;
+        border: 18px solid transparent;
+        border-bottom-width: 0;
+    }
+
+    .chat-body .answer.left .time {
+        padding-left: 12px;
+        color: #333333;
+        margin-right: 17px;
+        padding-top: -10px;
+        font-size: 12px;
+        font-style: italic;
+        margin-top: -3%;
+        margin-left: -2%;
+    }
+
+    .chat-body .answer .time {
+        font-size: 16px;
+        line-height: 36px;
+        position: relative;
+        padding-bottom: 1px;
+    }
+
+    /*RIGHT*/
+    .chat-body .answer.right {
+        padding: 0 58px 0 0;
+        text-align: right;
+        float: right;
+        margin-top: 3%;
+        background-color: bisque;
+        align-items: center;
+        margin: 10px 270px 10px 320px;
+        width: 840px;
+    }
+
+    .chat-body .answer.right .avatar {
+        right: 0;
+    }
+
+    .chat-body .answer.right .avatar .status {
+        left: 4px;
+    }
+
+    .chat-body .answer.right .text {
+
+        color: black;
+        margin-top: -3%;
+
+    }
+
+    /* .chat-body .answer.right .text:before {
+            right: -30px;
+            border-left-color: #7266ba;
+            border-left-width: 12px;
+        } */
+
+    .chat-body .answer.right .time {
+        padding-right: 12px;
+        color: #333333;
+        padding-top: -5px;
+        font-size: 12px;
+        font-style: italic;
+        margin-top: -3%;
+    }
+
+    /**************ADD FORM ***************/
+    .chat-body .answer-add {
+        clear: both;
+        position: relative;
+        margin: 20px -20px -20px;
+        padding: 20px;
+        background: #46be8a;
+    }
+
+    .chat-body .answer-add input {
+        border: none;
+        background: none;
+        display: block;
+        width: 100%;
+        font-size: 16px;
+        line-height: 20px;
+        padding: 0;
+        color: #ffffff;
+    }
+
+    .chat input {
+        -webkit-appearance: none;
+        border-radius: 0;
+    }
+
+    .chat-body .answer-add .answer-btn-1 {
+        background: url("http://91.234.35.26/iwiki-admin/v1.0.0/admin/img/icon-40.png") 50% 50% no-repeat;
+        right: 56px;
+    }
+
+    .chat-body .answer-add .answer-btn {
+        display: block;
+        cursor: pointer;
+        width: 36px;
+        height: 36px;
+        position: absolute;
+        top: 50%;
+        margin-top: -18px;
+    }
+
+    .chat-body .answer-add .answer-btn-2 {
+        background: url("http://91.234.35.26/iwiki-admin/v1.0.0/admin/img/icon-41.png") 50% 50% no-repeat;
+        right: 20px;
+    }
+
+    .chat input::-webkit-input-placeholder {
+        color: #fff;
+    }
+
+    .chat input:-moz-placeholder {
+        /* Firefox 18- */
+        color: #fff;
+    }
+
+    .chat input::-moz-placeholder {
+        /* Firefox 19+ */
+        color: #fff;
+    }
+
+    .chat input:-ms-input-placeholder {
+        color: #fff;
+    }
+
+    .chat input {
+        -webkit-appearance: none;
+        border-radius: 0;
+    }
+</style>
+
 <body>
-
-    <style>
-        .table-wrapper-scroll-y1 {
-            display: block;
-            height: 250px;
-            overflow-y: auto;
-            -ms-overflow-style: -ms-autohiding-scrollbar;
-        }
-
-        .filltext {
-            font-size: 22px;
-            font-family: Playfair Display, serif;
-            font: outline;
-            font-display: bold;
-        }
-    </style>
-
-    <div class="container" style="margin-top:5%">
-        <div class="panel panel-info">
-            <div class="panel-heading filltext">Project Inquiry</div>
-            <div class="panel-body">
-
-
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-4">
-                            <div class="container">
-                                <form action="{% url 'project_inquiry' %}" method="POST">
-                                    {% csrf_token %}
-                                    <div class="row">
-
-                                        <div class="col-sm-2">
-
-                                            {% for s in staff %}
-
-                                            <input type="hidden" name="ename" value="{{ s.id }}">
-
-                                            {% endfor %}
-                                        </div>
-
-                                        <div class="col-sm-2">
-
-                                            <input type="hidden" name="time" value="{{ now }}">
-                                        </div>
-                                    </div>
-                                    <!--  -->
-                                    {% if request.session.type == 'manager' %}
-                                    <div class="row" style="margin-top:1%;">
-                                        <div class="col-sm-2">
-                                            {% if project %}
-
-                                            <select name="project">
-                                                {% for p in project %}
-
-                                                <option value="{{ p.id }}">{{ p.project_name }}</option>
-
-                                                {% endfor %}
-                                            </select>
-                                            {% endif %}
-                                            </select>
-                                        </div>
-                                    </div>
-                                    {% else %}
-                                    <div class="row" style="margin-top:1%;">
-                                        <div class="col-sm-2">
-                                            {% if project %}
-
-                                            <select name="project">
-                                                {% for p in project %}
-
-                                                <option value="{{ p.project_id }}">{{ p.project.project_name }}</option>
-
-                                                {% endfor %}
-                                            </select>
-                                            {% endif %}
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    {% endif %}
-                                    <div class="row" style="margin-top:1%;">
-                                        <div class="col-sm-3">
-                                            <input type="text" name="comment" value="" class="form-control">
-
-                                        </div>
-                                    </div>
-                                    <div class="row" style="margin-top:1%;">
-
-                                        <div class="col-sm-6">
-                                            <button type="submit" id="sendBtn" class="btn btn-primary">Send</button>
-                                        </div>
-                                    </div>
-                            </div>
-                            </form>
-                        </div>
-                        <div class="col-sm-8">
-                            <div class="leaveReportMainDiv" style="margin-top: 0%;">
-                                <div class="leaveHistory">
-                                    <h4>Project Inquiry:-</h4>
-                                    <div class="table-wrapper-scroll-y1" style="margin-top: 3%;">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr class="active">
-
-                                                    <th>Project Name</th>
-                                                    <th>Query</th>
-                                                    <th>Employee Name</th>
-                                                    <th>Time</th>
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% if project_inquiry  %}
-                                                {% for p in project_inquiry %}
-
-                                                {% if request.session.type == 'manager' and request.session.dept == p.staff.dept_id %}
-                                                <tr>
-                                                    <td>{{ p.project.project_name }}</td>
-                                                  
-                                                    <td>{{ p.comment}}</td>
-                                                  
-                                               
-                                                    <td>{{ p.staff.first_name}} {{ p.staff.last_name}}</td>
-                                                    <td>{{ p.time}}</td>
-
-
-                                                </tr>
-                                                {% elif request.session.type == 'employee' and request.session.dept == p.staff.dept_id %}
-                                                <tr>
-                                                    <td>{{ p.project.project_name}}</td>
-                                                    <td>{{ p.comment}}</td>
-                                                    <td>{{ p.staff.first_name}} {{ p.staff.last_name}}</td>
-                                                    <td>{{ p.time}}</td>
-                                                </tr>
-                                                {% endif %}
-                                                {% endfor %}
-                                                {% endif %}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                
-            </div>
-        </div>
-    </div>
     <div class="container">
-            <div class="row">
-                <div class="panel panel-success">
-                    <div class="panel-heading filltext">Chat</div>
+       <p><h6 style="color:orangered">Discussing on <h3 style="color:maroon">{{project_name}} </h3></h6> </p>
+       {% for p in employee_name %}
+            <h4>{{ p.emp.staff.first_name}}</h4>
+       {% endfor %}
+    </div>
+    <div class="content container-fluid bootstrap snippets">
+        <div class="row row-broken">
+            <div class="col-sm-12 col-xs-12 chat" style="overflow: hidden; outline: none;" tabindex="5001">
+                <div class="col-inside-lg">
                     
-                    <div class="panel-body">
-                            {% if request.session.type == 'manager' %}
-                            <div style="float:left;">
-                                <p>any doubt.</p>
+                    <!-- Manager -->
+                    {% if request.session.type == 'manager' %}
+                    <div class="chat-body">
+                        {% if project_inquiry  %}
+                        {% for p in project_inquiry %}
+                        {% if request.session.user == p.staff.id and request.session.dept ==  p.staff.dept_id %}
+                        <div class="answer right">
+                            <div class="avatar">
+                                <img src="{{ MEDIA_URL }}/{{ p.staff.profile_image }} " alt="User name">
+                                <div class="status offline"></div>
+                            </div>
+                            <div class="name">{{ p.staff.first_name }} </div>
+                            <div class="project">{{ p.project.project_name }} </div>
+                            <div class="text">{{ p.comment }}</div>
+                            <div class="time">{{ p.time }} </div>
 
+                        </div>
+
+                        {% else %}
+                        {% if request.session.dept ==  p.staff.dept_id %}
+                        <div class="answer left">
+                            <div class="avatar">
+                                <img src="{{ MEDIA_URL }}/{{ p.staff.profile_image }}" alt="User name">
+                                <div class="status offline"></div>
                             </div>
+                            <div class="name">{{ p.staff.first_name }} </div>
+                            <div class="project">{{ p.project.project_name }} </div>
+                            <div class="text">
+                                {{ p.comment }}
+                            </div>
+                            <div class="time">{{ p.time }} </div>
+                        </div>
+
+                        {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                        {% endif %}
+                        <!-- End of Manager -->
+
+
+
+
+
+                        <!-- Employee -->
+                        {% if request.session.type == 'employee' %}
+                        <div class="chat-body">
+                            {% if project_inquiry  %}
+                            {% for p in project_inquiry %}
+                            {% if request.session.user == p.staff.id and request.session.dept ==  p.staff.dept_id %}
+
+                            <div class="answer right">
+                                <div class="avatar">
+                                    <img src="{{ MEDIA_URL }}/{{ p.staff.profile_image }}" alt="User name">
+                                    <div class="status offline"></div>
+                                </div>
+                                <div class="name">{{ p.staff.first_name }} </div>
+                                <div class="project">{{ p.project.project_name }} </div>
+                                <div class="text">
+                                    {{ p.comment }}
+                                </div>
+                                <div class="time">{{ p.time }} </div>
+                            </div>
+
                             {% else %}
-                            <div style="float:right;margin-top:3%;">
-                               <p>Yes</p>
+                            {% if request.session.dept ==  p.staff.dept_id %}
+                            {% for p1 in ps %}
+                            {% if p.project_id == p1.project_id %}
+
+                            <div class="answer left">
+                                <div class="avatar">
+                                    <img src="{{ MEDIA_URL }}/{{ p.staff.profile_image }}" alt="User name">
+                                    <div class="status offline"></div>
+                                </div>
+                                <div class="name">{{ p.staff.first_name }} </div>
+                                <div class="project">{{ p.project.project_name }} </div>
+                                <div class="text">
+                                    {{ p.comment }}
+                                </div>
+                                <div class="time">{{ p.time }} </div>
                             </div>
+
                             {% endif %}
-                            {% if request.session.type == 'employee' %}
-                            <div style="float:left;">
-                                Yes Sir
-                            </div>
-                            {% else %}
-                            <div style="float:right;margin-top:3%;">
-                                ok
-                            </div>
+                            {% endfor %}
                             {% endif %}
-                            
+                            {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                            {% endif %}
+                            <!-- Manager -->
+
+                            <div id="chat-messages"></div>
+
+
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
+        <div class="container-fluid">
 
-        {% endblock %}
+            <div class="row" style="margin-top:5%;margin-bottom:3%;">
+
+                <form name="" method="POST" autocomplete='off'>
+                    {% csrf_token %}
+                    {% for s in staff %}
+
+                    <input type="hidden" name="ename" value="{{ s.id }}">
+
+                    {% endfor %}
+
+
+
+                    <input type="hidden" name="time" value="{{ now }}">
+                    <input type="hidden" name="project" value="{{ pid }}">
+                    <div class="col-sm-10">
+                        <input type="text" name="comment" value="" class="form-control">
+
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="submit" id="sendBtn" class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script>
+
+            $(function () {
+                $(".chat").niceScroll();
+                $("div#chat-messages").html(htmldiv);
+                $(".chat").niceScroll();
+            }) 
+        </script>
+</body>
+
+{% endblock %}

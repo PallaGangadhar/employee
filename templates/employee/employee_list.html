@@ -40,7 +40,7 @@
                     <ul style="margin-top:1%;" id="message">
                         <li style="float:left;">
                             <select name="option" id="show">
-                                <option>-- Department --</option>
+                                <option value="all_dept">All Departments</option>
                              {% for d in dept %}  
                                 <option value="{{ d.id}}">{{ d.dept_name }}</option>
                                 {% endfor %}
@@ -50,7 +50,7 @@
                     <br/>
                     <br/>
                     <div class="table-wrapper-scroll-y">
-                        <table class="table table-striped" style="margin-top:2%;">
+                        <table class="table table-striped" >
                             <thead>
                                 <tr>
                                     <th>Profile</th>
@@ -63,7 +63,9 @@
                                     <th>City</th>
                                     <th>Qualification</th>
                                     <th>Department</th>
+                                    {% if request.session.type == 'manager' %}
                                     <th colspan="2">Actions</th>
+                                    {% endif %}
                                 </tr>
                             </thead>
                             <tbody id="myTable">
@@ -96,7 +98,7 @@
                                         
                                         {% endif %}
                                     </td>
-
+                                    
 
                                 </tr>
 

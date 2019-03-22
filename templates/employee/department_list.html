@@ -11,58 +11,76 @@
 <body>
 
 
+    {% for a in m %}
+    {{ a.id }}
+    {% endfor %}
     <div class="container" style="margin-top:5%">
         <div class="panel panel-success">
             <div class="panel-heading">EMS</div>
             <div class="panel-body">
-                    <div class="topnav" style="color:brown;">
-                            <h2 style="color:gray;">Department Infomation </h2>
-                            <div class="search-container"  style="padding-right:10px;">
-                                <form action="{% url 'department_list' %}" method="POST">
-                                    {% csrf_token %}
-                                    <input type="text" placeholder="Search Department" name="search" id="myInput">
-                                    
-                                </form>
-                            </div>
-                        </div>
-                        <div class="table-wrapper-scroll-y">
-                            <table class="table table-striped " style="margin-top:2%;">
-                                <thead>
-                                    <tr>
-                                        <th>Department Name</th>
-                                        <th>Total Employees</th>
-    
-                                    </tr>
-                                </thead>
-                                <tbody id="myTable">
-                                    {% if dict1 %}
-                                    {% for key,value in dict1.items %}
-                                    <tr>
-                                        <td style="font-size:14px;">{{key}}</td>
-                                        <td style="font-size:14px;">{{value}}</td>
-                                    </tr>
-    
-                                    {% endfor %}
-                                    {% endif %}
-                                </tbody>
-                            </table>
+                <div class="topnav" style="color:brown;">
+                    <h2 style="color:gray;">Department Infomation </h2>
+                    <div class="search-container" style="padding-right:10px;">
+                        <form action="{% url 'department_list' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="text" placeholder="Search Department" name="search" id="myInput">
+
+                        </form>
+                    </div>
+                </div>
+                <div class="table-wrapper-scroll-y">
+                    <table class="table table-striped " >
+                        <thead>
+                            <tr>
+                                <th>Department Name</th>
+                                <th>Total Employees</th>
+                                <th>Manager Name</th>
+                                <th>Manager Email</th>
+
+                            </tr>
+                        </thead>
+                        <tbody id="myTable">
+                            {% if dict1 %}
+                            {% for key,value in dict1.items %}
+                            <tr>
+                                    <td style="font-size:14px;">{{ key }}</td>
+                                {% if value.0 == 0 %}
+                              
+                                
+                                <td style="font-size:14px;">-</td>
+                                <td style="font-size:14px;">-</td>
+                                <td style="font-size:14px;">-</td>
+
+                                {% else %}
+                                
+                                <td style="font-size:14px;">{{value.0}}</td>
+                                <td style="font-size:14px;">{{value.1}}</td>
+                                <td style="font-size:14px;">{{value.2}}</td>
+                                
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                            
+                            {% endif %}
                         
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
         </div>
-
-    </div>
-    <script>
-        $(document).ready(function () {
-            console.log('hi');
-            $('#myInput').on("keyup", function () {
-                var value = $(this).val().toLowerCase();
-                $("#myTable tr").filter(function () {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        <script>
+            $(document).ready(function () {
+                console.log('hi');
+                $('#myInput').on("keyup", function () {
+                    var value = $(this).val().toLowerCase();
+                    $("#myTable tr").filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
                 });
-            });
 
-        });
-    </script>
+            });
+        </script>
 </body>
 
 </html>
